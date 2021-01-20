@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.OrdinaryOperateLogDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.OrdinaryOperateLog">
+        <!--@Table ordinary_operate_log-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="checkTableName" column="check_table_name" jdbcType="VARCHAR"/>
+        <result property="checkColumnName" column="check_column_name" jdbcType="VARCHAR"/>
+        <result property="oldValue" column="old_value" jdbcType="VARCHAR"/>
+        <result property="newValue" column="new_value" jdbcType="VARCHAR"/>
+        <result property="operateType" column="operate_type" jdbcType="VARCHAR"/>
+        <result property="operator" column="operator" jdbcType="VARCHAR"/>
+        <result property="operateTime" column="operate_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, check_table_name, check_column_name, old_value, new_value, operate_type, operator, operate_time
+        from archivesmanagementsystem.ordinary_operate_log
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, check_table_name, check_column_name, old_value, new_value, operate_type, operator, operate_time
+        from archivesmanagementsystem.ordinary_operate_log
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, check_table_name, check_column_name, old_value, new_value, operate_type, operator, operate_time
+        from archivesmanagementsystem.ordinary_operate_log
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="employeeId != null">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="checkTableName != null and checkTableName != ''">
+                and check_table_name = #{checkTableName}
+            </if>
+            <if test="checkColumnName != null and checkColumnName != ''">
+                and check_column_name = #{checkColumnName}
+            </if>
+            <if test="oldValue != null and oldValue != ''">
+                and old_value = #{oldValue}
+            </if>
+            <if test="newValue != null and newValue != ''">
+                and new_value = #{newValue}
+            </if>
+            <if test="operateType != null and operateType != ''">
+                and operate_type = #{operateType}
+            </if>
+            <if test="operator != null and operator != ''">
+                and operator = #{operator}
+            </if>
+            <if test="operateTime != null">
+                and operate_time = #{operateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.ordinary_operate_log(employee_id, employee_name, check_table_name, check_column_name, old_value, new_value, operate_type, operator, operate_time)
+        values (#{employeeId}, #{employeeName}, #{checkTableName}, #{checkColumnName}, #{oldValue}, #{newValue}, #{operateType}, #{operator}, #{operateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.ordinary_operate_log
+        <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId},
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="checkTableName != null and checkTableName != ''">
+                check_table_name = #{checkTableName},
+            </if>
+            <if test="checkColumnName != null and checkColumnName != ''">
+                check_column_name = #{checkColumnName},
+            </if>
+            <if test="oldValue != null and oldValue != ''">
+                old_value = #{oldValue},
+            </if>
+            <if test="newValue != null and newValue != ''">
+                new_value = #{newValue},
+            </if>
+            <if test="operateType != null and operateType != ''">
+                operate_type = #{operateType},
+            </if>
+            <if test="operator != null and operator != ''">
+                operator = #{operator},
+            </if>
+            <if test="operateTime != null">
+                operate_time = #{operateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.ordinary_operate_log where id = #{id}
+    </delete>
+
+</mapper>

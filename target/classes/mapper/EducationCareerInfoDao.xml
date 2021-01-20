@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.EducationCareerInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.EducationCareerInfo">
+        <!--@Table education_career_info-->
+        <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="associateSchool" column="associate_school" jdbcType="VARCHAR"/>
+        <result property="associateCollege" column="associate_college" jdbcType="VARCHAR"/>
+        <result property="associateMajor" column="associate_major" jdbcType="VARCHAR"/>
+        <result property="associateCareer" column="associate_career" jdbcType="VARCHAR"/>
+        <result property="associateDegree" column="associate_degree" jdbcType="VARCHAR"/>
+        <result property="undergraduateSchool" column="undergraduate_school" jdbcType="VARCHAR"/>
+        <result property="undergraduateCollege" column="undergraduate_college" jdbcType="VARCHAR"/>
+        <result property="undergraduateMajor" column="undergraduate_major" jdbcType="VARCHAR"/>
+        <result property="undergraduateMajorSecond" column="undergraduate_major_second" jdbcType="VARCHAR"/>
+        <result property="undergraduateCareer" column="undergraduate_career" jdbcType="VARCHAR"/>
+        <result property="undergraduateDegree" column="undergraduate_degree" jdbcType="VARCHAR"/>
+        <result property="undergraduateDegreeSecond" column="undergraduate_degree_second" jdbcType="VARCHAR"/>
+        <result property="masterSchool" column="master_school" jdbcType="VARCHAR"/>
+        <result property="masterCollege" column="master_college" jdbcType="VARCHAR"/>
+        <result property="masterMajor" column="master_major" jdbcType="VARCHAR"/>
+        <result property="masterCareer" column="master_career" jdbcType="VARCHAR"/>
+        <result property="masterDegree" column="master_degree" jdbcType="VARCHAR"/>
+        <result property="phdSchool" column="phd_school" jdbcType="VARCHAR"/>
+        <result property="phdCollege" column="phd_college" jdbcType="VARCHAR"/>
+        <result property="phdMajor" column="phd_major" jdbcType="VARCHAR"/>
+        <result property="phdCareer" column="phd_career" jdbcType="VARCHAR"/>
+        <result property="phdDegree" column="phd_degree" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, associate_school, associate_college, associate_major, associate_career, associate_degree, undergraduate_school, undergraduate_college, undergraduate_major, undergraduate_major_second, undergraduate_career, undergraduate_degree, undergraduate_degree_second, master_school, master_college, master_major, master_career, master_degree, phd_school, phd_college, phd_major, phd_career, phd_degree, update_by, update_time
+        from archivesmanagementsystem.education_career_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, associate_school, associate_college, associate_major, associate_career, associate_degree, undergraduate_school, undergraduate_college, undergraduate_major, undergraduate_major_second, undergraduate_career, undergraduate_degree, undergraduate_degree_second, master_school, master_college, master_major, master_career, master_degree, phd_school, phd_college, phd_major, phd_career, phd_degree, update_by, update_time
+        from archivesmanagementsystem.education_career_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, associate_school, associate_college, associate_major, associate_career, associate_degree, undergraduate_school, undergraduate_college, undergraduate_major, undergraduate_major_second, undergraduate_career, undergraduate_degree, undergraduate_degree_second, master_school, master_college, master_major, master_career, master_degree, phd_school, phd_college, phd_major, phd_career, phd_degree, update_by, update_time
+        from archivesmanagementsystem.education_career_info
+        <where>
+            <if test="employeeId != null">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="associateSchool != null and associateSchool != ''">
+                and associate_school = #{associateSchool}
+            </if>
+            <if test="associateCollege != null and associateCollege != ''">
+                and associate_college = #{associateCollege}
+            </if>
+            <if test="associateMajor != null and associateMajor != ''">
+                and associate_major = #{associateMajor}
+            </if>
+            <if test="associateCareer != null and associateCareer != ''">
+                and associate_career = #{associateCareer}
+            </if>
+            <if test="associateDegree != null and associateDegree != ''">
+                and associate_degree = #{associateDegree}
+            </if>
+            <if test="undergraduateSchool != null and undergraduateSchool != ''">
+                and undergraduate_school = #{undergraduateSchool}
+            </if>
+            <if test="undergraduateCollege != null and undergraduateCollege != ''">
+                and undergraduate_college = #{undergraduateCollege}
+            </if>
+            <if test="undergraduateMajor != null and undergraduateMajor != ''">
+                and undergraduate_major = #{undergraduateMajor}
+            </if>
+            <if test="undergraduateMajorSecond != null and undergraduateMajorSecond != ''">
+                and undergraduate_major_second = #{undergraduateMajorSecond}
+            </if>
+            <if test="undergraduateCareer != null and undergraduateCareer != ''">
+                and undergraduate_career = #{undergraduateCareer}
+            </if>
+            <if test="undergraduateDegree != null and undergraduateDegree != ''">
+                and undergraduate_degree = #{undergraduateDegree}
+            </if>
+            <if test="undergraduateDegreeSecond != null and undergraduateDegreeSecond != ''">
+                and undergraduate_degree_second = #{undergraduateDegreeSecond}
+            </if>
+            <if test="masterSchool != null and masterSchool != ''">
+                and master_school = #{masterSchool}
+            </if>
+            <if test="masterCollege != null and masterCollege != ''">
+                and master_college = #{masterCollege}
+            </if>
+            <if test="masterMajor != null and masterMajor != ''">
+                and master_major = #{masterMajor}
+            </if>
+            <if test="masterCareer != null and masterCareer != ''">
+                and master_career = #{masterCareer}
+            </if>
+            <if test="masterDegree != null and masterDegree != ''">
+                and master_degree = #{masterDegree}
+            </if>
+            <if test="phdSchool != null and phdSchool != ''">
+                and phd_school = #{phdSchool}
+            </if>
+            <if test="phdCollege != null and phdCollege != ''">
+                and phd_college = #{phdCollege}
+            </if>
+            <if test="phdMajor != null and phdMajor != ''">
+                and phd_major = #{phdMajor}
+            </if>
+            <if test="phdCareer != null and phdCareer != ''">
+                and phd_career = #{phdCareer}
+            </if>
+            <if test="phdDegree != null and phdDegree != ''">
+                and phd_degree = #{phdDegree}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="employeeId" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.education_career_info(employee_name, associate_school, associate_college, associate_major, associate_career, associate_degree, undergraduate_school, undergraduate_college, undergraduate_major, undergraduate_major_second, undergraduate_career, undergraduate_degree, undergraduate_degree_second, master_school, master_college, master_major, master_career, master_degree, phd_school, phd_college, phd_major, phd_career, phd_degree, update_by, update_time)
+        values (#{employeeName}, #{associateSchool}, #{associateCollege}, #{associateMajor}, #{associateCareer}, #{associateDegree}, #{undergraduateSchool}, #{undergraduateCollege}, #{undergraduateMajor}, #{undergraduateMajorSecond}, #{undergraduateCareer}, #{undergraduateDegree}, #{undergraduateDegreeSecond}, #{masterSchool}, #{masterCollege}, #{masterMajor}, #{masterCareer}, #{masterDegree}, #{phdSchool}, #{phdCollege}, #{phdMajor}, #{phdCareer}, #{phdDegree}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.education_career_info
+        <set>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="associateSchool != null and associateSchool != ''">
+                associate_school = #{associateSchool},
+            </if>
+            <if test="associateCollege != null and associateCollege != ''">
+                associate_college = #{associateCollege},
+            </if>
+            <if test="associateMajor != null and associateMajor != ''">
+                associate_major = #{associateMajor},
+            </if>
+            <if test="associateCareer != null and associateCareer != ''">
+                associate_career = #{associateCareer},
+            </if>
+            <if test="associateDegree != null and associateDegree != ''">
+                associate_degree = #{associateDegree},
+            </if>
+            <if test="undergraduateSchool != null and undergraduateSchool != ''">
+                undergraduate_school = #{undergraduateSchool},
+            </if>
+            <if test="undergraduateCollege != null and undergraduateCollege != ''">
+                undergraduate_college = #{undergraduateCollege},
+            </if>
+            <if test="undergraduateMajor != null and undergraduateMajor != ''">
+                undergraduate_major = #{undergraduateMajor},
+            </if>
+            <if test="undergraduateMajorSecond != null and undergraduateMajorSecond != ''">
+                undergraduate_major_second = #{undergraduateMajorSecond},
+            </if>
+            <if test="undergraduateCareer != null and undergraduateCareer != ''">
+                undergraduate_career = #{undergraduateCareer},
+            </if>
+            <if test="undergraduateDegree != null and undergraduateDegree != ''">
+                undergraduate_degree = #{undergraduateDegree},
+            </if>
+            <if test="undergraduateDegreeSecond != null and undergraduateDegreeSecond != ''">
+                undergraduate_degree_second = #{undergraduateDegreeSecond},
+            </if>
+            <if test="masterSchool != null and masterSchool != ''">
+                master_school = #{masterSchool},
+            </if>
+            <if test="masterCollege != null and masterCollege != ''">
+                master_college = #{masterCollege},
+            </if>
+            <if test="masterMajor != null and masterMajor != ''">
+                master_major = #{masterMajor},
+            </if>
+            <if test="masterCareer != null and masterCareer != ''">
+                master_career = #{masterCareer},
+            </if>
+            <if test="masterDegree != null and masterDegree != ''">
+                master_degree = #{masterDegree},
+            </if>
+            <if test="phdSchool != null and phdSchool != ''">
+                phd_school = #{phdSchool},
+            </if>
+            <if test="phdCollege != null and phdCollege != ''">
+                phd_college = #{phdCollege},
+            </if>
+            <if test="phdMajor != null and phdMajor != ''">
+                phd_major = #{phdMajor},
+            </if>
+            <if test="phdCareer != null and phdCareer != ''">
+                phd_career = #{phdCareer},
+            </if>
+            <if test="phdDegree != null and phdDegree != ''">
+                phd_degree = #{phdDegree},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where employee_id = #{employeeId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.education_career_info where employee_id = #{employeeId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.EducationInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.EducationInfo">
+        <!--@Table education_info-->
+        <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="educationDegree" column="education_degree" jdbcType="VARCHAR"/>
+        <result property="educationBackgroud" column="education_backgroud" jdbcType="VARCHAR"/>
+        <result property="educationProblemCategory" column="education_problem_category" jdbcType="VARCHAR"/>
+        <result property="educationProblemDetail" column="education_problem_detail" jdbcType="VARCHAR"/>
+        <result property="educationCheckResult" column="education_check_result" jdbcType="VARCHAR"/>
+        <result property="educationBackgroudJudgment" column="education_backgroud_judgment" jdbcType="VARCHAR"/>
+        <result property="educationDegreeeJudgment" column="education_degreee_judgment" jdbcType="VARCHAR"/>
+        <result property="educationRemark" column="education_remark" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time
+        from archivesmanagementsystem.education_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time
+        from archivesmanagementsystem.education_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time
+        from archivesmanagementsystem.education_info
+        <where>
+            <if test="employeeId != null">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="educationDegree != null and educationDegree != ''">
+                and education_degree = #{educationDegree}
+            </if>
+            <if test="educationBackgroud != null and educationBackgroud != ''">
+                and education_backgroud = #{educationBackgroud}
+            </if>
+            <if test="educationProblemCategory != null and educationProblemCategory != ''">
+                and education_problem_category = #{educationProblemCategory}
+            </if>
+            <if test="educationProblemDetail != null and educationProblemDetail != ''">
+                and education_problem_detail = #{educationProblemDetail}
+            </if>
+            <if test="educationCheckResult != null and educationCheckResult != ''">
+                and education_check_result = #{educationCheckResult}
+            </if>
+            <if test="educationBackgroudJudgment != null and educationBackgroudJudgment != ''">
+                and education_backgroud_judgment = #{educationBackgroudJudgment}
+            </if>
+            <if test="educationDegreeeJudgment != null and educationDegreeeJudgment != ''">
+                and education_degreee_judgment = #{educationDegreeeJudgment}
+            </if>
+            <if test="educationRemark != null and educationRemark != ''">
+                and education_remark = #{educationRemark}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="employeeId" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.education_info(employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time)
+        values (#{employeeName}, #{educationDegree}, #{educationBackgroud}, #{educationProblemCategory}, #{educationProblemDetail}, #{educationCheckResult}, #{educationBackgroudJudgment}, #{educationDegreeeJudgment}, #{educationRemark}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.education_info
+        <set>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="educationDegree != null and educationDegree != ''">
+                education_degree = #{educationDegree},
+            </if>
+            <if test="educationBackgroud != null and educationBackgroud != ''">
+                education_backgroud = #{educationBackgroud},
+            </if>
+            <if test="educationProblemCategory != null and educationProblemCategory != ''">
+                education_problem_category = #{educationProblemCategory},
+            </if>
+            <if test="educationProblemDetail != null and educationProblemDetail != ''">
+                education_problem_detail = #{educationProblemDetail},
+            </if>
+            <if test="educationCheckResult != null and educationCheckResult != ''">
+                education_check_result = #{educationCheckResult},
+            </if>
+            <if test="educationBackgroudJudgment != null and educationBackgroudJudgment != ''">
+                education_backgroud_judgment = #{educationBackgroudJudgment},
+            </if>
+            <if test="educationDegreeeJudgment != null and educationDegreeeJudgment != ''">
+                education_degreee_judgment = #{educationDegreeeJudgment},
+            </if>
+            <if test="educationRemark != null and educationRemark != ''">
+                education_remark = #{educationRemark},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where employee_id = #{employeeId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.education_info where employee_id = #{employeeId}
+    </delete>
+
+</mapper>

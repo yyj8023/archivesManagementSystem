@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.EmployeeInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.EmployeeInfo">
+        <!--@Table employee_info-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="departmentName" column="department_name" jdbcType="VARCHAR"/>
+        <result property="jobProperty" column="job_property" jdbcType="VARCHAR"/>
+        <result property="departmentLine" column="department_line" jdbcType="VARCHAR"/>
+        <result property="confirmationContentFlag" column="confirmation_content_flag" jdbcType="BOOLEAN"/>
+        <result property="confirmationSignatureFlag" column="confirmation_signature_flag" jdbcType="BOOLEAN"/>
+        <result property="birthdayCard" column="birthday_card" jdbcType="TIMESTAMP"/>
+        <result property="birthdayArchives" column="birthday_archives" jdbcType="TIMESTAMP"/>
+        <result property="birthdayJudgment" column="birthday_judgment" jdbcType="TIMESTAMP"/>
+        <result property="joinPartyTime" column="join_party_time" jdbcType="TIMESTAMP"/>
+        <result property="joinPartyIntroducer" column="join_party_introducer" jdbcType="VARCHAR"/>
+        <result property="joinGroupTime" column="join_group_time" jdbcType="TIMESTAMP"/>
+        <result property="startingJobTimeOwn" column="starting_job_time_own" jdbcType="TIMESTAMP"/>
+        <result property="startingJobTimeArchvies" column="starting_job_time_archvies" jdbcType="TIMESTAMP"/>
+        <result property="startingJobTimeJudgment" column="starting_job_time_judgment" jdbcType="TIMESTAMP"/>
+        <result property="educationDegree" column="education_degree" jdbcType="VARCHAR"/>
+        <result property="educationBackgroud" column="education_backgroud" jdbcType="VARCHAR"/>
+        <result property="educationBackgroudJudgment" column="education_backgroud_judgment" jdbcType="VARCHAR"/>
+        <result property="educationDegreeJudgment" column="education_degree_judgment" jdbcType="VARCHAR"/>
+        <result property="marterialSupplementRemark" column="marterial_supplement_remark" jdbcType="VARCHAR"/>
+        <result property="electronicPaperCheckFlag" column="electronic_paper_check_flag" jdbcType="BOOLEAN"/>
+        <result property="checkUser" column="check_user" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_card, birthday_archives, birthday_judgment, join_party_time, join_party_introducer, join_group_time, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+        from archivesmanagementsystem.employee_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_card, birthday_archives, birthday_judgment, join_party_time, join_party_introducer, join_group_time, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+        from archivesmanagementsystem.employee_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_card, birthday_archives, birthday_judgment, join_party_time, join_party_introducer, join_group_time, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+        from archivesmanagementsystem.employee_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="employeeId != null">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="departmentName != null and departmentName != ''">
+                and department_name = #{departmentName}
+            </if>
+            <if test="jobProperty != null and jobProperty != ''">
+                and job_property = #{jobProperty}
+            </if>
+            <if test="departmentLine != null and departmentLine != ''">
+                and department_line = #{departmentLine}
+            </if>
+            <if test="confirmationContentFlag != null">
+                and confirmation_content_flag = #{confirmationContentFlag}
+            </if>
+            <if test="confirmationSignatureFlag != null">
+                and confirmation_signature_flag = #{confirmationSignatureFlag}
+            </if>
+            <if test="birthdayCard != null">
+                and birthday_card = #{birthdayCard}
+            </if>
+            <if test="birthdayArchives != null">
+                and birthday_archives = #{birthdayArchives}
+            </if>
+            <if test="birthdayJudgment != null">
+                and birthday_judgment = #{birthdayJudgment}
+            </if>
+            <if test="joinPartyTime != null">
+                and join_party_time = #{joinPartyTime}
+            </if>
+            <if test="joinPartyIntroducer != null and joinPartyIntroducer != ''">
+                and join_party_introducer = #{joinPartyIntroducer}
+            </if>
+            <if test="joinGroupTime != null">
+                and join_group_time = #{joinGroupTime}
+            </if>
+            <if test="startingJobTimeOwn != null">
+                and starting_job_time_own = #{startingJobTimeOwn}
+            </if>
+            <if test="startingJobTimeArchvies != null">
+                and starting_job_time_archvies = #{startingJobTimeArchvies}
+            </if>
+            <if test="startingJobTimeJudgment != null">
+                and starting_job_time_judgment = #{startingJobTimeJudgment}
+            </if>
+            <if test="educationDegree != null and educationDegree != ''">
+                and education_degree = #{educationDegree}
+            </if>
+            <if test="educationBackgroud != null and educationBackgroud != ''">
+                and education_backgroud = #{educationBackgroud}
+            </if>
+            <if test="educationBackgroudJudgment != null and educationBackgroudJudgment != ''">
+                and education_backgroud_judgment = #{educationBackgroudJudgment}
+            </if>
+            <if test="educationDegreeJudgment != null and educationDegreeJudgment != ''">
+                and education_degree_judgment = #{educationDegreeJudgment}
+            </if>
+            <if test="marterialSupplementRemark != null and marterialSupplementRemark != ''">
+                and marterial_supplement_remark = #{marterialSupplementRemark}
+            </if>
+            <if test="electronicPaperCheckFlag != null">
+                and electronic_paper_check_flag = #{electronicPaperCheckFlag}
+            </if>
+            <if test="checkUser != null and checkUser != ''">
+                and check_user = #{checkUser}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.employee_info(employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_card, birthday_archives, birthday_judgment, join_party_time, join_party_introducer, join_group_time, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{departmentName}, #{jobProperty}, #{departmentLine}, #{confirmationContentFlag}, #{confirmationSignatureFlag}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{joinPartyTime}, #{joinPartyIntroducer}, #{joinGroupTime}, #{startingJobTimeOwn}, #{startingJobTimeArchvies}, #{startingJobTimeJudgment}, #{educationDegree}, #{educationBackgroud}, #{educationBackgroudJudgment}, #{educationDegreeJudgment}, #{marterialSupplementRemark}, #{electronicPaperCheckFlag}, #{checkUser}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.employee_info
+        <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId},
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="departmentName != null and departmentName != ''">
+                department_name = #{departmentName},
+            </if>
+            <if test="jobProperty != null and jobProperty != ''">
+                job_property = #{jobProperty},
+            </if>
+            <if test="departmentLine != null and departmentLine != ''">
+                department_line = #{departmentLine},
+            </if>
+            <if test="confirmationContentFlag != null">
+                confirmation_content_flag = #{confirmationContentFlag},
+            </if>
+            <if test="confirmationSignatureFlag != null">
+                confirmation_signature_flag = #{confirmationSignatureFlag},
+            </if>
+            <if test="birthdayCard != null">
+                birthday_card = #{birthdayCard},
+            </if>
+            <if test="birthdayArchives != null">
+                birthday_archives = #{birthdayArchives},
+            </if>
+            <if test="birthdayJudgment != null">
+                birthday_judgment = #{birthdayJudgment},
+            </if>
+            <if test="joinPartyTime != null">
+                join_party_time = #{joinPartyTime},
+            </if>
+            <if test="joinPartyIntroducer != null and joinPartyIntroducer != ''">
+                join_party_introducer = #{joinPartyIntroducer},
+            </if>
+            <if test="joinGroupTime != null">
+                join_group_time = #{joinGroupTime},
+            </if>
+            <if test="startingJobTimeOwn != null">
+                starting_job_time_own = #{startingJobTimeOwn},
+            </if>
+            <if test="startingJobTimeArchvies != null">
+                starting_job_time_archvies = #{startingJobTimeArchvies},
+            </if>
+            <if test="startingJobTimeJudgment != null">
+                starting_job_time_judgment = #{startingJobTimeJudgment},
+            </if>
+            <if test="educationDegree != null and educationDegree != ''">
+                education_degree = #{educationDegree},
+            </if>
+            <if test="educationBackgroud != null and educationBackgroud != ''">
+                education_backgroud = #{educationBackgroud},
+            </if>
+            <if test="educationBackgroudJudgment != null and educationBackgroudJudgment != ''">
+                education_backgroud_judgment = #{educationBackgroudJudgment},
+            </if>
+            <if test="educationDegreeJudgment != null and educationDegreeJudgment != ''">
+                education_degree_judgment = #{educationDegreeJudgment},
+            </if>
+            <if test="marterialSupplementRemark != null and marterialSupplementRemark != ''">
+                marterial_supplement_remark = #{marterialSupplementRemark},
+            </if>
+            <if test="electronicPaperCheckFlag != null">
+                electronic_paper_check_flag = #{electronicPaperCheckFlag},
+            </if>
+            <if test="checkUser != null and checkUser != ''">
+                check_user = #{checkUser},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.employee_info where id = #{id}
+    </delete>
+
+</mapper>

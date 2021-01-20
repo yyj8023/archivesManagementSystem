@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.BirthdayInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.BirthdayInfo">
+        <!--@Table birthday_info-->
+        <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="birthdayCard" column="birthday_card" jdbcType="TIMESTAMP"/>
+        <result property="birthdayArchives" column="birthday_archives" jdbcType="TIMESTAMP"/>
+        <result property="birthdayJudgment" column="birthday_judgment" jdbcType="TIMESTAMP"/>
+        <result property="birthdayProblemDetail" column="birthday_problem_detail" jdbcType="VARCHAR"/>
+        <result property="birthdayCheckResult" column="birthday_check_result" jdbcType="VARCHAR"/>
+        <result property="birthdayProblemCategory" column="birthday_problem_category" jdbcType="VARCHAR"/>
+        <result property="birthdayCheckRule" column="birthday_check_rule" jdbcType="VARCHAR"/>
+        <result property="birthdayCheckRemark" column="birthday_check_remark" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+        from archivesmanagementsystem.birthday_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+        from archivesmanagementsystem.birthday_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+        from archivesmanagementsystem.birthday_info
+        <where>
+            <if test="employeeId != null">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="birthdayCard != null">
+                and birthday_card = #{birthdayCard}
+            </if>
+            <if test="birthdayArchives != null">
+                and birthday_archives = #{birthdayArchives}
+            </if>
+            <if test="birthdayJudgment != null">
+                and birthday_judgment = #{birthdayJudgment}
+            </if>
+            <if test="birthdayProblemDetail != null and birthdayProblemDetail != ''">
+                and birthday_problem_detail = #{birthdayProblemDetail}
+            </if>
+            <if test="birthdayCheckResult != null and birthdayCheckResult != ''">
+                and birthday_check_result = #{birthdayCheckResult}
+            </if>
+            <if test="birthdayProblemCategory != null and birthdayProblemCategory != ''">
+                and birthday_problem_category = #{birthdayProblemCategory}
+            </if>
+            <if test="birthdayCheckRule != null and birthdayCheckRule != ''">
+                and birthday_check_rule = #{birthdayCheckRule}
+            </if>
+            <if test="birthdayCheckRemark != null and birthdayCheckRemark != ''">
+                and birthday_check_remark = #{birthdayCheckRemark}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="employeeId" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.birthday_info(employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time)
+        values (#{employeeName}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{birthdayProblemDetail}, #{birthdayCheckResult}, #{birthdayProblemCategory}, #{birthdayCheckRule}, #{birthdayCheckRemark}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.birthday_info
+        <set>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="birthdayCard != null">
+                birthday_card = #{birthdayCard},
+            </if>
+            <if test="birthdayArchives != null">
+                birthday_archives = #{birthdayArchives},
+            </if>
+            <if test="birthdayJudgment != null">
+                birthday_judgment = #{birthdayJudgment},
+            </if>
+            <if test="birthdayProblemDetail != null and birthdayProblemDetail != ''">
+                birthday_problem_detail = #{birthdayProblemDetail},
+            </if>
+            <if test="birthdayCheckResult != null and birthdayCheckResult != ''">
+                birthday_check_result = #{birthdayCheckResult},
+            </if>
+            <if test="birthdayProblemCategory != null and birthdayProblemCategory != ''">
+                birthday_problem_category = #{birthdayProblemCategory},
+            </if>
+            <if test="birthdayCheckRule != null and birthdayCheckRule != ''">
+                birthday_check_rule = #{birthdayCheckRule},
+            </if>
+            <if test="birthdayCheckRemark != null and birthdayCheckRemark != ''">
+                birthday_check_remark = #{birthdayCheckRemark},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where employee_id = #{employeeId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.birthday_info where employee_id = #{employeeId}
+    </delete>
+
+</mapper>

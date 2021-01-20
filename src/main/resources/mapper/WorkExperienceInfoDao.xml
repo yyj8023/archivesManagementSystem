@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.WorkExperienceInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.WorkExperienceInfo">
+        <!--@Table work_experience_info-->
+        <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="workExperienceProblemDetail" column="work_experience_problem_detail" jdbcType="VARCHAR"/>
+        <result property="workExperienceProblemCategory" column="work_experience_problem_category" jdbcType="VARCHAR"/>
+        <result property="workExperienceCheckResult" column="work_experience_check_result" jdbcType="VARCHAR"/>
+        <result property="workExperienceRemark" column="work_experience_remark" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+        from archivesmanagementsystem.work_experience_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+        from archivesmanagementsystem.work_experience_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+        from archivesmanagementsystem.work_experience_info
+        <where>
+            <if test="employeeId != null">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="workExperienceProblemDetail != null and workExperienceProblemDetail != ''">
+                and work_experience_problem_detail = #{workExperienceProblemDetail}
+            </if>
+            <if test="workExperienceProblemCategory != null and workExperienceProblemCategory != ''">
+                and work_experience_problem_category = #{workExperienceProblemCategory}
+            </if>
+            <if test="workExperienceCheckResult != null and workExperienceCheckResult != ''">
+                and work_experience_check_result = #{workExperienceCheckResult}
+            </if>
+            <if test="workExperienceRemark != null and workExperienceRemark != ''">
+                and work_experience_remark = #{workExperienceRemark}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="employeeId" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.work_experience_info(employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time)
+        values (#{employeeName}, #{workExperienceProblemDetail}, #{workExperienceProblemCategory}, #{workExperienceCheckResult}, #{workExperienceRemark}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.work_experience_info
+        <set>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="workExperienceProblemDetail != null and workExperienceProblemDetail != ''">
+                work_experience_problem_detail = #{workExperienceProblemDetail},
+            </if>
+            <if test="workExperienceProblemCategory != null and workExperienceProblemCategory != ''">
+                work_experience_problem_category = #{workExperienceProblemCategory},
+            </if>
+            <if test="workExperienceCheckResult != null and workExperienceCheckResult != ''">
+                work_experience_check_result = #{workExperienceCheckResult},
+            </if>
+            <if test="workExperienceRemark != null and workExperienceRemark != ''">
+                work_experience_remark = #{workExperienceRemark},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where employee_id = #{employeeId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.work_experience_info where employee_id = #{employeeId}
+    </delete>
+
+</mapper>
