@@ -4,3 +4,8 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# 忽略 .idea的文件
+.idea/artifacts
+.idea/libraries
+# 忽略target文件
+target/
