@@ -41,6 +41,12 @@ public interface SysUserDao {
     List<SysUser> queryAll(SysUser sysUser);
 
     /**
+     *
+     * @return 对象列表
+     */
+    List<SysUser> queryAllByPage();
+
+    /**
      * 新增数据
      *
      * @param sysUser 实例对象
@@ -64,4 +70,5 @@ public interface SysUserDao {
      */
     int deleteById(Integer id);
 
+    int queryByNameAndPass(@Param("userName") String userName,@Param("userPassword") String userPassword);
 }

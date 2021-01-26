@@ -33,6 +33,27 @@ public class SysUserServiceImpl implements SysUserService {
     /**
      * 查询多条数据
      *
+     * @param sysUser 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<SysUser> queryAll(SysUser sysUser){
+        return this.sysUserDao.queryAll(sysUser);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<SysUser> queryAllByPage(){
+        return this.sysUserDao.queryAllByPage();
+    }
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -49,9 +70,9 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 实例对象
      */
     @Override
-    public SysUser insert(SysUser sysUser) {
-        this.sysUserDao.insert(sysUser);
-        return sysUser;
+    public int insert(SysUser sysUser) {
+        return this.sysUserDao.insert(sysUser);
+       /* return sysUser;*/
     }
 
     /**
@@ -75,5 +96,10 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public boolean deleteById(Integer id) {
         return this.sysUserDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public int queryByNameAndPass(String userName,String userPassword){
+        return this.sysUserDao.queryByNameAndPass(userName,userPassword);
     }
 }

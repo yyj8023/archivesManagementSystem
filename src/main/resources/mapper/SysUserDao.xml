@@ -51,6 +51,14 @@
         </where>
     </select>
 
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+        select
+        id, user_name, user_password, user_role, user_flag
+        from archivesmanagementsystem.sys_user
+    </select>
+
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into archivesmanagementsystem.sys_user(user_name, user_password, user_role, user_flag)
@@ -82,4 +90,19 @@
         delete from archivesmanagementsystem.sys_user where id = #{id}
     </delete>
 
+    <!--通过账号密码查询用户是否可登陆-->
+    <select id="queryByNameAndPass" resultType="INTEGER">
+        select
+          count(1)
+        from archivesmanagementsystem.sys_user
+        <where>
+            <if test="userName != null">
+                trim(user_name) = #{userName}
+            </if>
+            <if test="userPassword!=null">
+                AND trim(user_password) = #{userPassword}
+            </if>
+        </where>
+
+    </select>
 </mapper>

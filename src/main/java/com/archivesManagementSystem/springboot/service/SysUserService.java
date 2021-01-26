@@ -22,6 +22,21 @@ public interface SysUserService {
     /**
      * 查询多条数据
      *
+     * @param sysUser 实例对象
+     * @return 对象列表
+     */
+    List<SysUser> queryAll(SysUser sysUser);
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<SysUser> queryAllByPage();
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -32,9 +47,9 @@ public interface SysUserService {
      * 新增数据
      *
      * @param sysUser 实例对象
-     * @return 实例对象
+     * @return int
      */
-    SysUser insert(SysUser sysUser);
+    int insert(SysUser sysUser);
 
     /**
      * 修改数据
@@ -52,4 +67,5 @@ public interface SysUserService {
      */
     boolean deleteById(Integer id);
 
+    int queryByNameAndPass(String userName,String userPassword);
 }
