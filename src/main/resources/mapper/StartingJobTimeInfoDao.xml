@@ -4,6 +4,7 @@
 
     <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.StartingJobTimeInfo">
         <!--@Table starting_job_time_info-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
         <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
         <result property="startingJobTimeOwn" column="starting_job_time_own" jdbcType="TIMESTAMP"/>
@@ -20,15 +21,15 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
+          id, employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
         from archivesmanagementsystem.starting_job_time_info
-        where employee_id = #{employeeId}
+        where id = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
+          id, employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
         from archivesmanagementsystem.starting_job_time_info
         limit #{offset}, #{limit}
     </select>
@@ -36,9 +37,12 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
+          id, employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
         from archivesmanagementsystem.starting_job_time_info
         <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
             <if test="employeeId != null">
                 and employee_id = #{employeeId}
             </if>
@@ -76,15 +80,18 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="employeeId" useGeneratedKeys="true">
-        insert into archivesmanagementsystem.starting_job_time_info(employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time)
-        values (#{employeeName}, #{startingJobTimeOwn}, #{startingJobTimeArchvies}, #{startingJobTimeJudgment}, #{startingJobTimeProblemDetail}, #{startingJobTimeProblemCategory}, #{startingJobTimeCheckResult}, #{startingJobTimeCheckRemark}, #{updateBy}, #{updateTime})
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.starting_job_time_info(employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{startingJobTimeOwn}, #{startingJobTimeArchvies}, #{startingJobTimeJudgment}, #{startingJobTimeProblemDetail}, #{startingJobTimeProblemCategory}, #{startingJobTimeCheckResult}, #{startingJobTimeCheckRemark}, #{updateBy}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update archivesmanagementsystem.starting_job_time_info
         <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId},
+            </if>
             <if test="employeeName != null and employeeName != ''">
                 employee_name = #{employeeName},
             </if>
@@ -116,12 +123,12 @@
                 update_time = #{updateTime},
             </if>
         </set>
-        where employee_id = #{employeeId}
+        where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from archivesmanagementsystem.starting_job_time_info where employee_id = #{employeeId}
+        delete from archivesmanagementsystem.starting_job_time_info where id = #{id}
     </delete>
 
 </mapper>

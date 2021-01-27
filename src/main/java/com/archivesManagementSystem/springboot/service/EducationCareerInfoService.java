@@ -1,23 +1,40 @@
 package com.archivesManagementSystem.springboot.service;
 
 import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
+
 import java.util.List;
 
 /**
  * 学历学位信息认定表(EducationCareerInfo)表服务接口
  *
  * @author makejava
- * @since 2021-01-20 22:15:23
+ * @since 2021-01-27 23:32:05
  */
 public interface EducationCareerInfoService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
-    EducationCareerInfo queryById(Integer employeeId);
+    EducationCareerInfo queryById(Integer id);
+
+    /**
+     * 查询多条数据
+     *
+     * @param educationCareerInfo 实例对象
+     * @return 对象列表
+     */
+    List<EducationCareerInfo> queryAll(EducationCareerInfo educationCareerInfo);
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<EducationCareerInfo> queryAllByPage();
 
     /**
      * 查询多条数据
@@ -34,7 +51,7 @@ public interface EducationCareerInfoService {
      * @param educationCareerInfo 实例对象
      * @return 实例对象
      */
-    EducationCareerInfo insert(EducationCareerInfo educationCareerInfo);
+    int insert(EducationCareerInfo educationCareerInfo);
 
     /**
      * 修改数据
@@ -47,9 +64,9 @@ public interface EducationCareerInfoService {
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer employeeId);
+    boolean deleteById(Integer id);
 
 }

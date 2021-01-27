@@ -9,7 +9,7 @@ import java.util.List;
  * 日常操作记录表，主要用于记录增加、修改、删除认定表的更新前和更新后每一个字段内容。不做太详细的记录（因为没给钱）(OrdinaryOperateLog)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-20 22:14:24
+ * @since 2021-01-27 23:32:33
  */
 @Mapper
 public interface OrdinaryOperateLogDao {

@@ -12,7 +12,7 @@ import java.util.List;
  * 工作经历信息认定表(WorkExperienceInfo)表服务实现类
  *
  * @author makejava
- * @since 2021-01-20 22:20:41
+ * @since 2021-01-27 23:33:11
  */
 @Service("workExperienceInfoService")
 public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService {
@@ -22,12 +22,12 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public WorkExperienceInfo queryById(Integer employeeId) {
-        return this.workExperienceInfoDao.queryById(employeeId);
+    public WorkExperienceInfo queryById(Integer id) {
+        return this.workExperienceInfoDao.queryById(id);
     }
 
     /**
@@ -63,17 +63,17 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
     @Override
     public WorkExperienceInfo update(WorkExperienceInfo workExperienceInfo) {
         this.workExperienceInfoDao.update(workExperienceInfo);
-        return this.queryById(workExperienceInfo.getEmployeeId());
+        return this.queryById(workExperienceInfo.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer employeeId) {
-        return this.workExperienceInfoDao.deleteById(employeeId) > 0;
+    public boolean deleteById(Integer id) {
+        return this.workExperienceInfoDao.deleteById(id) > 0;
     }
 }

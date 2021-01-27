@@ -12,7 +12,7 @@ import java.util.List;
  * 参加工作时间基本信息认定表(StartingJobTimeInfo)表服务实现类
  *
  * @author makejava
- * @since 2021-01-20 22:13:43
+ * @since 2021-01-27 23:33:03
  */
 @Service("startingJobTimeInfoService")
 public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoService {
@@ -22,12 +22,12 @@ public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoServic
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public StartingJobTimeInfo queryById(Integer employeeId) {
-        return this.startingJobTimeInfoDao.queryById(employeeId);
+    public StartingJobTimeInfo queryById(Integer id) {
+        return this.startingJobTimeInfoDao.queryById(id);
     }
 
     /**
@@ -63,17 +63,17 @@ public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoServic
     @Override
     public StartingJobTimeInfo update(StartingJobTimeInfo startingJobTimeInfo) {
         this.startingJobTimeInfoDao.update(startingJobTimeInfo);
-        return this.queryById(startingJobTimeInfo.getEmployeeId());
+        return this.queryById(startingJobTimeInfo.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer employeeId) {
-        return this.startingJobTimeInfoDao.deleteById(employeeId) > 0;
+    public boolean deleteById(Integer id) {
+        return this.startingJobTimeInfoDao.deleteById(id) > 0;
     }
 }

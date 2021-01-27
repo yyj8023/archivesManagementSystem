@@ -7,10 +7,14 @@ import java.io.Serializable;
  * 工作经历信息认定表(WorkExperienceInfo)实体类
  *
  * @author makejava
- * @since 2021-01-20 22:20:41
+ * @since 2021-01-27 23:33:11
  */
 public class WorkExperienceInfo implements Serializable {
-    private static final long serialVersionUID = -18986352855076491L;
+    private static final long serialVersionUID = 452581834248924198L;
+    /**
+    * 主键ID
+    */
+    private Integer id;
     /**
     * 员工ID
     */
@@ -40,6 +44,14 @@ public class WorkExperienceInfo implements Serializable {
     
     private Date updateTime;
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getEmployeeId() {
         return employeeId;

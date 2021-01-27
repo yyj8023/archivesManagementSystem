@@ -7,10 +7,14 @@ import java.io.Serializable;
  * 学位学历信息详细表(EducationInfo)实体类
  *
  * @author makejava
- * @since 2021-01-20 22:15:04
+ * @since 2021-01-27 23:32:14
  */
 public class EducationInfo implements Serializable {
-    private static final long serialVersionUID = -73540393479813199L;
+    private static final long serialVersionUID = 495458996571285429L;
+    /**
+    * 主键ID
+    */
+    private Integer id;
     /**
     * 员工ID
     */
@@ -56,6 +60,14 @@ public class EducationInfo implements Serializable {
     
     private Date updateTime;
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getEmployeeId() {
         return employeeId;

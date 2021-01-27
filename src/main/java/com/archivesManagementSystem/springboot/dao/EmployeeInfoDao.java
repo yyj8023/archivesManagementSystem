@@ -1,6 +1,7 @@
 package com.archivesManagementSystem.springboot.dao;
 
 import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
+import com.archivesManagementSystem.springboot.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -39,6 +40,12 @@ public interface EmployeeInfoDao {
      * @return 对象列表
      */
     List<EmployeeInfo> queryAll(EmployeeInfo employeeInfo);
+
+    /**
+     *
+     * @return 对象列表
+     */
+    List<EmployeeInfo> queryAllByPage();
 
     /**
      * 新增数据

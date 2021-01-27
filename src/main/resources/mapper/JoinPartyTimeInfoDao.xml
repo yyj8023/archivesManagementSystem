@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.JoinPartyTimeInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo">
+        <!--@Table join_party_time_info-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="joinPartyTime" column="join_party_time" jdbcType="TIMESTAMP"/>
+        <result property="joinPartyIntroducer" column="join_party_introducer" jdbcType="VARCHAR"/>
+        <result property="joinGroupTime" column="join_group_time" jdbcType="TIMESTAMP"/>
+        <result property="joinPartyTimeProblemDetail" column="join_party_time_problem_detail" jdbcType="VARCHAR"/>
+        <result property="joinPartyTimeCheckResult" column="join_party_time_check_result" jdbcType="VARCHAR"/>
+        <result property="joinPartyTimeResearchSituation" column="join_party_time_research_situation" jdbcType="VARCHAR"/>
+        <result property="joinPartyTimeRemark" column="join_party_time_remark" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+        from archivesmanagementsystem.join_party_time_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+        from archivesmanagementsystem.join_party_time_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+        from archivesmanagementsystem.join_party_time_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="employeeId != null">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="joinPartyTime != null">
+                and join_party_time = #{joinPartyTime}
+            </if>
+            <if test="joinPartyIntroducer != null and joinPartyIntroducer != ''">
+                and join_party_introducer = #{joinPartyIntroducer}
+            </if>
+            <if test="joinGroupTime != null">
+                and join_group_time = #{joinGroupTime}
+            </if>
+            <if test="joinPartyTimeProblemDetail != null and joinPartyTimeProblemDetail != ''">
+                and join_party_time_problem_detail = #{joinPartyTimeProblemDetail}
+            </if>
+            <if test="joinPartyTimeCheckResult != null and joinPartyTimeCheckResult != ''">
+                and join_party_time_check_result = #{joinPartyTimeCheckResult}
+            </if>
+            <if test="joinPartyTimeResearchSituation != null and joinPartyTimeResearchSituation != ''">
+                and join_party_time_research_situation = #{joinPartyTimeResearchSituation}
+            </if>
+            <if test="joinPartyTimeRemark != null and joinPartyTimeRemark != ''">
+                and join_party_time_remark = #{joinPartyTimeRemark}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.join_party_time_info(employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{joinPartyTime}, #{joinPartyIntroducer}, #{joinGroupTime}, #{joinPartyTimeProblemDetail}, #{joinPartyTimeCheckResult}, #{joinPartyTimeResearchSituation}, #{joinPartyTimeRemark}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.join_party_time_info
+        <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId},
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="joinPartyTime != null">
+                join_party_time = #{joinPartyTime},
+            </if>
+            <if test="joinPartyIntroducer != null and joinPartyIntroducer != ''">
+                join_party_introducer = #{joinPartyIntroducer},
+            </if>
+            <if test="joinGroupTime != null">
+                join_group_time = #{joinGroupTime},
+            </if>
+            <if test="joinPartyTimeProblemDetail != null and joinPartyTimeProblemDetail != ''">
+                join_party_time_problem_detail = #{joinPartyTimeProblemDetail},
+            </if>
+            <if test="joinPartyTimeCheckResult != null and joinPartyTimeCheckResult != ''">
+                join_party_time_check_result = #{joinPartyTimeCheckResult},
+            </if>
+            <if test="joinPartyTimeResearchSituation != null and joinPartyTimeResearchSituation != ''">
+                join_party_time_research_situation = #{joinPartyTimeResearchSituation},
+            </if>
+            <if test="joinPartyTimeRemark != null and joinPartyTimeRemark != ''">
+                join_party_time_remark = #{joinPartyTimeRemark},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.join_party_time_info where id = #{id}
+    </delete>
+
+</mapper>

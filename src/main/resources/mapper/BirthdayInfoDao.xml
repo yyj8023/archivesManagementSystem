@@ -4,6 +4,7 @@
 
     <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.BirthdayInfo">
         <!--@Table birthday_info-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
         <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
         <result property="birthdayCard" column="birthday_card" jdbcType="TIMESTAMP"/>
@@ -21,15 +22,15 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
         from archivesmanagementsystem.birthday_info
-        where employee_id = #{employeeId}
+        where id = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
         from archivesmanagementsystem.birthday_info
         limit #{offset}, #{limit}
     </select>
@@ -37,9 +38,12 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
         from archivesmanagementsystem.birthday_info
         <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
             <if test="employeeId != null">
                 and employee_id = #{employeeId}
             </if>
@@ -80,15 +84,18 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="employeeId" useGeneratedKeys="true">
-        insert into archivesmanagementsystem.birthday_info(employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time)
-        values (#{employeeName}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{birthdayProblemDetail}, #{birthdayCheckResult}, #{birthdayProblemCategory}, #{birthdayCheckRule}, #{birthdayCheckRemark}, #{updateBy}, #{updateTime})
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.birthday_info(employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{birthdayProblemDetail}, #{birthdayCheckResult}, #{birthdayProblemCategory}, #{birthdayCheckRule}, #{birthdayCheckRemark}, #{updateBy}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update archivesmanagementsystem.birthday_info
         <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId},
+            </if>
             <if test="employeeName != null and employeeName != ''">
                 employee_name = #{employeeName},
             </if>
@@ -123,12 +130,12 @@
                 update_time = #{updateTime},
             </if>
         </set>
-        where employee_id = #{employeeId}
+        where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from archivesmanagementsystem.birthday_info where employee_id = #{employeeId}
+        delete from archivesmanagementsystem.birthday_info where id = #{id}
     </delete>
 
 </mapper>

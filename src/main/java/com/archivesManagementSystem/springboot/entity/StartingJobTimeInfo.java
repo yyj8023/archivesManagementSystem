@@ -7,10 +7,12 @@ import java.io.Serializable;
  * 参加工作时间基本信息认定表(StartingJobTimeInfo)实体类
  *
  * @author makejava
- * @since 2021-01-20 22:13:43
+ * @since 2021-01-27 23:33:03
  */
 public class StartingJobTimeInfo implements Serializable {
-    private static final long serialVersionUID = -79216860599902152L;
+    private static final long serialVersionUID = -99329263722836961L;
+    
+    private Integer id;
     /**
     * 员工ID
     */
@@ -52,6 +54,14 @@ public class StartingJobTimeInfo implements Serializable {
     
     private Date updateTime;
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getEmployeeId() {
         return employeeId;

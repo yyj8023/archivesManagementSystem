@@ -1,18 +1,18 @@
 package com.archivesManagementSystem.springboot.dao;
 
-import com.archivesManagementSystem.springboot.entity.ProcessOperateLog;
+import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 业务流程操作记录表，用于记录该员工哪些认定步骤已走完。(ProcessOperateLog)表数据库访问层
+ * 入党时间信息认定表(JoinPartyTimeInfo)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-27 23:32:54
+ * @since 2021-01-27 23:32:23
  */
 @Mapper
-public interface ProcessOperateLogDao {
+public interface JoinPartyTimeInfoDao {
 
     /**
      * 通过ID查询单条数据
@@ -20,7 +20,7 @@ public interface ProcessOperateLogDao {
      * @param id 主键
      * @return 实例对象
      */
-    ProcessOperateLog queryById(Integer id);
+    JoinPartyTimeInfo queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -29,32 +29,32 @@ public interface ProcessOperateLogDao {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<ProcessOperateLog> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<JoinPartyTimeInfo> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
 
     /**
      * 通过实体作为筛选条件查询
      *
-     * @param processOperateLog 实例对象
+     * @param joinPartyTimeInfo 实例对象
      * @return 对象列表
      */
-    List<ProcessOperateLog> queryAll(ProcessOperateLog processOperateLog);
+    List<JoinPartyTimeInfo> queryAll(JoinPartyTimeInfo joinPartyTimeInfo);
 
     /**
      * 新增数据
      *
-     * @param processOperateLog 实例对象
+     * @param joinPartyTimeInfo 实例对象
      * @return 影响行数
      */
-    int insert(ProcessOperateLog processOperateLog);
+    int insert(JoinPartyTimeInfo joinPartyTimeInfo);
 
     /**
      * 修改数据
      *
-     * @param processOperateLog 实例对象
+     * @param joinPartyTimeInfo 实例对象
      * @return 影响行数
      */
-    int update(ProcessOperateLog processOperateLog);
+    int update(JoinPartyTimeInfo joinPartyTimeInfo);
 
     /**
      * 通过主键删除数据

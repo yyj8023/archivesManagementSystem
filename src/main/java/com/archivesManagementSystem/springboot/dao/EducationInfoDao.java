@@ -9,7 +9,7 @@ import java.util.List;
  * 学位学历信息详细表(EducationInfo)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-20 22:15:04
+ * @since 2021-01-27 23:32:14
  */
 @Mapper
 public interface EducationInfoDao {
@@ -17,10 +17,10 @@ public interface EducationInfoDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
-    EducationInfo queryById(Integer employeeId);
+    EducationInfo queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -59,9 +59,9 @@ public interface EducationInfoDao {
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 影响行数
      */
-    int deleteById(Integer employeeId);
+    int deleteById(Integer id);
 
 }

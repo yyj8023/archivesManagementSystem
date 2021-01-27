@@ -7,10 +7,10 @@ import java.io.Serializable;
  * 业务流程操作记录表，用于记录该员工哪些认定步骤已走完。(ProcessOperateLog)实体类
  *
  * @author makejava
- * @since 2021-01-20 22:14:02
+ * @since 2021-01-27 23:32:54
  */
 public class ProcessOperateLog implements Serializable {
-    private static final long serialVersionUID = 320704030196296018L;
+    private static final long serialVersionUID = 431890288096042828L;
     /**
     * 操作流程记录ID号
     */

@@ -2,6 +2,7 @@ package com.archivesManagementSystem.springboot.service.impl;
 
 import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
 import com.archivesManagementSystem.springboot.dao.EducationCareerInfoDao;
+import com.archivesManagementSystem.springboot.entity.SysUser;
 import com.archivesManagementSystem.springboot.service.EducationCareerInfoService;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * 学历学位信息认定表(EducationCareerInfo)表服务实现类
  *
  * @author makejava
- * @since 2021-01-20 22:15:23
+ * @since 2021-01-27 23:32:05
  */
 @Service("educationCareerInfoService")
 public class EducationCareerInfoServiceImpl implements EducationCareerInfoService {
@@ -22,12 +23,33 @@ public class EducationCareerInfoServiceImpl implements EducationCareerInfoServic
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public EducationCareerInfo queryById(Integer employeeId) {
-        return this.educationCareerInfoDao.queryById(employeeId);
+    public EducationCareerInfo queryById(Integer id) {
+        return this.educationCareerInfoDao.queryById(id);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @param educationCareerInfo 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<EducationCareerInfo> queryAll(EducationCareerInfo educationCareerInfo){
+        return this.educationCareerInfoDao.queryAll(educationCareerInfo);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<EducationCareerInfo> queryAllByPage(){
+        return this.educationCareerInfoDao.queryAllByPage();
     }
 
     /**
@@ -49,9 +71,8 @@ public class EducationCareerInfoServiceImpl implements EducationCareerInfoServic
      * @return 实例对象
      */
     @Override
-    public EducationCareerInfo insert(EducationCareerInfo educationCareerInfo) {
-        this.educationCareerInfoDao.insert(educationCareerInfo);
-        return educationCareerInfo;
+    public int insert(EducationCareerInfo educationCareerInfo) {
+        return this.educationCareerInfoDao.insert(educationCareerInfo);
     }
 
     /**
@@ -63,17 +84,17 @@ public class EducationCareerInfoServiceImpl implements EducationCareerInfoServic
     @Override
     public EducationCareerInfo update(EducationCareerInfo educationCareerInfo) {
         this.educationCareerInfoDao.update(educationCareerInfo);
-        return this.queryById(educationCareerInfo.getEmployeeId());
+        return this.queryById(educationCareerInfo.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer employeeId) {
-        return this.educationCareerInfoDao.deleteById(employeeId) > 0;
+    public boolean deleteById(Integer id) {
+        return this.educationCareerInfoDao.deleteById(id) > 0;
     }
 }

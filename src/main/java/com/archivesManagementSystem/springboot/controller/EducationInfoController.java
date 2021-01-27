@@ -10,7 +10,7 @@ import javax.annotation.Resource;
  * 学位学历信息详细表(EducationInfo)表控制层
  *
  * @author makejava
- * @since 2021-01-20 22:15:04
+ * @since 2021-01-27 23:32:14
  */
 @RestController
 @RequestMapping("educationInfo")

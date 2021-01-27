@@ -2,6 +2,7 @@ package com.archivesManagementSystem.springboot.service.impl;
 
 import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.dao.EmployeeInfoDao;
+import com.archivesManagementSystem.springboot.entity.SysUser;
 import com.archivesManagementSystem.springboot.service.EmployeeInfoService;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,27 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     /**
      * 查询多条数据
      *
+     * @param employeeInfo 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<EmployeeInfo> queryAll(EmployeeInfo employeeInfo){
+        return this.employeeInfoDao.queryAll(employeeInfo);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<EmployeeInfo> queryAllByPage(){
+        return this.employeeInfoDao.queryAllByPage();
+    }
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -46,12 +68,11 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
      * 新增数据
      *
      * @param employeeInfo 实例对象
-     * @return 实例对象
+     * @return int
      */
     @Override
-    public EmployeeInfo insert(EmployeeInfo employeeInfo) {
-        this.employeeInfoDao.insert(employeeInfo);
-        return employeeInfo;
+    public int insert(EmployeeInfo employeeInfo) {
+         return this.employeeInfoDao.insert(employeeInfo);
     }
 
     /**

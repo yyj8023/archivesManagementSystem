@@ -9,7 +9,7 @@ import java.util.List;
  * 参加工作时间基本信息认定表(StartingJobTimeInfo)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-20 22:13:43
+ * @since 2021-01-27 23:33:03
  */
 @Mapper
 public interface StartingJobTimeInfoDao {
@@ -17,10 +17,10 @@ public interface StartingJobTimeInfoDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
-    StartingJobTimeInfo queryById(Integer employeeId);
+    StartingJobTimeInfo queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -59,9 +59,9 @@ public interface StartingJobTimeInfoDao {
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 影响行数
      */
-    int deleteById(Integer employeeId);
+    int deleteById(Integer id);
 
 }

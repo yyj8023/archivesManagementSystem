@@ -62,8 +62,8 @@ public class SysUserController {
     }
 
     /**
-     *
-     * @return 对象列表
+     *查询结果分页返回
+     * @return 页面对象
      */
     @GetMapping("selectAllForPage")
     public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {

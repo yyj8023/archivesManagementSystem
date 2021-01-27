@@ -12,7 +12,7 @@ import java.util.List;
  * 学位学历信息详细表(EducationInfo)表服务实现类
  *
  * @author makejava
- * @since 2021-01-20 22:15:04
+ * @since 2021-01-27 23:32:14
  */
 @Service("educationInfoService")
 public class EducationInfoServiceImpl implements EducationInfoService {
@@ -22,12 +22,12 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public EducationInfo queryById(Integer employeeId) {
-        return this.educationInfoDao.queryById(employeeId);
+    public EducationInfo queryById(Integer id) {
+        return this.educationInfoDao.queryById(id);
     }
 
     /**
@@ -63,17 +63,17 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     @Override
     public EducationInfo update(EducationInfo educationInfo) {
         this.educationInfoDao.update(educationInfo);
-        return this.queryById(educationInfo.getEmployeeId());
+        return this.queryById(educationInfo.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer employeeId) {
-        return this.educationInfoDao.deleteById(employeeId) > 0;
+    public boolean deleteById(Integer id) {
+        return this.educationInfoDao.deleteById(id) > 0;
     }
 }

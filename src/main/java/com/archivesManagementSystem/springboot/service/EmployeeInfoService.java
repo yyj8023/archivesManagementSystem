@@ -1,6 +1,7 @@
 package com.archivesManagementSystem.springboot.service;
 
 import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
+
 import java.util.List;
 
 /**
@@ -22,6 +23,21 @@ public interface EmployeeInfoService {
     /**
      * 查询多条数据
      *
+     * @param employeeInfo 实例对象
+     * @return 对象列表
+     */
+    List<EmployeeInfo> queryAll(EmployeeInfo employeeInfo);
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<EmployeeInfo> queryAllByPage();
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -34,7 +50,7 @@ public interface EmployeeInfoService {
      * @param employeeInfo 实例对象
      * @return 实例对象
      */
-    EmployeeInfo insert(EmployeeInfo employeeInfo);
+    int insert(EmployeeInfo employeeInfo);
 
     /**
      * 修改数据

@@ -7,10 +7,14 @@ import java.io.Serializable;
  * 出生日期信息认定表(BirthdayInfo)实体类
  *
  * @author makejava
- * @since 2021-01-20 22:11:48
+ * @since 2021-01-27 23:31:38
  */
 public class BirthdayInfo implements Serializable {
-    private static final long serialVersionUID = -15151078688776451L;
+    private static final long serialVersionUID = -96184375331934118L;
+    /**
+    * 主键ID
+    */
+    private Integer id;
     /**
     * 员工ID
     */
@@ -56,6 +60,14 @@ public class BirthdayInfo implements Serializable {
     
     private Date updateTime;
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getEmployeeId() {
         return employeeId;

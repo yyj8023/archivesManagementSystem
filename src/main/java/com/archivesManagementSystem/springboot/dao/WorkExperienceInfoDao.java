@@ -9,7 +9,7 @@ import java.util.List;
  * 工作经历信息认定表(WorkExperienceInfo)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-20 22:20:41
+ * @since 2021-01-27 23:33:11
  */
 @Mapper
 public interface WorkExperienceInfoDao {
@@ -17,10 +17,10 @@ public interface WorkExperienceInfoDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
-    WorkExperienceInfo queryById(Integer employeeId);
+    WorkExperienceInfo queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -59,9 +59,9 @@ public interface WorkExperienceInfoDao {
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 影响行数
      */
-    int deleteById(Integer employeeId);
+    int deleteById(Integer id);
 
 }

@@ -1,15 +1,15 @@
 package com.archivesManagementSystem.springboot.service;
 
-import com.archivesManagementSystem.springboot.entity.EducationInfo;
+import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import java.util.List;
 
 /**
- * 学位学历信息详细表(EducationInfo)表服务接口
+ * 入党时间信息认定表(JoinPartyTimeInfo)表服务接口
  *
  * @author makejava
- * @since 2021-01-27 23:32:14
+ * @since 2021-01-27 23:32:23
  */
-public interface EducationInfoService {
+public interface JoinPartyTimeInfoService {
 
     /**
      * 通过ID查询单条数据
@@ -17,7 +17,7 @@ public interface EducationInfoService {
      * @param id 主键
      * @return 实例对象
      */
-    EducationInfo queryById(Integer id);
+    JoinPartyTimeInfo queryById(Integer id);
 
     /**
      * 查询多条数据
@@ -26,23 +26,23 @@ public interface EducationInfoService {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<EducationInfo> queryAllByLimit(int offset, int limit);
+    List<JoinPartyTimeInfo> queryAllByLimit(int offset, int limit);
 
     /**
      * 新增数据
      *
-     * @param educationInfo 实例对象
+     * @param joinPartyTimeInfo 实例对象
      * @return 实例对象
      */
-    EducationInfo insert(EducationInfo educationInfo);
+    JoinPartyTimeInfo insert(JoinPartyTimeInfo joinPartyTimeInfo);
 
     /**
      * 修改数据
      *
-     * @param educationInfo 实例对象
+     * @param joinPartyTimeInfo 实例对象
      * @return 实例对象
      */
-    EducationInfo update(EducationInfo educationInfo);
+    JoinPartyTimeInfo update(JoinPartyTimeInfo joinPartyTimeInfo);
 
     /**
      * 通过主键删除数据

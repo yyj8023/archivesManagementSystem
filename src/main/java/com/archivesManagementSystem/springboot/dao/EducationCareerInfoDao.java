@@ -1,6 +1,7 @@
 package com.archivesManagementSystem.springboot.dao;
 
 import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * 学历学位信息认定表(EducationCareerInfo)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-20 22:15:23
+ * @since 2021-01-27 23:32:05
  */
 @Mapper
 public interface EducationCareerInfoDao {
@@ -17,10 +18,10 @@ public interface EducationCareerInfoDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
-    EducationCareerInfo queryById(Integer employeeId);
+    EducationCareerInfo queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -41,6 +42,12 @@ public interface EducationCareerInfoDao {
     List<EducationCareerInfo> queryAll(EducationCareerInfo educationCareerInfo);
 
     /**
+     *
+     * @return 对象列表
+     */
+    List<EducationCareerInfo> queryAllByPage();
+
+    /**
      * 新增数据
      *
      * @param educationCareerInfo 实例对象
@@ -59,9 +66,9 @@ public interface EducationCareerInfoDao {
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 影响行数
      */
-    int deleteById(Integer employeeId);
+    int deleteById(Integer id);
 
 }

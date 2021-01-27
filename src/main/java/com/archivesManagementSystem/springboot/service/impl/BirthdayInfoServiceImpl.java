@@ -12,7 +12,7 @@ import java.util.List;
  * 出生日期信息认定表(BirthdayInfo)表服务实现类
  *
  * @author makejava
- * @since 2021-01-20 22:11:48
+ * @since 2021-01-27 23:31:38
  */
 @Service("birthdayInfoService")
 public class BirthdayInfoServiceImpl implements BirthdayInfoService {
@@ -22,12 +22,12 @@ public class BirthdayInfoServiceImpl implements BirthdayInfoService {
     /**
      * 通过ID查询单条数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public BirthdayInfo queryById(Integer employeeId) {
-        return this.birthdayInfoDao.queryById(employeeId);
+    public BirthdayInfo queryById(Integer id) {
+        return this.birthdayInfoDao.queryById(id);
     }
 
     /**
@@ -63,17 +63,17 @@ public class BirthdayInfoServiceImpl implements BirthdayInfoService {
     @Override
     public BirthdayInfo update(BirthdayInfo birthdayInfo) {
         this.birthdayInfoDao.update(birthdayInfo);
-        return this.queryById(birthdayInfo.getEmployeeId());
+        return this.queryById(birthdayInfo.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param employeeId 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer employeeId) {
-        return this.birthdayInfoDao.deleteById(employeeId) > 0;
+    public boolean deleteById(Integer id) {
+        return this.birthdayInfoDao.deleteById(id) > 0;
     }
 }
