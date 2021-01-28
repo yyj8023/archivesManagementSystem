@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service.impl;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.OrdinaryOperateLog;
 import com.archivesManagementSystem.springboot.dao.OrdinaryOperateLogDao;
 import com.archivesManagementSystem.springboot.service.OrdinaryOperateLogService;
@@ -33,6 +34,29 @@ public class OrdinaryOperateLogServiceImpl implements OrdinaryOperateLogService 
     /**
      * 查询多条数据
      *
+     * @param ordinaryOperateLog 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<OrdinaryOperateLog> queryAll(OrdinaryOperateLog ordinaryOperateLog){
+        return this.ordinaryOperateLogDao.queryAll(ordinaryOperateLog);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<OrdinaryOperateLog> queryAllByPage(){
+        return this.ordinaryOperateLogDao.queryAllByPage();
+    }
+
+
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -49,9 +73,8 @@ public class OrdinaryOperateLogServiceImpl implements OrdinaryOperateLogService 
      * @return 实例对象
      */
     @Override
-    public OrdinaryOperateLog insert(OrdinaryOperateLog ordinaryOperateLog) {
-        this.ordinaryOperateLogDao.insert(ordinaryOperateLog);
-        return ordinaryOperateLog;
+    public int insert(OrdinaryOperateLog ordinaryOperateLog) {
+        return this.ordinaryOperateLogDao.insert(ordinaryOperateLog);
     }
 
     /**

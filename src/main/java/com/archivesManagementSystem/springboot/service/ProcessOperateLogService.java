@@ -1,6 +1,7 @@
 package com.archivesManagementSystem.springboot.service;
 
 import com.archivesManagementSystem.springboot.entity.ProcessOperateLog;
+import com.archivesManagementSystem.springboot.entity.ProcessOperateLog;
 import java.util.List;
 
 /**
@@ -22,6 +23,20 @@ public interface ProcessOperateLogService {
     /**
      * 查询多条数据
      *
+     * @param processOperateLog 实例对象
+     * @return 对象列表
+     */
+    List<ProcessOperateLog> queryAll(ProcessOperateLog processOperateLog);
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<ProcessOperateLog> queryAllByPage();
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -32,9 +47,9 @@ public interface ProcessOperateLogService {
      * 新增数据
      *
      * @param processOperateLog 实例对象
-     * @return 实例对象
+     * @return int
      */
-    ProcessOperateLog insert(ProcessOperateLog processOperateLog);
+    int insert(ProcessOperateLog processOperateLog);
 
     /**
      * 修改数据

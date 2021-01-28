@@ -71,6 +71,13 @@
         </where>
     </select>
 
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+        select
+        id, employee_id, employee_name, check_table_name, check_column_name, old_value, new_value, operate_type, operator, operate_time
+        from archivesmanagementsystem.ordinary_operate_log
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into archivesmanagementsystem.ordinary_operate_log(employee_id, employee_name, check_table_name, check_column_name, old_value, new_value, operate_type, operator, operate_time)

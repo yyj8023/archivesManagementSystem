@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.dao;
 
+import com.archivesManagementSystem.springboot.entity.OrdinaryOperateLog;
 import com.archivesManagementSystem.springboot.entity.ProcessOperateLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -39,6 +40,12 @@ public interface ProcessOperateLogDao {
      * @return 对象列表
      */
     List<ProcessOperateLog> queryAll(ProcessOperateLog processOperateLog);
+
+    /**
+     *
+     * @return 对象列表
+     */
+    List<ProcessOperateLog> queryAllByPage();
 
     /**
      * 新增数据

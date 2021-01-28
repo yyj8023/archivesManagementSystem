@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.dao;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.OrdinaryOperateLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -39,6 +40,12 @@ public interface OrdinaryOperateLogDao {
      * @return 对象列表
      */
     List<OrdinaryOperateLog> queryAll(OrdinaryOperateLog ordinaryOperateLog);
+
+    /**
+     *
+     * @return 对象列表
+     */
+    List<OrdinaryOperateLog> queryAllByPage();
 
     /**
      * 新增数据

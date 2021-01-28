@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.OrdinaryOperateLog;
 import java.util.List;
 
@@ -22,6 +23,21 @@ public interface OrdinaryOperateLogService {
     /**
      * 查询多条数据
      *
+     * @param ordinaryOperateLog 实例对象
+     * @return 对象列表
+     */
+    List<OrdinaryOperateLog> queryAll(OrdinaryOperateLog ordinaryOperateLog);
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<OrdinaryOperateLog> queryAllByPage();
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -32,9 +48,9 @@ public interface OrdinaryOperateLogService {
      * 新增数据
      *
      * @param ordinaryOperateLog 实例对象
-     * @return 实例对象
+     * @return int
      */
-    OrdinaryOperateLog insert(OrdinaryOperateLog ordinaryOperateLog);
+    int insert(OrdinaryOperateLog ordinaryOperateLog);
 
     /**
      * 修改数据

@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service.impl;
 
+import com.archivesManagementSystem.springboot.entity.OrdinaryOperateLog;
 import com.archivesManagementSystem.springboot.entity.ProcessOperateLog;
 import com.archivesManagementSystem.springboot.dao.ProcessOperateLogDao;
 import com.archivesManagementSystem.springboot.service.ProcessOperateLogService;
@@ -33,6 +34,27 @@ public class ProcessOperateLogServiceImpl implements ProcessOperateLogService {
     /**
      * 查询多条数据
      *
+     * @param processOperateLog 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<ProcessOperateLog> queryAll(ProcessOperateLog processOperateLog){
+        return this.processOperateLogDao.queryAll(processOperateLog);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<ProcessOperateLog> queryAllByPage(){
+        return this.processOperateLogDao.queryAllByPage();
+    }
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -49,9 +71,8 @@ public class ProcessOperateLogServiceImpl implements ProcessOperateLogService {
      * @return 实例对象
      */
     @Override
-    public ProcessOperateLog insert(ProcessOperateLog processOperateLog) {
-        this.processOperateLogDao.insert(processOperateLog);
-        return processOperateLog;
+    public int insert(ProcessOperateLog processOperateLog) {
+        return this.processOperateLogDao.insert(processOperateLog);
     }
 
     /**
