@@ -135,7 +135,7 @@
         </where>
     </select>
 
-    <!--查询全部-->
+    <!--分页查询多条数据-->
     <select id="queryAllByPage" resultMap="BaseResultMap">
         select
         id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_card, birthday_archives, birthday_judgment, join_party_time, join_party_introducer, join_group_time, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time

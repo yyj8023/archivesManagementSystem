@@ -38,7 +38,9 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment,
+        birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule,
+        birthday_check_remark, update_by, update_time
         from archivesmanagementsystem.birthday_info
         <where>
             <if test="id != null">
@@ -81,6 +83,13 @@
                 and update_time = #{updateTime}
             </if>
         </where>
+    </select>
+
+    <!--分页查询全部-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+        from archivesmanagementsystem.birthday_info
     </select>
 
     <!--新增所有列-->

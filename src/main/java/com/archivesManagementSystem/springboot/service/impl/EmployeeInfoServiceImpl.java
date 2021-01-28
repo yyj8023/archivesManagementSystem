@@ -43,7 +43,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     }
 
     /**
-     * 查询多条数据
+     * 分页查询多条数据
      *
      * @return 对象列表
      */

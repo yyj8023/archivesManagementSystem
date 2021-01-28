@@ -83,6 +83,13 @@
         </where>
     </select>
 
+    <!--查询指定行数据-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time
+        from archivesmanagementsystem.education_info
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into archivesmanagementsystem.education_info(employee_id, employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time)

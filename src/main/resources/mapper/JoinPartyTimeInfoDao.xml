@@ -79,6 +79,13 @@
         </where>
     </select>
 
+    <!--分页查询全部-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+        from archivesmanagementsystem.join_party_time_info
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into archivesmanagementsystem.join_party_time_info(employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time)

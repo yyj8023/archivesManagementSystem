@@ -33,6 +33,27 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     /**
      * 查询多条数据
      *
+     * @param educationInfo 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<EducationInfo> queryAll(EducationInfo educationInfo) {
+        return this.educationInfoDao.queryAll(educationInfo);
+    }
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<EducationInfo> queryAllByPage() {
+        return this.educationInfoDao.queryAllByPage();
+    }
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -49,9 +70,8 @@ public class EducationInfoServiceImpl implements EducationInfoService {
      * @return 实例对象
      */
     @Override
-    public EducationInfo insert(EducationInfo educationInfo) {
-        this.educationInfoDao.insert(educationInfo);
-        return educationInfo;
+    public int insert(EducationInfo educationInfo) {
+        return this.educationInfoDao.insert(educationInfo);
     }
 
     /**

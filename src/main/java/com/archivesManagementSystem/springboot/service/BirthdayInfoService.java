@@ -29,12 +29,27 @@ public interface BirthdayInfoService {
     List<BirthdayInfo> queryAllByLimit(int offset, int limit);
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param birthdayInfo 实例对象
+     * @return 对象列表
+     */
+    List<BirthdayInfo> queryAll(BirthdayInfo birthdayInfo);
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<BirthdayInfo> queryAllByPage();
+
+    /**
      * 新增数据
      *
      * @param birthdayInfo 实例对象
      * @return 实例对象
      */
-    BirthdayInfo insert(BirthdayInfo birthdayInfo);
+    int insert(BirthdayInfo birthdayInfo);
 
     /**
      * 修改数据
@@ -51,5 +66,4 @@ public interface BirthdayInfoService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
-
 }

@@ -43,15 +43,36 @@ public class BirthdayInfoServiceImpl implements BirthdayInfoService {
     }
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param birthdayInfo 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<BirthdayInfo> queryAll(BirthdayInfo birthdayInfo) {
+        return this.birthdayInfoDao.queryAll(birthdayInfo);
+    }
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<BirthdayInfo> queryAllByPage() {
+        return this.birthdayInfoDao.queryAllByPage();
+    }
+
+    /**
      * 新增数据
      *
      * @param birthdayInfo 实例对象
      * @return 实例对象
      */
     @Override
-    public BirthdayInfo insert(BirthdayInfo birthdayInfo) {
-        this.birthdayInfoDao.insert(birthdayInfo);
-        return birthdayInfo;
+    public int insert(BirthdayInfo birthdayInfo) {
+
+        return this.birthdayInfoDao.insert(birthdayInfo);
     }
 
     /**

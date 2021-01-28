@@ -41,6 +41,13 @@ public interface BirthdayInfoDao {
     List<BirthdayInfo> queryAll(BirthdayInfo birthdayInfo);
 
     /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<BirthdayInfo> queryAllByPage();
+
+    /**
      * 新增数据
      *
      * @param birthdayInfo 实例对象

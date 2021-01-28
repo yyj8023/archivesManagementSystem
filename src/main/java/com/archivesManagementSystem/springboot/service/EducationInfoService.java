@@ -22,6 +22,21 @@ public interface EducationInfoService {
     /**
      * 查询多条数据
      *
+     * @param educationInfo 实例对象
+     * @return 对象列表
+     */
+    List<EducationInfo> queryAll(EducationInfo educationInfo);
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<EducationInfo> queryAllByPage();
+
+    /**
+     * 查询多条数据
+     *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
@@ -34,7 +49,7 @@ public interface EducationInfoService {
      * @param educationInfo 实例对象
      * @return 实例对象
      */
-    EducationInfo insert(EducationInfo educationInfo);
+    int insert(EducationInfo educationInfo);
 
     /**
      * 修改数据

@@ -41,6 +41,13 @@ public interface JoinPartyTimeInfoDao {
     List<JoinPartyTimeInfo> queryAll(JoinPartyTimeInfo joinPartyTimeInfo);
 
     /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<JoinPartyTimeInfo> queryAllByPage();
+
+    /**
      * 新增数据
      *
      * @param joinPartyTimeInfo 实例对象

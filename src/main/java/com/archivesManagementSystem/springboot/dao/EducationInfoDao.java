@@ -31,7 +31,6 @@ public interface EducationInfoDao {
      */
     List<EducationInfo> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
-
     /**
      * 通过实体作为筛选条件查询
      *
@@ -39,6 +38,13 @@ public interface EducationInfoDao {
      * @return 对象列表
      */
     List<EducationInfo> queryAll(EducationInfo educationInfo);
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<EducationInfo> queryAllByPage();
 
     /**
      * 新增数据

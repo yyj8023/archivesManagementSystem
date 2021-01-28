@@ -29,12 +29,27 @@ public interface JoinPartyTimeInfoService {
     List<JoinPartyTimeInfo> queryAllByLimit(int offset, int limit);
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param joinPartyTimeInfo 实例对象
+     * @return 对象列表
+     */
+    List<JoinPartyTimeInfo> queryAll(JoinPartyTimeInfo joinPartyTimeInfo);
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<JoinPartyTimeInfo> queryAllByPage();
+
+    /**
      * 新增数据
      *
      * @param joinPartyTimeInfo 实例对象
      * @return 实例对象
      */
-    JoinPartyTimeInfo insert(JoinPartyTimeInfo joinPartyTimeInfo);
+    int insert(JoinPartyTimeInfo joinPartyTimeInfo);
 
     /**
      * 修改数据
