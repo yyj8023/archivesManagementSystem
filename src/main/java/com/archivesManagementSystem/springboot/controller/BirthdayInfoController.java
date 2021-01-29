@@ -70,14 +70,15 @@ public class BirthdayInfoController {
      * @throws Exception
      */
     @GetMapping("selectAllForPage")
-    public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public PageInfo<BirthdayInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<BirthdayInfo> cs = this.birthdayInfoService.queryAllByPage();
         PageInfo<BirthdayInfo> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
+        return page;
+        /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;
+        return modelAndView;*/
     }
 
     /**
@@ -88,7 +89,7 @@ public class BirthdayInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(BirthdayInfo birthdayInfo){
+    public int insert(@RequestBody BirthdayInfo birthdayInfo){
         return this.birthdayInfoService.insert(birthdayInfo);
     }
 
@@ -97,7 +98,7 @@ public class BirthdayInfoController {
      * @param id
      * @return boolean
      */
-    @PostMapping("delete")
+    @GetMapping("delete")
     @ResponseBody
     public Boolean delete(int id){
         return this.birthdayInfoService.deleteById(id);
@@ -110,7 +111,7 @@ public class BirthdayInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  BirthdayInfo update(BirthdayInfo birthdayInfo){
+    public  BirthdayInfo update(@RequestBody BirthdayInfo birthdayInfo){
         return this.birthdayInfoService.update(birthdayInfo);
     }
 
