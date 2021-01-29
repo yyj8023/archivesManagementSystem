@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service.impl;
 
+import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import com.archivesManagementSystem.springboot.dao.WorkExperienceInfoDao;
 import com.archivesManagementSystem.springboot.service.WorkExperienceInfoService;
@@ -31,6 +32,27 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
     }
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param workExperienceInfo 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<WorkExperienceInfo> queryAll(WorkExperienceInfo workExperienceInfo) {
+        return this.workExperienceInfoDao.queryAll(workExperienceInfo);
+    }
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<WorkExperienceInfo> queryAllByPage() {
+        return this.workExperienceInfoDao.queryAllByPage();
+    }
+
+    /**
      * 查询多条数据
      *
      * @param offset 查询起始位置
@@ -49,9 +71,8 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
      * @return 实例对象
      */
     @Override
-    public WorkExperienceInfo insert(WorkExperienceInfo workExperienceInfo) {
-        this.workExperienceInfoDao.insert(workExperienceInfo);
-        return workExperienceInfo;
+    public int insert(WorkExperienceInfo workExperienceInfo) {
+        return this.workExperienceInfoDao.insert(workExperienceInfo);
     }
 
     /**
@@ -75,5 +96,10 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
     @Override
     public boolean deleteById(Integer id) {
         return this.workExperienceInfoDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public boolean deleteByEmployee(int employeeId,String employeeName){
+        return  this.workExperienceInfoDao.deleteByEmployee(employeeId,employeeName)>0;
     }
 }

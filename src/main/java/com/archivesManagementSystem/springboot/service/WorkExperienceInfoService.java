@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service;
 
+import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import java.util.List;
 
@@ -20,6 +21,21 @@ public interface WorkExperienceInfoService {
     WorkExperienceInfo queryById(Integer id);
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param workExperienceInfo 实例对象
+     * @return 对象列表
+     */
+    List<WorkExperienceInfo> queryAll(WorkExperienceInfo workExperienceInfo);
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<WorkExperienceInfo> queryAllByPage();
+
+    /**
      * 查询多条数据
      *
      * @param offset 查询起始位置
@@ -32,9 +48,9 @@ public interface WorkExperienceInfoService {
      * 新增数据
      *
      * @param workExperienceInfo 实例对象
-     * @return 实例对象
+     * @return int
      */
-    WorkExperienceInfo insert(WorkExperienceInfo workExperienceInfo);
+    int insert(WorkExperienceInfo workExperienceInfo);
 
     /**
      * 修改数据
@@ -51,5 +67,7 @@ public interface WorkExperienceInfoService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    boolean deleteByEmployee(int employeeId,String employeeName);
 
 }

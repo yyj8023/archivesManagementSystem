@@ -96,4 +96,9 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     public boolean deleteById(Integer id) {
         return this.educationInfoDao.deleteById(id) > 0;
     }
+
+    @Override
+    public boolean deleteByEmployee(int employeeId,String employeeName){
+        return  this.educationInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
 }

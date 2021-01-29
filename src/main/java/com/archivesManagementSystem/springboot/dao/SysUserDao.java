@@ -71,4 +71,6 @@ public interface SysUserDao {
     int deleteById(Integer id);
 
     int queryByNameAndPass(@Param("userName") String userName,@Param("userPassword") String userPassword);
+
+    int count(SysUser sysUser);
 }

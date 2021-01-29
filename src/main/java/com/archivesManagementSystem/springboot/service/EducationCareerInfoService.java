@@ -68,5 +68,4 @@ public interface EducationCareerInfoService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
-
 }

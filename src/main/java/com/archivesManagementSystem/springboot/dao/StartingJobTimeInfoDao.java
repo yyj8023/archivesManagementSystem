@@ -1,6 +1,7 @@
 package com.archivesManagementSystem.springboot.dao;
 
 import com.archivesManagementSystem.springboot.entity.StartingJobTimeInfo;
+import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -41,6 +42,13 @@ public interface StartingJobTimeInfoDao {
     List<StartingJobTimeInfo> queryAll(StartingJobTimeInfo startingJobTimeInfo);
 
     /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<StartingJobTimeInfo> queryAllByPage();
+
+    /**
      * 新增数据
      *
      * @param startingJobTimeInfo 实例对象
@@ -64,4 +72,5 @@ public interface StartingJobTimeInfoDao {
      */
     int deleteById(Integer id);
 
+    int deleteByEmployee(@Param("employeeId") int employeeId,@Param("employeeName") String employeeName);
 }

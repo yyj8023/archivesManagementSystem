@@ -67,4 +67,6 @@ public interface JoinPartyTimeInfoService {
      */
     boolean deleteById(Integer id);
 
+    boolean deleteByEmployee(int employeeId,String employeeName);
+
 }

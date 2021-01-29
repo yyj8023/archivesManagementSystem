@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.dao;
 
+import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -40,6 +41,14 @@ public interface WorkExperienceInfoDao {
      */
     List<WorkExperienceInfo> queryAll(WorkExperienceInfo workExperienceInfo);
 
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<WorkExperienceInfo> queryAllByPage();
+
     /**
      * 新增数据
      *
@@ -64,4 +73,5 @@ public interface WorkExperienceInfoDao {
      */
     int deleteById(Integer id);
 
+    int deleteByEmployee(@Param("employeeId") int employeeId,@Param("employeeName") String employeeName);
 }

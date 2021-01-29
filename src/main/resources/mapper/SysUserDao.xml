@@ -105,4 +105,28 @@
         </where>
 
     </select>
+
+    <!--通过账号密码查询用户是否可登陆-->
+    <select id="count" resultType="INTEGER">
+        select
+        count(1)
+        from archivesmanagementsystem.sys_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="userPassword != null and userPassword != ''">
+                and user_password = #{userPassword}
+            </if>
+            <if test="userRole != null and userRole != ''">
+                and user_role = #{userRole}
+            </if>
+            <if test="userFlag != null">
+                and user_flag = #{userFlag}
+            </if>
+        </where>
+    </select>
 </mapper>

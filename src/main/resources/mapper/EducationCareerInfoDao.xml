@@ -139,6 +139,12 @@
         </where>
     </select>
 
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+        select
+        id, employee_id, employee_name, associate_school, associate_college, associate_major, associate_career, associate_degree, undergraduate_school, undergraduate_college, undergraduate_major, undergraduate_major_second, undergraduate_career, undergraduate_degree, undergraduate_degree_second, master_school, master_college, master_major, master_career, master_degree, phd_school, phd_college, phd_major, phd_career, phd_degree, update_by, update_time
+        from archivesmanagementsystem.education_career_info
+    </select>
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into archivesmanagementsystem.education_career_info(employee_id, employee_name, associate_school, associate_college, associate_major, associate_career, associate_degree, undergraduate_school, undergraduate_college, undergraduate_major, undergraduate_major_second, undergraduate_career, undergraduate_degree, undergraduate_degree_second, master_school, master_college, master_major, master_career, master_degree, phd_school, phd_college, phd_major, phd_career, phd_degree, update_by, update_time)
@@ -235,5 +241,6 @@
     <delete id="deleteById">
         delete from archivesmanagementsystem.education_career_info where id = #{id}
     </delete>
+
 
 </mapper>

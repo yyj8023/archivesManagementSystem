@@ -96,4 +96,9 @@ public class JoinPartyTimeInfoServiceImpl implements JoinPartyTimeInfoService {
     public boolean deleteById(Integer id) {
         return this.joinPartyTimeInfoDao.deleteById(id) > 0;
     }
+
+    @Override
+    public boolean deleteByEmployee(int employeeId,String employeeName){
+        return  this.joinPartyTimeInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
 }

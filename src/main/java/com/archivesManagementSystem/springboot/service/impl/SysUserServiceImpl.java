@@ -102,4 +102,9 @@ public class SysUserServiceImpl implements SysUserService {
     public int queryByNameAndPass(String userName,String userPassword){
         return this.sysUserDao.queryByNameAndPass(userName,userPassword);
     }
+
+    @Override
+    public int count(SysUser sysUser){
+        return this.sysUserDao.count(sysUser);
+    }
 }

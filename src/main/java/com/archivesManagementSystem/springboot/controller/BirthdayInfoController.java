@@ -103,4 +103,9 @@ public class BirthdayInfoController {
         return this.birthdayInfoService.update(birthdayInfo);
     }
 
+  /*  @PostMapping("deleteByEmployee")
+    @ResponseBody
+    public Boolean deleteByEmployee(int employeeId,String employeeName){
+        return this.birthdayInfoService.deleteByEmployee(employeeId,employeeName);
+    }*/
 }

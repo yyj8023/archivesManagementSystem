@@ -67,4 +67,6 @@ public interface EducationInfoService {
      */
     boolean deleteById(Integer id);
 
+    public boolean deleteByEmployee(int employeeId,String employeeName);
+
 }

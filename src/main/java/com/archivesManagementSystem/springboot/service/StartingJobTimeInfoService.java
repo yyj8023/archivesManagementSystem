@@ -1,6 +1,8 @@
 package com.archivesManagementSystem.springboot.service;
 
 import com.archivesManagementSystem.springboot.entity.StartingJobTimeInfo;
+import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
+
 import java.util.List;
 
 /**
@@ -20,6 +22,21 @@ public interface StartingJobTimeInfoService {
     StartingJobTimeInfo queryById(Integer id);
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param startingJobTimeInfo 实例对象
+     * @return 对象列表
+     */
+    List<StartingJobTimeInfo> queryAll(StartingJobTimeInfo startingJobTimeInfo);
+
+    /**S
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    List<StartingJobTimeInfo> queryAllByPage();
+
+    /**
      * 查询多条数据
      *
      * @param offset 查询起始位置
@@ -32,9 +49,9 @@ public interface StartingJobTimeInfoService {
      * 新增数据
      *
      * @param startingJobTimeInfo 实例对象
-     * @return 实例对象
+     * @return int
      */
-    StartingJobTimeInfo insert(StartingJobTimeInfo startingJobTimeInfo);
+   int insert(StartingJobTimeInfo startingJobTimeInfo);
 
     /**
      * 修改数据
@@ -51,5 +68,7 @@ public interface StartingJobTimeInfoService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    boolean deleteByEmployee(int employeeId,String employeeName);
 
 }

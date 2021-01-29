@@ -11,14 +11,16 @@
     <table align='center' border='1' cellspacing='0'>
         <tr>
             <td>id</td>
-            <td>userName</td>
+     <%--       <td>userName</td>--%>
+            <td>birthdayCard</td>
             <td>编辑</td>
             <td>删除</td>
         </tr>
         <c:forEach items="${page.list}" var="c" varStatus="st">
             <tr>
                 <td>${c.id}</td>
-                <td>${c.userName}</td>
+            <%--    <td>${c.userName}</td>--%>
+                <td>${c.birthdayCard}</td>
                 <td><a href="">编辑</a></td>
                 <td><a href="">删除</a></td>
             </tr>

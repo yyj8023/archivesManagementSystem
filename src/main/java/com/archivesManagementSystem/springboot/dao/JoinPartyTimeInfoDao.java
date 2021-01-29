@@ -71,4 +71,5 @@ public interface JoinPartyTimeInfoDao {
      */
     int deleteById(Integer id);
 
+    int deleteByEmployee(@Param("employeeId") int employeeId,@Param("employeeName") String employeeName);
 }

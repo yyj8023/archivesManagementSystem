@@ -66,4 +66,6 @@ public interface BirthdayInfoService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    boolean deleteByEmployee(int employeeId,String employeeName);
 }

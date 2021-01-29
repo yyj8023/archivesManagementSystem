@@ -97,4 +97,9 @@ public class BirthdayInfoServiceImpl implements BirthdayInfoService {
     public boolean deleteById(Integer id) {
         return this.birthdayInfoDao.deleteById(id) > 0;
     }
+
+    @Override
+    public boolean deleteByEmployee(int employeeId,String employeeName){
+        return  this.birthdayInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
 }

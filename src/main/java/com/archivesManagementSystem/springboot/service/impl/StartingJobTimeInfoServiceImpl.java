@@ -2,6 +2,7 @@ package com.archivesManagementSystem.springboot.service.impl;
 
 import com.archivesManagementSystem.springboot.entity.StartingJobTimeInfo;
 import com.archivesManagementSystem.springboot.dao.StartingJobTimeInfoDao;
+import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import com.archivesManagementSystem.springboot.service.StartingJobTimeInfoService;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,27 @@ public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoServic
     }
 
     /**
+     * 通过实体作为筛选条件查询
+     *
+     * @param startingJobTimeInfo 实例对象
+     * @return 对象列表
+     */
+    @Override
+    public List<StartingJobTimeInfo> queryAll(StartingJobTimeInfo startingJobTimeInfo) {
+        return this.startingJobTimeInfoDao.queryAll(startingJobTimeInfo);
+    }
+
+    /**
+     * 分页查询多条数据
+     *
+     * @return 对象列表
+     */
+    @Override
+    public List<StartingJobTimeInfo> queryAllByPage() {
+        return this.startingJobTimeInfoDao.queryAllByPage();
+    }
+
+    /**
      * 查询多条数据
      *
      * @param offset 查询起始位置
@@ -49,9 +71,8 @@ public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoServic
      * @return 实例对象
      */
     @Override
-    public StartingJobTimeInfo insert(StartingJobTimeInfo startingJobTimeInfo) {
-        this.startingJobTimeInfoDao.insert(startingJobTimeInfo);
-        return startingJobTimeInfo;
+    public int insert(StartingJobTimeInfo startingJobTimeInfo) {
+        return this.startingJobTimeInfoDao.insert(startingJobTimeInfo);
     }
 
     /**
@@ -75,5 +96,10 @@ public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoServic
     @Override
     public boolean deleteById(Integer id) {
         return this.startingJobTimeInfoDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public boolean deleteByEmployee(int employeeId,String employeeName){
+        return  this.startingJobTimeInfoDao.deleteByEmployee(employeeId,employeeName)>0;
     }
 }

@@ -138,4 +138,9 @@
         delete from archivesmanagementsystem.join_party_time_info where id = #{id}
     </delete>
 
+    <!--通过员工id姓名删除-->
+    <delete id="deleteByEmployee">
+        delete from archivesmanagementsystem.join_party_time_info where employee_id = #{employeeId} and employee_name=#{employeeName}
+    </delete>
+
 </mapper>

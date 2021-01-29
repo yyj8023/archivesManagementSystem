@@ -71,4 +71,5 @@ public interface BirthdayInfoDao {
      */
     int deleteById(Integer id);
 
+    int deleteByEmployee(@Param("employeeId") int employeeId,@Param("employeeName") String employeeName);
 }
