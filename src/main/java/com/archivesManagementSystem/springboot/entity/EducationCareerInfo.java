@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -18,106 +20,132 @@ public class EducationCareerInfo implements Serializable {
     /**
     * 员工ID
     */
+    @Excel(name = "员工ID")
     private Integer employeeId;
     /**
     * 员工姓名
     */
+    @Excel(name = "员工姓名")
     private String employeeName;
     /**
     * 大专学校
     */
+    @Excel(name = "大专学校")
     private String associateSchool;
     /**
     * 大专学院
     */
+    @Excel(name = "大专学院")
     private String associateCollege;
     /**
     * 大专专业
     */
+    @Excel(name = "大专专业")
     private String associateMajor;
     /**
     * 大专学历
     */
+    @Excel(name = "大专学历")
     private String associateCareer;
     /**
     * 大专学位
     */
+    @Excel(name = "大专学位")
     private String associateDegree;
     /**
     * 本科学校
     */
+    @Excel(name = "本科学校")
     private String undergraduateSchool;
     /**
     * 本科学院
     */
+    @Excel(name = "本科学院")
     private String undergraduateCollege;
     /**
     * 本科专业
     */
+    @Excel(name = "本科专业")
     private String undergraduateMajor;
     /**
     * 本科第二专业
     */
+    @Excel(name = "本科第二专业")
     private String undergraduateMajorSecond;
     /**
     * 本科学历
     */
+    @Excel(name = "本科学历")
     private String undergraduateCareer;
     /**
     * 本科学位
     */
+    @Excel(name = "本科学位")
     private String undergraduateDegree;
     /**
     * 本科第二学位
     */
+    @Excel(name = "本科第二学位")
     private String undergraduateDegreeSecond;
     /**
     * 硕士学校
     */
+    @Excel(name = "硕士学校")
     private String masterSchool;
     /**
     * 硕士学院
     */
+    @Excel(name = "硕士学院")
     private String masterCollege;
     /**
     * 硕士专业
     */
+    @Excel(name = "硕士专业")
     private String masterMajor;
     /**
     * 硕士学历
     */
+    @Excel(name = "硕士学历")
     private String masterCareer;
     /**
     * 硕士学位
     */
+    @Excel(name = "硕士学位")
     private String masterDegree;
     /**
     * 博士学校
     */
+    @Excel(name = "博士学校")
     private String phdSchool;
     /**
     * 博士学院
     */
+    @Excel(name = "博士学院")
     private String phdCollege;
     /**
     * 博士专业
     */
+    @Excel(name = "博士专业")
     private String phdMajor;
     /**
     * 博士学历
     */
+    @Excel(name = "博士学历")
     private String phdCareer;
     /**
     * 博士学位
     */
+    @Excel(name = "博士学位")
     private String phdDegree;
     /**
     * 最新的更新人
     */
+    @Excel(name = "更新人")
     private String updateBy;
     /**
     * 更新时间
     */
+    @Excel(name = "更新时间")
     private Date updateTime;
 
 

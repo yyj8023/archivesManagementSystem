@@ -1,14 +1,25 @@
 package com.archivesManagementSystem.springboot.controller;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
 import com.archivesManagementSystem.springboot.service.EducationInfoService;
+import com.archivesManagementSystem.springboot.util.ExcelUtils;
+import com.archivesManagementSystem.springboot.util.GeneralResult;
+import com.archivesManagementSystem.springboot.util.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -99,5 +110,66 @@ public class EducationInfoController {
     @ResponseBody
     public  EducationInfo update(EducationInfo educationInfo){
         return this.educationInfoService.update(educationInfo);
+    }
+
+
+    @PostMapping("importExcel")
+    @ResponseBody
+    public Result importExcel(@RequestParam("file") MultipartFile file) {
+        Result res=new GeneralResult(true);
+        ImportParams importParams = new ImportParams();
+        // 数据处理
+        //表格标题行数,默认0
+        importParams.setHeadRows(1);
+        //表头行数,默认1
+        importParams.setTitleRows(1);
+        //是否需要校验上传的Excel,默认false
+        importParams.setNeedVerfiy(false);
+
+        try {
+            ExcelImportResult<EducationInfo> result = ExcelImportUtil.importExcelMore(file.getInputStream(), EducationInfo.class, importParams);
+            if(result.isVerfiyFail()){
+                res.setSuccess(false);
+                res.setMsg("导入失败");
+            }else{
+                int count=0;
+                List<EducationInfo> educationInfos = result.getList();
+                for (EducationInfo educationInfo: educationInfos) {
+                    //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
+                    count=this.educationInfoService.insert(educationInfo);
+                    if(count==1){
+                        System.out.println("成功");
+                    }
+                }
+                res.setMsg("导入成功");
+                res.setData(educationInfos.size());
+                System.out.println("从Excel导入数据一共 {} 行 "+educationInfos.size());
+            } }catch (IOException e) {
+            System.out.println("导入失败：{}"+e.getMessage());
+        } catch (Exception e1) {
+            System.out.println("导入失败：{}"+e1.getMessage());
+        }
+        return res;
+    }
+
+    /**
+     *
+     * @Title: export
+     * @Description: 导出excel
+     * @param response,request
+     * @return void
+     */
+    @GetMapping("exportExcel")
+    public void export(HttpServletResponse response, HttpServletRequest request, EducationInfo educationInfo) throws Exception {
+        System.out.println("开始导出");
+        // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)
+        List<EducationInfo> personList = this.educationInfoService.queryAll(educationInfo);
+        //设置序号（将id字段作为序号，导出后实现序号递增）
+        Integer i =1;
+        for (EducationInfo educationInfo1 : personList) {
+            educationInfo1.setId(i++);
+        }
+        // 导出操作
+        ExcelUtils.exportExcel(personList, "学历认定表", "导出sheet1", EducationInfo.class, "学历认定基本信息表.xls", response);
     }
 }

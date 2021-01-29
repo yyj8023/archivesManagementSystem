@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -18,42 +20,53 @@ public class JoinPartyTimeInfo implements Serializable {
     /**
     * 员工ID
     */
+    @Excel(name = "员工ID")
     private Integer employeeId;
     /**
     * 员工姓名
     */
+    @Excel(name = "员工姓名")
     private String employeeName;
     /**
     * 入党时间
     */
+    @Excel(name = "入党时间")
     private Date joinPartyTime;
     /**
     * 入党介绍人
     */
+    @Excel(name = "入党介绍人")
     private String joinPartyIntroducer;
     /**
     * 入团时间
     */
+    @Excel(name = "入团时间")
     private Date joinGroupTime;
     /**
     * 入党时间问题描述
     */
+    @Excel(name = "入党时间问题描述")
     private String joinPartyTimeProblemDetail;
     /**
     * 入党时间认定结果描述
     */
+    @Excel(name = "入党时间认定结果描述")
     private String joinPartyTimeCheckResult;
     /**
     * 入党时间调研情况
     */
+    @Excel(name = "入党时间调研情况")
     private String joinPartyTimeResearchSituation;
     /**
     * 入党时间小结
     */
+    @Excel(name = "入党时间小结")
     private String joinPartyTimeRemark;
-    
+
+    @Excel(name = "更新人")
     private String updateBy;
-    
+
+    @Excel(name = "更新时间")
     private Date updateTime;
 
 

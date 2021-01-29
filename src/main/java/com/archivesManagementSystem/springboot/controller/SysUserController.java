@@ -127,7 +127,7 @@ public class SysUserController {
         return this.sysUserService.update(sysUser);
     }
 
-    @PostMapping("/importExcel")
+    @PostMapping("importExcel")
     @ResponseBody
     public Result importExcel(@RequestParam("file") MultipartFile file) {
         Result res=new GeneralResult(true);
@@ -178,7 +178,7 @@ public class SysUserController {
      * @param response,request
      * @return void
      */
-    @GetMapping("/exportExcel")
+    @GetMapping("exportExcel")
     public void export(HttpServletResponse response, HttpServletRequest request, SysUser sysUser) throws Exception {
        System.out.println("开始导出");
         // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)

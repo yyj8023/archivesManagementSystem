@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -16,102 +18,127 @@ public class EmployeeInfo implements Serializable {
     /**
     * 员工ID
     */
+    @Excel(name = "员工ID")
     private Integer employeeId;
     /**
     * 员工姓名
     */
+    @Excel(name = "员工姓名")
     private String employeeName;
     /**
     * 所在部门
     */
+    @Excel(name = "所在部门")
     private String departmentName;
     /**
     * 岗位性质
     */
+    @Excel(name = "岗位性质")
     private String jobProperty;
     /**
     * 所属线条
     */
+    @Excel(name = "所属线条")
     private String departmentLine;
     /**
     * 认定表是否有内容
     */
+    @Excel(name = "认定表是否有内容(true表示是)")
     private Boolean confirmationContentFlag;
     /**
     * 认定表是否已签字
     */
+    @Excel(name = "认定表是否已签字(true表示是)")
     private Boolean confirmationSignatureFlag;
     /**
     * 身份证出生日期
     */
+    @Excel(name = "身份证出生日期")
     private Date birthdayCard;
     /**
     * 档案中的出生日期
     */
+    @Excel(name = "档案中的出生日期")
     private Date birthdayArchives;
     /**
     * 认定出生日期
     */
+    @Excel(name = "认定出生日期")
     private Date birthdayJudgment;
     /**
     * 入党时间
     */
+    @Excel(name = "入党时间")
     private Date joinPartyTime;
     /**
     * 入党介绍人
     */
+    @Excel(name = "入党介绍人")
     private String joinPartyIntroducer;
     /**
     * 入团时间
     */
+    @Excel(name = "入团时间")
     private Date joinGroupTime;
     /**
     * 自填工作时间
     */
+    @Excel(name = "自填工作时间")
     private Date startingJobTimeOwn;
     /**
     * 档案材料中有效工作时间
     */
+    @Excel(name = "档案材料中有效工作时间")
     private Date startingJobTimeArchvies;
     /**
     * 参加工作时间认定时间
     */
+    @Excel(name = "参加工作时间认定时间")
     private Date startingJobTimeJudgment;
     /**
     * 最高学位
     */
+    @Excel(name = "最高学位")
     private String educationDegree;
     /**
     * 最高学历
     */
+    @Excel(name = "最高学历")
     private String educationBackgroud;
     /**
     * 最高学历认定
     */
+    @Excel(name = "最高学历认定")
     private String educationBackgroudJudgment;
     /**
     * 最高学位认定
     */
+    @Excel(name = "最高学位认定")
     private String educationDegreeJudgment;
     /**
     * 补充材料情况
     */
+    @Excel(name = "材料补充情况")
     private String marterialSupplementRemark;
     /**
     * 是否已核对纸质电子版一致性
     */
+    @Excel(name = "是否已核对纸质电子版一致性(true表示是)")
     private Boolean electronicPaperCheckFlag;
     /**
     * 核对人
     */
+    @Excel(name = "核对人")
     private String checkUser;
     /**
     * 最后的更新人
     */
+    @Excel(name = "更新人")
     private String updateBy;
     /**
     * 更新时间
     */
+    @Excel(name = "更新时间")
     private Date updateTime;
 
 

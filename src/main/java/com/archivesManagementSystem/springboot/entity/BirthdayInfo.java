@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -18,46 +20,58 @@ public class BirthdayInfo implements Serializable {
     /**
     * 员工ID
     */
+    @Excel(name = "员工ID")
     private Integer employeeId;
     /**
     * 员工姓名
     */
+    @Excel(name = "员工姓名")
     private String employeeName;
     /**
     * 身份证中的出生日期
     */
+    @Excel(name = "身份证中的出生日期")
     private Date birthdayCard;
     /**
     * 档案中的出生日期
     */
+    @Excel(name = "档案中的出生日期")
     private Date birthdayArchives;
     /**
     * 认定出生日期
     */
+    @Excel(name = "认定出生日期")
     private Date birthdayJudgment;
     /**
     * 出生日期问题描述
     */
+    @Excel(name = "出生日期问题描述")
     private String birthdayProblemDetail;
     /**
     * 出生日期认定结果描述
     */
+    @Excel(name = "出生日期认定结果描述")
     private String birthdayCheckResult;
     /**
     * 出生日期问题分类
     */
+    @Excel(name = "出生日期问题分类")
     private String birthdayProblemCategory;
     /**
     * 出生日期认定规则
     */
+    @Excel(name = "出生日期认定规则")
     private String birthdayCheckRule;
     /**
     * 出生日期小结
     */
+    @Excel(name = "出生日期小结")
     private String birthdayCheckRemark;
-    
+
+    @Excel(name = "更新人")
     private String updateBy;
-    
+
+    @Excel(name = "更新时间")
     private Date updateTime;
 
 

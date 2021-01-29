@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -16,42 +18,53 @@ public class StartingJobTimeInfo implements Serializable {
     /**
     * 员工ID
     */
+    @Excel(name = "员工ID")
     private Integer employeeId;
     /**
     * 员工姓名
     */
+    @Excel(name = "员工姓名")
     private String employeeName;
     /**
     * 自填工作时间
     */
+    @Excel(name = "自填工作时间")
     private Date startingJobTimeOwn;
     /**
     * 档案材料中有效工作时间
     */
+    @Excel(name = "档案材料中有效工作时间")
     private Date startingJobTimeArchvies;
     /**
     * 参加工作时间认定时间
     */
+    @Excel(name = "参加工作时间认定时间")
     private Date startingJobTimeJudgment;
     /**
     * 参加工作问题描述
     */
+    @Excel(name = "参加工作问题描述")
     private String startingJobTimeProblemDetail;
     /**
     * 参加工作时间问题分类
     */
+    @Excel(name = "参加工作时间问题分类")
     private String startingJobTimeProblemCategory;
     /**
     * 参加工作时间认定结果描述
     */
+    @Excel(name = "参加工作时间认定结果描述")
     private String startingJobTimeCheckResult;
     /**
     * 参加工作时间小结
     */
+    @Excel(name = "参加工作时间小结")
     private String startingJobTimeCheckRemark;
-    
+
+    @Excel(name = "更新人")
     private String updateBy;
-    
+
+    @Excel(name = "更新时间")
     private Date updateTime;
 
 

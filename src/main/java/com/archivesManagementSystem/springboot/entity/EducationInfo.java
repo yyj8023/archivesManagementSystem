@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -18,46 +20,58 @@ public class EducationInfo implements Serializable {
     /**
     * 员工ID
     */
+    @Excel(name = "员工ID")
     private Integer employeeId;
     /**
     * 员工姓名
     */
+    @Excel(name = "员工姓名")
     private String employeeName;
     /**
     * 最高学位
     */
+    @Excel(name = "最高学位")
     private String educationDegree;
     /**
     * 最高学历
     */
+    @Excel(name = "最高学历")
     private String educationBackgroud;
     /**
     * 学历问题分类
     */
+    @Excel(name = "学历问题分类")
     private String educationProblemCategory;
     /**
     * 学历问题描述
     */
+    @Excel(name = "学历问题描述")
     private String educationProblemDetail;
     /**
     * 学历认定结果描述
     */
+    @Excel(name = "学历认定结果描述")
     private String educationCheckResult;
     /**
     * 最高学历认定
     */
+    @Excel(name = "最高学历认定")
     private String educationBackgroudJudgment;
     /**
     * 最高学位认定
     */
+    @Excel(name = "最高学位认定")
     private String educationDegreeeJudgment;
     /**
     * 学历小结
     */
+    @Excel(name = "学历小结")
     private String educationRemark;
-    
+
+    @Excel(name = "更新人")
     private String updateBy;
-    
+
+    @Excel(name = "更新时间")
     private Date updateTime;
 
 

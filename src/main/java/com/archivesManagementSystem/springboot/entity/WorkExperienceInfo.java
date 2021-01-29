@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -18,30 +20,38 @@ public class WorkExperienceInfo implements Serializable {
     /**
     * 员工ID
     */
+    @Excel(name = "员工ID")
     private Integer employeeId;
     /**
     * 员工姓名
     */
+    @Excel(name = "员工姓名")
     private String employeeName;
     /**
     * 工作经历问题描述
     */
+    @Excel(name = "工作经历问题描述")
     private String workExperienceProblemDetail;
     /**
     * 工作经历问题分类
     */
+    @Excel(name = "工作经历问题分类")
     private String workExperienceProblemCategory;
     /**
     * 工作经历认定结果描述
     */
+    @Excel(name = "工作经历认定结果描述")
     private String workExperienceCheckResult;
     /**
     * 工作经历小结
     */
+    @Excel(name = "工作经历小结")
     private String workExperienceRemark;
-    
+
+    @Excel(name = "更新人")
     private String updateBy;
-    
+
+    @Excel(name = "更新时间")
     private Date updateTime;
 
 
