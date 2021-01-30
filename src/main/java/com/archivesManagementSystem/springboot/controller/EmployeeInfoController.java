@@ -67,7 +67,7 @@ public class EmployeeInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(EmployeeInfo employeeInfo)
+    public int insert(@RequestBody EmployeeInfo employeeInfo)
     {
         int count=0;
         count+=this.employeeInfoService.insert(employeeInfo);
@@ -165,14 +165,15 @@ public class EmployeeInfoController {
      * @throws Exception
      */
     @GetMapping("selectAllForPage")
-    public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public PageInfo<EmployeeInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<EmployeeInfo> cs=this.employeeInfoService.queryAllByPage();
         PageInfo<EmployeeInfo> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
+        return page;
+        /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;
+        return modelAndView;*/
     }
 
     /**
@@ -182,7 +183,7 @@ public class EmployeeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  EmployeeInfo update(EmployeeInfo employeeInfo){
+    public  EmployeeInfo update(@RequestBody EmployeeInfo employeeInfo){
         return this.employeeInfoService.update(employeeInfo);
     }
 

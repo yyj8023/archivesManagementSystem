@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 学位学历信息详细表(EducationInfo)表控制层
+ * 学历学位信息认定表(EducationInfo)表控制层
  *
  * @author makejava
  * @since 2021-01-27 23:32:14
@@ -56,7 +56,7 @@ public class EducationInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(EducationInfo employeeInfo){
+    public int insert(@RequestBody EducationInfo employeeInfo){
         return  this.educationInfoService.insert(employeeInfo);
     }
 
@@ -91,14 +91,15 @@ public class EducationInfoController {
      * @throws Exception
      */
     @GetMapping("selectAllForPage")
-    public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public PageInfo<EducationInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<EducationInfo> cs=this.educationInfoService.queryAllByPage();
         PageInfo<EducationInfo> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
+        return page;
+        /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;
+        return modelAndView;*/
     }
 
     /**
@@ -108,7 +109,7 @@ public class EducationInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  EducationInfo update(EducationInfo educationInfo){
+    public  EducationInfo update(@RequestBody EducationInfo educationInfo){
         return this.educationInfoService.update(educationInfo);
     }
 

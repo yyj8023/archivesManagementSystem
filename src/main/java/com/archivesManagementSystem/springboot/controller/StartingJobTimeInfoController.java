@@ -57,7 +57,7 @@ public class StartingJobTimeInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(StartingJobTimeInfo startingJobTimeInfo){
+    public int insert(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
         return  this.startingJobTimeInfoService.insert(startingJobTimeInfo);
     }
 
@@ -92,14 +92,15 @@ public class StartingJobTimeInfoController {
      * @throws Exception
      */
     @GetMapping("selectAllForPage")
-    public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public PageInfo<StartingJobTimeInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<StartingJobTimeInfo> cs=this.startingJobTimeInfoService.queryAllByPage();
         PageInfo<StartingJobTimeInfo> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
+        return page;
+        /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;
+        return modelAndView;*/
     }
 
     /**
@@ -109,7 +110,7 @@ public class StartingJobTimeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  StartingJobTimeInfo update(StartingJobTimeInfo startingJobTimeInfo){
+    public  StartingJobTimeInfo update(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
         return this.startingJobTimeInfoService.update(startingJobTimeInfo);
     }
 

@@ -57,7 +57,7 @@ public class WorkExperienceInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(WorkExperienceInfo workExperienceInfo){
+    public int insert(@RequestBody WorkExperienceInfo workExperienceInfo){
         return  this.workExperienceInfoService.insert(workExperienceInfo);
     }
 
@@ -92,14 +92,15 @@ public class WorkExperienceInfoController {
      * @throws Exception
      */
     @GetMapping("selectAllForPage")
-    public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public PageInfo<WorkExperienceInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<WorkExperienceInfo> cs=this.workExperienceInfoService.queryAllByPage();
         PageInfo<WorkExperienceInfo> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
+        return page;
+        /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;
+        return modelAndView;*/
     }
 
     /**
@@ -109,7 +110,7 @@ public class WorkExperienceInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  WorkExperienceInfo update(WorkExperienceInfo workExperienceInfo){
+    public  WorkExperienceInfo update(@RequestBody WorkExperienceInfo workExperienceInfo){
         return this.workExperienceInfoService.update(workExperienceInfo);
     }
 

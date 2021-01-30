@@ -66,7 +66,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 学历学位信息认定表(EducationCareerInfo)表控制层
+ * 学历学位信息详细表(EducationCareerInfo)表控制层
  *
  * @author makejava
  * @since 2021-01-20 22:15:23
@@ -99,7 +99,7 @@ public class EducationCareerInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(EducationCareerInfo educationCareerInfo){
+    public int insert(@RequestBody EducationCareerInfo educationCareerInfo){
         return  this.educationCareerInfoService.insert(educationCareerInfo);
     }
 
@@ -134,14 +134,15 @@ public class EducationCareerInfoController {
      * @throws Exception
      */
     @GetMapping("selectAllForPage")
-    public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public PageInfo<EducationCareerInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<EducationCareerInfo> cs=this.educationCareerInfoService.queryAllByPage();
         PageInfo<EducationCareerInfo> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
+        return page;
+        /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;
+        return modelAndView;*/
     }
 
     /**
@@ -151,7 +152,7 @@ public class EducationCareerInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  EducationCareerInfo update(EducationCareerInfo educationCareerInfo){
+    public  EducationCareerInfo update(@RequestBody EducationCareerInfo educationCareerInfo){
         return this.educationCareerInfoService.update(educationCareerInfo);
     }
 

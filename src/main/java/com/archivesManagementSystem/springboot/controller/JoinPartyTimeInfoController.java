@@ -56,7 +56,7 @@ public class JoinPartyTimeInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(JoinPartyTimeInfo joinPartyTimeInfo){
+    public int insert(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
         return  this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
     }
 
@@ -91,14 +91,15 @@ public class JoinPartyTimeInfoController {
      * @throws Exception
      */
     @GetMapping("selectAllForPage")
-    public ModelAndView selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    public PageInfo<JoinPartyTimeInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<JoinPartyTimeInfo> cs=this.joinPartyTimeInfoService.queryAllByPage();
         PageInfo<JoinPartyTimeInfo> page = new PageInfo<>(cs);
-        m.addAttribute("page", page);
+        return page;
+        /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;
+        return modelAndView;*/
     }
 
     /**
@@ -108,7 +109,7 @@ public class JoinPartyTimeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  JoinPartyTimeInfo update(JoinPartyTimeInfo joinPartyTimeInfo){
+    public  JoinPartyTimeInfo update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
         return this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
     }
 
