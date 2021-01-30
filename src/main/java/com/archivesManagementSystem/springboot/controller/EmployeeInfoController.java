@@ -75,6 +75,7 @@ public class EmployeeInfoController {
     public int insert(@RequestBody EmployeeInfo employeeInfo)
     {
         int count=0;
+        //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
         count+=this.employeeInfoService.insert(employeeInfo);
         //生成出生日期认定表基本信息
         BirthdayInfo birthdayInfo=new BirthdayInfo();
@@ -83,6 +84,11 @@ public class EmployeeInfoController {
         birthdayInfo.setBirthdayCard(employeeInfo.getBirthdayCard());
         birthdayInfo.setBirthdayArchives(employeeInfo.getBirthdayArchives());
         birthdayInfo.setBirthdayJudgment(employeeInfo.getBirthdayJudgment());
+        birthdayInfo.setBirthdayProblemDetail(employeeInfo.getBirthdayProblemDetail());
+        birthdayInfo.setBirthdayCheckResult(employeeInfo.getBirthdayCheckResult());
+        birthdayInfo.setBirthdayProblemCategory(employeeInfo.getBirthdayProblemCategory());
+        birthdayInfo.setBirthdayCheckRule(employeeInfo.getBirthdayCheckRule());
+        birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
         birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
         birthdayInfo.setUpdateTime(new Date());
         count+=this.birthdayInfoService.insert(birthdayInfo);
@@ -94,7 +100,11 @@ public class EmployeeInfoController {
         educationInfo.setEducationBackgroud(employeeInfo.getEducationBackgroud());
         educationInfo.setEducationBackgroudJudgment(employeeInfo.getEducationBackgroudJudgment());
         educationInfo.setEducationDegreeeJudgment(employeeInfo.getEducationDegreeJudgment());
-        educationInfo.setUpdateBy(educationInfo.getUpdateBy());
+        educationInfo.setEducationProblemCategory(employeeInfo.getEducationProblemCategory());
+        educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
+        educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
+        educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
+        educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
         educationInfo.setUpdateTime(new Date());
         count+=this.educationInfoService.insert(educationInfo);
         //入党时间认定表基本信息
@@ -104,6 +114,10 @@ public class EmployeeInfoController {
         joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
         joinPartyTimeInfo.setJoinPartyIntroducer(employeeInfo.getJoinPartyIntroducer());
         joinPartyTimeInfo.setJoinGroupTime(employeeInfo.getJoinGroupTime());
+        joinPartyTimeInfo.setJoinPartyTimeProblemDetail(employeeInfo.getJoinPartyTimeProblemDetail());
+        joinPartyTimeInfo.setJoinPartyTimeCheckResult(employeeInfo.getJoinPartyTimeCheckResult());
+        joinPartyTimeInfo.setJoinPartyTimeResearchSituation(employeeInfo.getJoinPartyTimeResearchSituation());
+        joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
         joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
         joinPartyTimeInfo.setUpdateTime(new Date());
         count+=this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
@@ -114,6 +128,10 @@ public class EmployeeInfoController {
         startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
         startingJobTimeInfo.setStartingJobTimeArchvies(employeeInfo.getStartingJobTimeArchvies());
         startingJobTimeInfo.setStartingJobTimeJudgment(employeeInfo.getStartingJobTimeJudgment());
+        startingJobTimeInfo.setStartingJobTimeProblemDetail(employeeInfo.getStartingJobTimeProblemDetail());
+        startingJobTimeInfo.setStartingJobTimeProblemCategory(employeeInfo.getStartingJobTimeProblemCategory());
+        startingJobTimeInfo.setStartingJobTimeCheckResult(employeeInfo.getStartingJobTimeCheckResult());
+        startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
         startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
         startingJobTimeInfo.setUpdateTime(new Date());
         count+=this.startingJobTimeInfoService.insert(startingJobTimeInfo);
@@ -121,6 +139,10 @@ public class EmployeeInfoController {
         WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
         workExperienceInfo.setEmployeeId(employeeInfo.getEmployeeId());
         workExperienceInfo.setEmployeeName(employeeInfo.getEmployeeName());
+        workExperienceInfo.setWorkExperienceProblemDetail(employeeInfo.getWorkExperienceProblemDetail());
+        workExperienceInfo.setWorkExperienceProblemCategory(employeeInfo.getWorkExperienceProblemCategory());
+        workExperienceInfo.setWorkExperienceCheckResult(employeeInfo.getWorkExperienceCheckResult());
+        workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
         workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
         workExperienceInfo.setUpdateTime(new Date());
         count+=this.workExperienceInfoService.insert(workExperienceInfo);
