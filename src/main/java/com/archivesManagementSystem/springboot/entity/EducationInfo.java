@@ -1,6 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -72,6 +73,7 @@ public class EducationInfo implements Serializable {
     private String updateBy;
 
     @Excel(name = "更新时间")
+    @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
 
 

@@ -1,6 +1,8 @@
 package com.archivesManagementSystem.springboot.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -31,6 +33,8 @@ public class BirthdayInfo implements Serializable {
     * 身份证中的出生日期
     */
     @Excel(name = "身份证中的出生日期")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthdayCard;
     /**
     * 档案中的出生日期
@@ -72,6 +76,7 @@ public class BirthdayInfo implements Serializable {
     private String updateBy;
 
     @Excel(name = "更新时间")
+    @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
 
 

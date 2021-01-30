@@ -1,5 +1,7 @@
 package com.archivesManagementSystem.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -34,6 +36,7 @@ public class ProcessOperateLog implements Serializable {
     /**
     * 操作时间
     */
+    @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date operateTime;
 
 
