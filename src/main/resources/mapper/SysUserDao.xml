@@ -91,9 +91,9 @@
     </delete>
 
     <!--通过账号密码查询用户是否可登陆-->
-    <select id="queryByNameAndPass" resultType="INTEGER">
+    <select id="queryByNameAndPass" resultType="java.lang.String">
         select
-          count(1)
+          user_name
         from archivesmanagementsystem.sys_user
         <where>
             <if test="userName != null">

@@ -7,14 +7,12 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.entity.SysUser;
 import com.archivesManagementSystem.springboot.service.SysUserService;
-import com.archivesManagementSystem.springboot.util.ExcelUtils;
-import com.archivesManagementSystem.springboot.util.GeneralResult;
+import com.archivesManagementSystem.springboot.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xiaoleilu.hutool.date.DateUtil;
 import net.minidev.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
-import com.archivesManagementSystem.springboot.util.Result;
 import com.archivesManagementSystem.springboot.util.GeneralResult;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -53,14 +51,15 @@ public class SysUserController {
 
     /**
      * 简单登录用
-     * @param userName
-     * @param userPassword
-     * @return int
+     * @param sysUser
+     * @return
      */
-    @GetMapping("login")
-    public int loginCheck(String userName, String userPassword)
-    {
-        return this.sysUserService.queryByNameAndPass(userName,userPassword);
+    @PostMapping("login")
+    @ResponseBody
+    public String loginCheck(@RequestBody SysUser sysUser) {
+        //后期用于MD5加密
+        //String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
+        return this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword());
     }
     /**
      * 通过主键查询单条数据
