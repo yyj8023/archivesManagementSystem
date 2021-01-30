@@ -12,6 +12,7 @@ import com.archivesManagementSystem.springboot.util.GeneralResult;
 import com.archivesManagementSystem.springboot.util.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.util.IOUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -172,5 +177,21 @@ public class StartingJobTimeInfoController {
         }
         // 导出操作
         ExcelUtils.exportExcel(personList, "开始工作时间认定表", "导出sheet1", StartingJobTimeInfo.class, "开始工作时间认定信息表.xls", response);
+    }
+    @RequestMapping("download")
+    public void download(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InputStream inputStream = this.getClass().getResourceAsStream("/template/startingJobTimeInfo.xlsx");
+        try (OutputStream outputStream = new BufferedOutputStream(response.getOutputStream())) {
+            //显示下载进度
+            response.setHeader("Content-Length", String.valueOf(this.getClass().getResourceAsStream("/template/startingJobTimeInfo.xlsx")));
+            response.setContentType("application/octet-stream");
+            // 指定下载的文件名
+            response.setHeader("Content-disposition", "attachment; filename=" + new String("startingJobTimeInfo.xlsx".getBytes(StandardCharsets.UTF_8), "ISO8859-1"));
+            IOUtils.copy(inputStream, outputStream);
+            inputStream.close();
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

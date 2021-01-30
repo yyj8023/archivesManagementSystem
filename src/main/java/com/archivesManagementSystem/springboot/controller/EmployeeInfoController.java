@@ -10,6 +10,7 @@ import com.archivesManagementSystem.springboot.util.GeneralResult;
 import com.archivesManagementSystem.springboot.util.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.util.IOUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -194,9 +199,9 @@ public class EmployeeInfoController {
         ImportParams importParams = new ImportParams();
         // 数据处理
         //表格标题行数,默认0
-        importParams.setHeadRows(1);
+        importParams.setTitleRows(0);
         //表头行数,默认1
-        importParams.setTitleRows(1);
+        importParams.setHeadRows(2);
         //是否需要校验上传的Excel,默认false
         importParams.setNeedVerfiy(false);
 
@@ -218,6 +223,11 @@ public class EmployeeInfoController {
                     birthdayInfo.setBirthdayCard(employeeInfo.getBirthdayCard());
                     birthdayInfo.setBirthdayArchives(employeeInfo.getBirthdayArchives());
                     birthdayInfo.setBirthdayJudgment(employeeInfo.getBirthdayJudgment());
+                    birthdayInfo.setBirthdayProblemDetail(employeeInfo.getBirthdayProblemDetail());
+                    birthdayInfo.setBirthdayCheckResult(employeeInfo.getBirthdayCheckResult());
+                    birthdayInfo.setBirthdayProblemCategory(employeeInfo.getBirthdayProblemCategory());
+                    birthdayInfo.setBirthdayCheckRule(employeeInfo.getBirthdayCheckRule());
+                    birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
                     birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     birthdayInfo.setUpdateTime(new Date());
                     count+=this.birthdayInfoService.insert(birthdayInfo);
@@ -229,7 +239,11 @@ public class EmployeeInfoController {
                     educationInfo.setEducationBackgroud(employeeInfo.getEducationBackgroud());
                     educationInfo.setEducationBackgroudJudgment(employeeInfo.getEducationBackgroudJudgment());
                     educationInfo.setEducationDegreeeJudgment(employeeInfo.getEducationDegreeJudgment());
-                    educationInfo.setUpdateBy(educationInfo.getUpdateBy());
+                    educationInfo.setEducationProblemCategory(employeeInfo.getEducationProblemCategory());
+                    educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
+                    educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
+                    educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
+                    educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     educationInfo.setUpdateTime(new Date());
                     count+=this.educationInfoService.insert(educationInfo);
                     //入党时间认定表基本信息
@@ -239,6 +253,10 @@ public class EmployeeInfoController {
                     joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
                     joinPartyTimeInfo.setJoinPartyIntroducer(employeeInfo.getJoinPartyIntroducer());
                     joinPartyTimeInfo.setJoinGroupTime(employeeInfo.getJoinGroupTime());
+                    joinPartyTimeInfo.setJoinPartyTimeProblemDetail(employeeInfo.getJoinPartyTimeProblemDetail());
+                    joinPartyTimeInfo.setJoinPartyTimeCheckResult(employeeInfo.getJoinPartyTimeCheckResult());
+                    joinPartyTimeInfo.setJoinPartyTimeResearchSituation(employeeInfo.getJoinPartyTimeResearchSituation());
+                    joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
                     joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     joinPartyTimeInfo.setUpdateTime(new Date());
                     count+=this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
@@ -249,6 +267,10 @@ public class EmployeeInfoController {
                     startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
                     startingJobTimeInfo.setStartingJobTimeArchvies(employeeInfo.getStartingJobTimeArchvies());
                     startingJobTimeInfo.setStartingJobTimeJudgment(employeeInfo.getStartingJobTimeJudgment());
+                    startingJobTimeInfo.setStartingJobTimeProblemDetail(employeeInfo.getStartingJobTimeProblemDetail());
+                    startingJobTimeInfo.setStartingJobTimeProblemCategory(employeeInfo.getStartingJobTimeProblemCategory());
+                    startingJobTimeInfo.setStartingJobTimeCheckResult(employeeInfo.getStartingJobTimeCheckResult());
+                    startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
                     startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     startingJobTimeInfo.setUpdateTime(new Date());
                     count+=this.startingJobTimeInfoService.insert(startingJobTimeInfo);
@@ -256,6 +278,10 @@ public class EmployeeInfoController {
                     WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
                     workExperienceInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     workExperienceInfo.setEmployeeName(employeeInfo.getEmployeeName());
+                    workExperienceInfo.setWorkExperienceProblemDetail(employeeInfo.getWorkExperienceProblemDetail());
+                    workExperienceInfo.setWorkExperienceProblemCategory(employeeInfo.getWorkExperienceProblemCategory());
+                    workExperienceInfo.setWorkExperienceCheckResult(employeeInfo.getWorkExperienceCheckResult());
+                    workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
                     workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     workExperienceInfo.setUpdateTime(new Date());
                     count+=this.workExperienceInfoService.insert(workExperienceInfo);
@@ -293,5 +319,22 @@ public class EmployeeInfoController {
         }
         // 导出操作
         ExcelUtils.exportExcel(personList, "员工信息导出功能(员工表)", "导出sheet1", EmployeeInfo.class, "员工基本信息表.xls", response);
+    }
+
+    @RequestMapping("download")
+    public void download(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        InputStream inputStream = this.getClass().getResourceAsStream("/template/employee.xlsx");
+        try (OutputStream outputStream = new BufferedOutputStream(response.getOutputStream())) {
+            //显示下载进度
+            response.setHeader("Content-Length", String.valueOf(this.getClass().getResourceAsStream("/template/employee.xlsx")));
+            response.setContentType("application/octet-stream");
+            // 指定下载的文件名
+            response.setHeader("Content-disposition", "attachment; filename=" + new String("employee.xlsx".getBytes(StandardCharsets.UTF_8), "ISO8859-1"));
+            IOUtils.copy(inputStream, outputStream);
+            inputStream.close();
+            outputStream.flush();
+        } catch (IOException e) {
+           e.printStackTrace();
+        }
     }
 }
