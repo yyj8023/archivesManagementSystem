@@ -98,7 +98,7 @@ public class BirthdayInfoController {
      * @param id
      * @return boolean
      */
-    @GetMapping("delete")
+    @PostMapping("delete")
     @ResponseBody
     public Boolean delete(int id){
         return this.birthdayInfoService.deleteById(id);
