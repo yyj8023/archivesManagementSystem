@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @since 2021-01-27 23:31:38
  */
 public class BirthdayInfo implements Serializable {
-    private static final long serialVersionUID = -96184375331934118L;
+    private static final long serialVersionUID = 344L;
     /**
     * 主键ID
     */
@@ -78,7 +78,24 @@ public class BirthdayInfo implements Serializable {
     @Excel(name = "更新时间")
     @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
+    int start;
+    int size;
 
+    public int getStart() {
+        return start;
+    }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public Integer getId() {
         return id;

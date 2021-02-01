@@ -180,6 +180,7 @@ public class EducationCareerInfoController {
     public  Result update(@RequestBody EducationCareerInfo educationCareerInfo){
         Result res=new GeneralResult(true);
         educationCareerInfo=this.educationCareerInfoService.update(educationCareerInfo);
+
         res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
         res.setData(educationCareerInfo);

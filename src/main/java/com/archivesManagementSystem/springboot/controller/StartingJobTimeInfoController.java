@@ -5,10 +5,10 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.*;
+import com.archivesManagementSystem.springboot.service.EmployeeInfoService;
+import com.archivesManagementSystem.springboot.service.OrdinaryOperateLogService;
 import com.archivesManagementSystem.springboot.service.StartingJobTimeInfoService;
-import com.archivesManagementSystem.springboot.util.ExcelUtils;
-import com.archivesManagementSystem.springboot.util.GeneralResult;
-import com.archivesManagementSystem.springboot.util.Result;
+import com.archivesManagementSystem.springboot.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.util.IOUtils;
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -44,7 +45,10 @@ public class StartingJobTimeInfoController {
      */
     @Resource
     private StartingJobTimeInfoService startingJobTimeInfoService;
-
+    @Resource
+    private EmployeeInfoService employeeInfoService;
+    @Resource
+    private OrdinaryOperateLogService ordinaryOperateLogService;
     /**
      * 通过主键查询单条数据
      *
@@ -52,8 +56,17 @@ public class StartingJobTimeInfoController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
-    public StartingJobTimeInfo selectOne(Integer id) {
-        return this.startingJobTimeInfoService.queryById(id);
+    public Result selectOne(Integer id) {
+        Result res = new GeneralResult(true);
+
+        if(this.startingJobTimeInfoService.queryById(id)!=null){
+            res.setData(this.startingJobTimeInfoService.queryById(id));
+            res.setMsg("查询成功");
+        }else{
+            res.setMsg("没有找到对应的值");
+            res.setSuccess(false);
+        }
+        return  res;
     }
 
     /**
@@ -107,38 +120,28 @@ public class StartingJobTimeInfoController {
         return  this.startingJobTimeInfoService.queryAll(startingJobTimeInfo);
     }
 
-    /**
-     * 查询全部数据分页展示
-     * @param start
-     * @param size
-     * @return
-     * @throws Exception
-     */
- /*   @GetMapping("selectAllForPage")
-    public PageInfo<StartingJobTimeInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        PageHelper.startPage(start,size);
-        List<StartingJobTimeInfo> cs=this.startingJobTimeInfoService.queryAllByPage();
-        PageInfo<StartingJobTimeInfo> page = new PageInfo<>(cs);
-        return page;
-        *//*m.addAttribute("page", page);
-        //返回页面对象
-        ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;*//*
-    }*/
     @PostMapping("selectAllForPage")
     @ResponseBody
-    public PageInfo<StartingJobTimeInfo> selectAllForPage(@RequestBody StartingJobTimeInfo startingJobTimeInfo, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        PageHelper.startPage(start, size);
+    public PageInfo<StartingJobTimeInfo> selectAllForPage(@RequestBody StartingJobTimeInfo startingJobTimeInfo) throws Exception {
+        PageHelper.startPage(startingJobTimeInfo.getStart(), startingJobTimeInfo.getSize());
         List<StartingJobTimeInfo> startingJobTimeInfoList = new Vector<StartingJobTimeInfo>();
+        List<StartingJobTimeInfo> startingJobTimeInfoList1= new Vector<>();
         StartingJobTimeInfo startingJobTimeInfo1 = new StartingJobTimeInfo();
         StartingJobTimeInfo startingJobTimeInfo2 = new StartingJobTimeInfo();
+        if(startingJobTimeInfo.getEmployeeId()==""){
+            startingJobTimeInfo.setEmployeeId(null);
+        }
+        if(startingJobTimeInfo.getEmployeeName()==""){
+            startingJobTimeInfo.setEmployeeName(null);
+        }
         if (startingJobTimeInfo.getEmployeeName() != null && startingJobTimeInfo.getEmployeeId() == null) {
             String[] employeeNameArray = startingJobTimeInfo.getEmployeeName().split(" ");
             for (int i = 0; i < employeeNameArray.length; i++) {
                 System.out.println("员工NAME" + employeeNameArray[i]);
-                startingJobTimeInfo1 = this.startingJobTimeInfoService.queryByEmployeeName(employeeNameArray[i]);
-                if (startingJobTimeInfo1 != null) {
-                    startingJobTimeInfoList.add(startingJobTimeInfo1);
+                startingJobTimeInfo2.setEmployeeName(employeeNameArray[i]);
+                startingJobTimeInfoList1 = this.startingJobTimeInfoService.queryAll(startingJobTimeInfo2);
+                if (startingJobTimeInfoList1.size() != 0) {
+                    startingJobTimeInfoList.addAll(startingJobTimeInfoList1);
                 }
             }
             PageInfo<StartingJobTimeInfo> page = new PageInfo<>(startingJobTimeInfoList);
@@ -191,6 +194,36 @@ public class StartingJobTimeInfoController {
     public  Result update(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
         startingJobTimeInfo= this.startingJobTimeInfoService.update(startingJobTimeInfo);
         Result res=new GeneralResult(true);
+        EmployeeInfo employeeInfo=new EmployeeInfo();
+        EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(startingJobTimeInfo.getEmployeeId());
+        //也对大表做更新
+        employeeInfo.setEmployeeId(startingJobTimeInfo.getEmployeeId());
+        employeeInfo.setEmployeeName(startingJobTimeInfo.getEmployeeName());
+        employeeInfo.setStartingJobTimeProblemDetail(startingJobTimeInfo.getStartingJobTimeProblemDetail());
+        employeeInfo.setStartingJobTimeCheckResult(startingJobTimeInfo.getStartingJobTimeCheckResult());
+        employeeInfo.setStartingJobTimeOwn(startingJobTimeInfo.getStartingJobTimeOwn());
+        employeeInfo.setStartingJobTimeJudgment(startingJobTimeInfo.getStartingJobTimeJudgment());
+        employeeInfo.setStartingJobTimeArchvies(startingJobTimeInfo.getStartingJobTimeArchvies());
+        employeeInfo.setStartingJobTimeProblemCategory(startingJobTimeInfo.getStartingJobTimeProblemCategory());
+        employeeInfo.setStartingJobTimeCheckRemark(startingJobTimeInfo.getStartingJobTimeCheckRemark());
+        employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(startingJobTimeInfo.getEmployeeId()).getId());
+        //更新大表对应模块
+        this.employeeInfoService.update(employeeInfo);
+        ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
+        List<changePojo> list = t.contrastObj(target,employeeInfo);
+        System.out.println("lenth is"+list.size());
+        OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
+        for(changePojo changePojolist:list){
+            ordinaryOperateLog.setEmployeeId(target.getEmployeeId());
+            ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
+            ordinaryOperateLog.setCheckTableName("开始工作时间模块");
+            ordinaryOperateLog.setOperateType("修改");
+            ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
+            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
+            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            ordinaryOperateLog.setOperateTime(new Date());
+            this.ordinaryOperateLogService.insert(ordinaryOperateLog);
+        }
         res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
         res.setData(startingJobTimeInfo);

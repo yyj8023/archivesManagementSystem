@@ -4,14 +4,11 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.common.CommonController;
-import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
-import com.archivesManagementSystem.springboot.entity.EducationInfo;
-import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
-import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
+import com.archivesManagementSystem.springboot.entity.*;
+import com.archivesManagementSystem.springboot.service.EmployeeInfoService;
 import com.archivesManagementSystem.springboot.service.JoinPartyTimeInfoService;
-import com.archivesManagementSystem.springboot.util.ExcelUtils;
-import com.archivesManagementSystem.springboot.util.GeneralResult;
-import com.archivesManagementSystem.springboot.util.Result;
+import com.archivesManagementSystem.springboot.service.OrdinaryOperateLogService;
+import com.archivesManagementSystem.springboot.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.util.IOUtils;
@@ -28,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -47,6 +45,10 @@ public class JoinPartyTimeInfoController {
      */
     @Resource
     private JoinPartyTimeInfoService joinPartyTimeInfoService;
+    @Resource
+    private EmployeeInfoService employeeInfoService;
+    @Resource
+    private OrdinaryOperateLogService ordinaryOperateLogService;
 
     /**
      * 通过主键查询单条数据
@@ -55,8 +57,17 @@ public class JoinPartyTimeInfoController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
-    public JoinPartyTimeInfo selectOne(Integer id) {
-        return this.joinPartyTimeInfoService.queryById(id);
+    public Result selectOne(Integer id) {
+        Result res = new GeneralResult(true);
+
+        if(this.joinPartyTimeInfoService.queryById(id)!=null){
+            res.setData(this.joinPartyTimeInfoService.queryById(id));
+            res.setMsg("查询成功");
+        }else{
+            res.setMsg("没有找到对应的值");
+            res.setSuccess(false);
+        }
+        return  res;
     }
 
     /**
@@ -112,8 +123,6 @@ public class JoinPartyTimeInfoController {
 
     /**
      * 查询全部数据分页展示
-     * @param start
-     * @param size
      * @return
      * @throws Exception
      */
@@ -130,18 +139,26 @@ public class JoinPartyTimeInfoController {
     }*/
     @PostMapping("selectAllForPage")
     @ResponseBody
-    public PageInfo<JoinPartyTimeInfo> selectAllForPage(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        PageHelper.startPage(start, size);
+    public PageInfo<JoinPartyTimeInfo> selectAllForPage(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo) throws Exception {
+        PageHelper.startPage(joinPartyTimeInfo.getStart(), joinPartyTimeInfo.getSize());
         List<JoinPartyTimeInfo> joinPartyTimeInfoList = new Vector<JoinPartyTimeInfo>();
+        List<JoinPartyTimeInfo> joinPartyTimeInfoList1 = new Vector<JoinPartyTimeInfo>();
         JoinPartyTimeInfo joinPartyTimeInfo1 = new JoinPartyTimeInfo();
         JoinPartyTimeInfo joinPartyTimeInfo2 = new JoinPartyTimeInfo();
+        if(joinPartyTimeInfo.getEmployeeId()==""){
+            joinPartyTimeInfo.setEmployeeId(null);
+        }
+        if(joinPartyTimeInfo.getEmployeeName()==""){
+            joinPartyTimeInfo.setEmployeeName(null);
+        }
         if (joinPartyTimeInfo.getEmployeeName() != null && joinPartyTimeInfo.getEmployeeId() == null) {
             String[] employeeNameArray = joinPartyTimeInfo.getEmployeeName().split(" ");
             for (int i = 0; i < employeeNameArray.length; i++) {
                 System.out.println("员工NAME" + employeeNameArray[i]);
-                joinPartyTimeInfo1 = this.joinPartyTimeInfoService.queryByEmployeeName(employeeNameArray[i]);
-                if (joinPartyTimeInfo1 != null) {
-                    joinPartyTimeInfoList.add(joinPartyTimeInfo1);
+                joinPartyTimeInfo2.setEmployeeName(employeeNameArray[i]);
+                joinPartyTimeInfoList1 = this.joinPartyTimeInfoService.queryAll(joinPartyTimeInfo2);
+                if (joinPartyTimeInfoList1.size() != 0) {
+                    joinPartyTimeInfoList.addAll(joinPartyTimeInfoList1);
                 }
             }
             PageInfo<JoinPartyTimeInfo> page = new PageInfo<>(joinPartyTimeInfoList);
@@ -192,9 +209,39 @@ public class JoinPartyTimeInfoController {
     @PostMapping("update")
     @ResponseBody
     public  Result update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
-
         joinPartyTimeInfo= this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
         Result res=new GeneralResult(true);
+
+        EmployeeInfo employeeInfo=new EmployeeInfo();
+        EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(joinPartyTimeInfo.getEmployeeId());
+        //也对大表做更新
+        employeeInfo.setEmployeeId(joinPartyTimeInfo.getEmployeeId());
+        employeeInfo.setEmployeeName(joinPartyTimeInfo.getEmployeeName());
+        employeeInfo.setJoinPartyTimeProblemDetail(joinPartyTimeInfo.getJoinPartyTimeProblemDetail());
+        employeeInfo.setJoinPartyTimeCheckResult(joinPartyTimeInfo.getJoinPartyTimeCheckResult());
+        employeeInfo.setJoinPartyTimeResearchSituation(joinPartyTimeInfo.getJoinPartyTimeResearchSituation());
+        employeeInfo.setJoinPartyTime(joinPartyTimeInfo.getJoinPartyTime());
+        employeeInfo.setJoinPartyIntroducer(joinPartyTimeInfo.getJoinPartyIntroducer());
+        employeeInfo.setJoinGroupTime(joinPartyTimeInfo.getJoinGroupTime());
+        employeeInfo.setJoinPartyTimeRemark(joinPartyTimeInfo.getJoinPartyTimeRemark());
+        employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(joinPartyTimeInfo.getEmployeeId()).getId());
+        //更新大表对应模块
+        this.employeeInfoService.update(employeeInfo);
+        ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
+        List<changePojo> list = t.contrastObj(target,employeeInfo);
+        System.out.println("lenth is"+list.size());
+        OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
+        for(changePojo changePojolist:list){
+            ordinaryOperateLog.setEmployeeId(target.getEmployeeId());
+            ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
+            ordinaryOperateLog.setCheckTableName("入党时间模块");
+            ordinaryOperateLog.setOperateType("修改");
+            ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
+            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
+            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            ordinaryOperateLog.setOperateTime(new Date());
+            this.ordinaryOperateLogService.insert(ordinaryOperateLog);
+        }
         res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
         res.setData(joinPartyTimeInfo);

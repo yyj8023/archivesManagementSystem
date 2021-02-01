@@ -46,12 +46,12 @@ public class EmployeeInfo implements Serializable {
     * 认定表是否有内容
     */
     @Excel(name = "认定表是否有内容")
-    private Boolean confirmationContentFlag;
+    private String confirmationContentFlag;
     /**
     * 认定表是否已签字
     */
     @Excel(name = "认定表是否已签字")
-    private Boolean confirmationSignatureFlag;
+    private String confirmationSignatureFlag;
     /**
     * 出生日期问题描述
     */
@@ -228,7 +228,7 @@ public class EmployeeInfo implements Serializable {
     * 是否已核对纸质电子版一致性
     */
     @Excel(name = "是否已核对纸质电子版一致性")
-    private Boolean electronicPaperCheckFlag;
+    private String electronicPaperCheckFlag;
     /**
     * 核对人
     */
@@ -244,6 +244,24 @@ public class EmployeeInfo implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
 
+    int start;
+    int size;
+
+    public int getStart() {
+        return start;
+    }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public Integer getId() {
         return id;
@@ -293,19 +311,19 @@ public class EmployeeInfo implements Serializable {
         this.departmentLine = departmentLine;
     }
 
-    public Boolean getConfirmationContentFlag() {
+    public String getConfirmationContentFlag() {
         return confirmationContentFlag;
     }
 
-    public void setConfirmationContentFlag(Boolean confirmationContentFlag) {
+    public void setConfirmationContentFlag(String confirmationContentFlag) {
         this.confirmationContentFlag = confirmationContentFlag;
     }
 
-    public Boolean getConfirmationSignatureFlag() {
+    public String getConfirmationSignatureFlag() {
         return confirmationSignatureFlag;
     }
 
-    public void setConfirmationSignatureFlag(Boolean confirmationSignatureFlag) {
+    public void setConfirmationSignatureFlag(String confirmationSignatureFlag) {
         this.confirmationSignatureFlag = confirmationSignatureFlag;
     }
 
@@ -589,11 +607,11 @@ public class EmployeeInfo implements Serializable {
         this.marterialSupplementRemark = marterialSupplementRemark;
     }
 
-    public Boolean getElectronicPaperCheckFlag() {
+    public String getElectronicPaperCheckFlag() {
         return electronicPaperCheckFlag;
     }
 
-    public void setElectronicPaperCheckFlag(Boolean electronicPaperCheckFlag) {
+    public void setElectronicPaperCheckFlag(String electronicPaperCheckFlag) {
         this.electronicPaperCheckFlag = electronicPaperCheckFlag;
     }
 

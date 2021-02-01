@@ -4,14 +4,11 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.common.CommonController;
-import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
-import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
-import com.archivesManagementSystem.springboot.entity.EducationInfo;
-import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
+import com.archivesManagementSystem.springboot.entity.*;
 import com.archivesManagementSystem.springboot.service.EducationInfoService;
-import com.archivesManagementSystem.springboot.util.ExcelUtils;
-import com.archivesManagementSystem.springboot.util.GeneralResult;
-import com.archivesManagementSystem.springboot.util.Result;
+import com.archivesManagementSystem.springboot.service.EmployeeInfoService;
+import com.archivesManagementSystem.springboot.service.OrdinaryOperateLogService;
+import com.archivesManagementSystem.springboot.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.util.IOUtils;
@@ -28,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -47,7 +45,10 @@ public class EducationInfoController {
      */
     @Resource
     private EducationInfoService educationInfoService;
-
+    @Resource
+    private EmployeeInfoService employeeInfoService;
+    @Resource
+    private OrdinaryOperateLogService ordinaryOperateLogService;
     /**
      * 通过主键查询单条数据
      *
@@ -55,8 +56,17 @@ public class EducationInfoController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
-    public EducationInfo selectOne(Integer id) {
-        return this.educationInfoService.queryById(id);
+    public Result selectOne(Integer id) {
+        Result res = new GeneralResult(true);
+
+        if(this.educationInfoService.queryById(id)!=null){
+            res.setData(this.educationInfoService.queryById(id));
+            res.setMsg("查询成功");
+        }else{
+            res.setMsg("没有找到对应的值");
+            res.setSuccess(false);
+        }
+        return  res;
     }
 
     /**
@@ -113,25 +123,31 @@ public class EducationInfoController {
 
     /**
      * 查询全部数据分页展示
-     * @param start
-     * @param size
      * @return
      * @throws Exception
      */
     @PostMapping("selectAllForPage")
     @ResponseBody
-    public PageInfo<EducationInfo> selectAllForPage(@RequestBody EducationInfo educationInfo , @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        PageHelper.startPage(start, size);
+    public PageInfo<EducationInfo> selectAllForPage(@RequestBody EducationInfo educationInfo ) throws Exception {
+        PageHelper.startPage(educationInfo.getStart(), educationInfo.getSize());
         List<EducationInfo> educationInfoList = new Vector<EducationInfo>();
+        List<EducationInfo> educationInfoList1= new Vector<>();
         EducationInfo educationInfo1 = new EducationInfo();
         EducationInfo educationInfo2 = new EducationInfo();
+        if(educationInfo.getEmployeeId()==""){
+            educationInfo.setEmployeeId(null);
+        }
+        if(educationInfo.getEmployeeName()==""){
+            educationInfo.setEmployeeName(null);
+        }
         if (educationInfo.getEmployeeName() != null && educationInfo.getEmployeeId() == null) {
             String[] employeeNameArray = educationInfo.getEmployeeName().split(" ");
             for (int i = 0; i < employeeNameArray.length; i++) {
                 System.out.println("员工NAME" + employeeNameArray[i]);
-                educationInfo1 = this.educationInfoService.queryByEmployeeName(employeeNameArray[i]);
+                educationInfo2.setEmployeeName(employeeNameArray[i]);
+                educationInfoList1 = this.educationInfoService.queryAll(educationInfo2);
                 if (educationInfo1 != null) {
-                    educationInfoList.add(educationInfo1);
+                    educationInfoList.addAll(educationInfoList1);
                 }
             }
             PageInfo<EducationInfo> page = new PageInfo<>(educationInfoList);
@@ -187,6 +203,37 @@ public class EducationInfoController {
     public  Result update(@RequestBody EducationInfo educationInfo){
         Result res=new GeneralResult(true);
        educationInfo=this.educationInfoService.update(educationInfo);
+        EmployeeInfo employeeInfo=new EmployeeInfo();
+        EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(educationInfo.getEmployeeId());
+        //也对大表做更新
+        employeeInfo.setEducationProblemDetail(educationInfo.getEducationProblemDetail());
+        employeeInfo.setEducationProblemCategory(educationInfo.getEducationProblemCategory());
+        employeeInfo.setEmployeeName(educationInfo.getEmployeeName());
+        employeeInfo.setEmployeeId(educationInfo.getEmployeeId());
+        employeeInfo.setEducationCheckResult(educationInfo.getEducationCheckResult());
+        employeeInfo.setEducationBackgroudJudgment(educationInfo.getEducationBackgroudJudgment());
+        employeeInfo.setEducationDegreeJudgment(educationInfo.getEducationDegreeeJudgment());
+        employeeInfo.setEducationRemark(educationInfo.getEducationRemark());
+        employeeInfo.setEducationDegree(educationInfo.getEducationDegree());
+        employeeInfo.setEducationBackgroud(educationInfo.getEducationBackgroud());
+        employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(educationInfo.getEmployeeId()).getId());
+        //更新大表对应模块
+        this.employeeInfoService.update(employeeInfo);
+        ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
+        List<changePojo> list = t.contrastObj(target,employeeInfo);
+        System.out.println("lenth is"+list.size());
+        OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
+        for(changePojo changePojolist:list){
+            ordinaryOperateLog.setEmployeeId(target.getEmployeeId());
+            ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
+            ordinaryOperateLog.setCheckTableName("学历模块");
+            ordinaryOperateLog.setOperateType("修改");
+            ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
+            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
+            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            ordinaryOperateLog.setOperateTime(new Date());
+            this.ordinaryOperateLogService.insert(ordinaryOperateLog);
+        }
         res.setCode(CommonController.SUCCESS);
        res.setMsg("更新成功！");
        res.setData(educationInfo);

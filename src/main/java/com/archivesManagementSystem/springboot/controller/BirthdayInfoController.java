@@ -6,9 +6,9 @@ import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.*;
 import com.archivesManagementSystem.springboot.service.BirthdayInfoService;
-import com.archivesManagementSystem.springboot.util.ExcelUtils;
-import com.archivesManagementSystem.springboot.util.GeneralResult;
-import com.archivesManagementSystem.springboot.util.Result;
+import com.archivesManagementSystem.springboot.service.EmployeeInfoService;
+import com.archivesManagementSystem.springboot.service.OrdinaryOperateLogService;
+import com.archivesManagementSystem.springboot.util.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.poi.util.IOUtils;
@@ -45,7 +45,10 @@ public class BirthdayInfoController {
      */
     @Resource
     private BirthdayInfoService birthdayInfoService;
-
+    @Resource
+    private EmployeeInfoService employeeInfoService;
+    @Resource
+    private OrdinaryOperateLogService ordinaryOperateLogService;
     /**
      * 通过主键查询单条数据
      *
@@ -53,8 +56,17 @@ public class BirthdayInfoController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
-    public BirthdayInfo selectOne(Integer id) {
-        return this.birthdayInfoService.queryById(id);
+    public Result selectOne(Integer id) {
+        Result res = new GeneralResult(true);
+
+        if(this.birthdayInfoService.queryById(id)!=null){
+            res.setData(this.birthdayInfoService.queryById(id));
+            res.setMsg("查询成功");
+        }else{
+            res.setMsg("没有找到对应的值");
+            res.setSuccess(false);
+        }
+        return  res;
     }
 
     /**
@@ -72,25 +84,31 @@ public class BirthdayInfoController {
 
     /**
      * 查询全部数据分页展示
-     * @param start
-     * @param size
      * @return
      * @throws Exception
      */
     @PostMapping("selectAllForPage")
     @ResponseBody
-    public PageInfo<BirthdayInfo> selectAllForPage(@RequestBody BirthdayInfo birthdayInfo, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        PageHelper.startPage(start, size);
+    public PageInfo<BirthdayInfo> selectAllForPage(@RequestBody BirthdayInfo birthdayInfo) throws Exception {
+        PageHelper.startPage(birthdayInfo.getStart(), birthdayInfo.getSize());
         List<BirthdayInfo> birthdayInfoList = new Vector<BirthdayInfo>();
+        List<BirthdayInfo> birthdayInfoList1=new Vector<>();
         BirthdayInfo birthdayInfo1 = new BirthdayInfo();
         BirthdayInfo birthdayInfo2 = new BirthdayInfo();
+        if(birthdayInfo.getEmployeeId()==""){
+            birthdayInfo.setEmployeeId(null);
+        }
+        if(birthdayInfo.getEmployeeName()==""){
+            birthdayInfo.setEmployeeName(null);
+        }
         if (birthdayInfo.getEmployeeName() != null && birthdayInfo.getEmployeeId() == null) {
             String[] employeeNameArray = birthdayInfo.getEmployeeName().split(" ");
             for (int i = 0; i < employeeNameArray.length; i++) {
                 System.out.println("员工NAME" + employeeNameArray[i]);
-                birthdayInfo1 = this.birthdayInfoService.queryByEmployeeName(employeeNameArray[i]);
-                if (birthdayInfo1 != null) {
-                    birthdayInfoList.add(birthdayInfo1);
+                birthdayInfo2.setEmployeeName(employeeNameArray[i]);
+                birthdayInfoList1 = this.birthdayInfoService.queryAll(birthdayInfo2);
+                if (birthdayInfoList1.size()!= 0) {
+                    birthdayInfoList.addAll(birthdayInfoList1);
                 }
             }
             PageInfo<BirthdayInfo> page = new PageInfo<>(birthdayInfoList);
@@ -183,7 +201,37 @@ public class BirthdayInfoController {
     @PostMapping("update")
     @ResponseBody
     public  Result update(@RequestBody BirthdayInfo birthdayInfo){
-        birthdayInfo= this.birthdayInfoService.update(birthdayInfo);
+        BirthdayInfo birthdayInfoNew= this.birthdayInfoService.update(birthdayInfo);
+        EmployeeInfo employeeInfo=new EmployeeInfo();
+        EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(birthdayInfo.getEmployeeId());
+        //也对大表做更新
+        employeeInfo.setBirthdayArchives(birthdayInfo.getBirthdayArchives());
+        employeeInfo.setBirthdayCard(birthdayInfo.getBirthdayCard());
+        employeeInfo.setBirthdayCheckRemark(birthdayInfo.getBirthdayCheckRemark());
+        employeeInfo.setBirthdayCheckRule(birthdayInfo.getBirthdayCheckRule());
+        employeeInfo.setBirthdayJudgment(birthdayInfo.getBirthdayJudgment());
+        employeeInfo.setBirthdayCheckResult(birthdayInfo.getBirthdayCheckResult());
+        employeeInfo.setBirthdayProblemCategory(birthdayInfo.getBirthdayProblemCategory());
+        employeeInfo.setBirthdayProblemDetail(birthdayInfo.getBirthdayProblemDetail());
+        employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(birthdayInfo.getEmployeeId()).getId());
+        //更新大表对应模块
+        this.employeeInfoService.update(employeeInfo);
+        ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
+        List<changePojo> list = t.contrastObj(target,employeeInfo);
+        System.out.println("lenth is"+list.size());
+        //更新操作记录
+        OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
+        for(changePojo changePojolist:list){
+            ordinaryOperateLog.setEmployeeId(target.getEmployeeId());
+            ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
+            ordinaryOperateLog.setCheckTableName("生日模块");
+            ordinaryOperateLog.setOperateType("修改");
+            ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
+            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
+            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            ordinaryOperateLog.setOperateTime(new Date());
+            this.ordinaryOperateLogService.insert(ordinaryOperateLog);
+        }
         Result res=new GeneralResult(true);
         res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
