@@ -16,11 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -382,14 +384,31 @@ public class EmployeeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  Result update(@RequestBody EmployeeInfo employeeInfo){
+    public  Result update(@RequestBody EmployeeInfo employeeInfo,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userName = String.valueOf(session.getAttribute("userName"));
         OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
         EmployeeInfo target =this.employeeInfoService.queryById(employeeInfo.getId());
+        employeeInfo.setUpdateBy(userName);
+        employeeInfo.setUpdateTime(new Date());
+        employeeInfo= this.employeeInfoService.update(employeeInfo);
         //更新操作日志记录
         ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
         List<changePojo> list = t.contrastObj(target,employeeInfo);
         System.out.println("lenth is"+list.size());
         for(changePojo changePojolist:list){
+            Object param1=changePojolist.getOldValue();
+            Object param2=changePojolist.getNewValue();
+            if(param1 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                 param1= simpleDateFormat.format(param1);
+            }
+            if(param2 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param1= simpleDateFormat.format(param2);
+            }
             ordinaryOperateLog.setEmployeeId(target.getEmployeeId());
             ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
             ordinaryOperateLog.setCheckTableName("员工信息表");
@@ -398,9 +417,10 @@ public class EmployeeInfoController {
             ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
             ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
             ordinaryOperateLog.setOperateTime(new Date());
+            ordinaryOperateLog.setOperator(userName);
             this.ordinaryOperateLogService.insert(ordinaryOperateLog);
         }
-        employeeInfo= this.employeeInfoService.update(employeeInfo);
+
         //也将更新后的数据重新赋值到五个认定小表中
         //生成出生日期认定表基本信息
         BirthdayInfo birthdayInfo = new BirthdayInfo();
@@ -488,7 +508,9 @@ public class EmployeeInfoController {
 
     @PostMapping("importExcel")
     @ResponseBody
-    public Result importExcel(@RequestParam("file") MultipartFile file) {
+    public Result importExcel(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
         Result res=new GeneralResult(true);
         ImportParams importParams = new ImportParams();
         // 数据处理
@@ -515,6 +537,9 @@ public class EmployeeInfoController {
                 }
                 for (EmployeeInfo employeeInfo: employeeInfoList) {
                     int count=0;
+                    String userName = String.valueOf(session.getAttribute("userName"));
+                    employeeInfo.setUpdateBy(userName);
+                    employeeInfo.setUpdateTime(new Date());
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
                     //生成出生日期认定表基本信息
                     BirthdayInfo birthdayInfo = new BirthdayInfo();
@@ -588,12 +613,43 @@ public class EmployeeInfoController {
                         joinPartyTimeInfo.setId(joinPartyTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         startingJobTimeInfo.setId(startingJobTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         workExperienceInfo.setId(workExperienceInfoService.queryByEmployeeId(workExperienceInfo.getEmployeeId()).getId());
-                        this.employeeInfoService.update(employeeInfo);
+                        EmployeeInfo target =this.employeeInfoService.queryById(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
+                        EmployeeInfo e= this.employeeInfoService.update(employeeInfo);
                         this.birthdayInfoService.update(birthdayInfo);
                         this.educationInfoService.update(educationInfo);
                         this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
                         this.startingJobTimeInfoService.update(startingJobTimeInfo);
                         this.workExperienceInfoService.update(workExperienceInfo);
+                        //更新操作日志记录
+                        ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
+                        List<changePojo> list = t.contrastObj(target,e);
+                        System.out.println("lenth is"+list.size());
+                        for(changePojo changePojolist:list){
+                            Object param1=changePojolist.getOldValue();
+                            Object param2=changePojolist.getNewValue();
+                            if(param1 instanceof Date){
+                                String pattern = "yyyy-MM-dd HH:mm:ss";
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                                param1= simpleDateFormat.format(param1);
+                            }
+                            if(param2 instanceof Date){
+                                String pattern = "yyyy-MM-dd HH:mm:ss";
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                                param2= simpleDateFormat.format(param2);
+                            }
+                            ordinaryOperateLog.setEmployeeId(target.getEmployeeId());
+                            ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
+                            ordinaryOperateLog.setCheckTableName("员工信息表");
+                            ordinaryOperateLog.setOperateType("修改");
+                            ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
+                            ordinaryOperateLog.setOldValue(String.valueOf(param1));
+                            ordinaryOperateLog.setNewValue(String.valueOf(param2));
+                            ordinaryOperateLog.setOperateTime(new Date());
+
+                            String userName1 = String.valueOf(session.getAttribute("userName"));
+                             ordinaryOperateLog.setOperator(userName1);
+                            this.ordinaryOperateLogService.insert(ordinaryOperateLog);
+                        }
                     }else {
                         count += this.employeeInfoService.insert(employeeInfo);
                         count += this.birthdayInfoService.insert(birthdayInfo);

@@ -20,11 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -200,9 +202,13 @@ public class EducationInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  Result update(@RequestBody EducationInfo educationInfo){
+    public  Result update(@RequestBody EducationInfo educationInfo,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userName = String.valueOf(session.getAttribute("userName"));
         Result res=new GeneralResult(true);
-       educationInfo=this.educationInfoService.update(educationInfo);
+        educationInfo.setUpdateBy(userName);
+        educationInfo.setUpdateTime(new Date());
+        educationInfo=this.educationInfoService.update(educationInfo);
         EmployeeInfo employeeInfo=new EmployeeInfo();
         EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(educationInfo.getEmployeeId());
         //也对大表做更新
@@ -217,6 +223,8 @@ public class EducationInfoController {
         employeeInfo.setEducationDegree(educationInfo.getEducationDegree());
         employeeInfo.setEducationBackgroud(educationInfo.getEducationBackgroud());
         employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(educationInfo.getEmployeeId()).getId());
+        employeeInfo.setUpdateTime(new Date());
+        educationInfo.setUpdateBy(userName);
         //更新大表对应模块
         this.employeeInfoService.update(employeeInfo);
         ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
@@ -228,10 +236,23 @@ public class EducationInfoController {
             ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
             ordinaryOperateLog.setCheckTableName("学历模块");
             ordinaryOperateLog.setOperateType("修改");
+            Object param1=changePojolist.getOldValue();
+            Object param2=changePojolist.getNewValue();
+            if(param1 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param1= simpleDateFormat.format(param1);
+            }
+            if(param2 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param2= simpleDateFormat.format(param2);
+            }
             ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
-            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
-            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            ordinaryOperateLog.setOldValue(String.valueOf(param1));
+            ordinaryOperateLog.setNewValue(String.valueOf(param2));
             ordinaryOperateLog.setOperateTime(new Date());
+            ordinaryOperateLog.setOperator(userName);
             this.ordinaryOperateLogService.insert(ordinaryOperateLog);
         }
         res.setCode(CommonController.SUCCESS);

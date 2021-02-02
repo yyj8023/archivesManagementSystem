@@ -20,11 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -200,20 +202,28 @@ public class BirthdayInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  Result update(@RequestBody BirthdayInfo birthdayInfo){
+    public  Result update(@RequestBody BirthdayInfo birthdayInfo,HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        String userName = String.valueOf(session.getAttribute("userName"));
+        birthdayInfo.setUpdateTime(new Date());
+        birthdayInfo.setUpdateBy(userName);
         BirthdayInfo birthdayInfoNew= this.birthdayInfoService.update(birthdayInfo);
+
         EmployeeInfo employeeInfo=new EmployeeInfo();
         EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(birthdayInfo.getEmployeeId());
         //也对大表做更新
-        employeeInfo.setBirthdayArchives(birthdayInfo.getBirthdayArchives());
-        employeeInfo.setBirthdayCard(birthdayInfo.getBirthdayCard());
-        employeeInfo.setBirthdayCheckRemark(birthdayInfo.getBirthdayCheckRemark());
-        employeeInfo.setBirthdayCheckRule(birthdayInfo.getBirthdayCheckRule());
-        employeeInfo.setBirthdayJudgment(birthdayInfo.getBirthdayJudgment());
-        employeeInfo.setBirthdayCheckResult(birthdayInfo.getBirthdayCheckResult());
-        employeeInfo.setBirthdayProblemCategory(birthdayInfo.getBirthdayProblemCategory());
-        employeeInfo.setBirthdayProblemDetail(birthdayInfo.getBirthdayProblemDetail());
-        employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(birthdayInfo.getEmployeeId()).getId());
+        employeeInfo.setUpdateBy(birthdayInfoNew.getUpdateBy());
+        employeeInfo.setUpdateTime(new Date());
+        employeeInfo.setBirthdayArchives(birthdayInfoNew.getBirthdayArchives());
+        employeeInfo.setBirthdayCard(birthdayInfoNew.getBirthdayCard());
+        employeeInfo.setBirthdayCheckRemark(birthdayInfoNew.getBirthdayCheckRemark());
+        employeeInfo.setBirthdayCheckRule(birthdayInfoNew.getBirthdayCheckRule());
+        employeeInfo.setBirthdayJudgment(birthdayInfoNew.getBirthdayJudgment());
+        employeeInfo.setBirthdayCheckResult(birthdayInfoNew.getBirthdayCheckResult());
+        employeeInfo.setBirthdayProblemCategory(birthdayInfoNew.getBirthdayProblemCategory());
+        employeeInfo.setBirthdayProblemDetail(birthdayInfoNew.getBirthdayProblemDetail());
+        employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(birthdayInfoNew.getEmployeeId()).getId());
         //更新大表对应模块
         this.employeeInfoService.update(employeeInfo);
         ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
@@ -226,17 +236,31 @@ public class BirthdayInfoController {
             ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
             ordinaryOperateLog.setCheckTableName("生日模块");
             ordinaryOperateLog.setOperateType("修改");
+            Object param1=changePojolist.getOldValue();
+            Object param2=changePojolist.getNewValue();
+            if(param1 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param1= simpleDateFormat.format(param1);
+            }
+            if(param2 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param2= simpleDateFormat.format(param2);
+            }
             ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
-            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
-            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            ordinaryOperateLog.setOldValue(String.valueOf(param1));
+            ordinaryOperateLog.setNewValue(String.valueOf(param2));
             ordinaryOperateLog.setOperateTime(new Date());
+
+            ordinaryOperateLog.setOperator(userName);
             this.ordinaryOperateLogService.insert(ordinaryOperateLog);
         }
         Result res=new GeneralResult(true);
         res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
         res.setData(birthdayInfo);
-        if(birthdayInfo==null){
+        if(birthdayInfoNew==null){
             res.setSuccess(false);
             res.setCode(CommonController.ERROR);
             res.setMsg("更新失败！");

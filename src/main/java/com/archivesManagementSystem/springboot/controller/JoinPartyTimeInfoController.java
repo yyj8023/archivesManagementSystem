@@ -20,11 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -208,13 +210,19 @@ public class JoinPartyTimeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  Result update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
+    public  Result update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userName = String.valueOf(session.getAttribute("userName"));
+        joinPartyTimeInfo.setUpdateTime(new Date());
+        joinPartyTimeInfo.setUpdateBy(userName);
         joinPartyTimeInfo= this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
         Result res=new GeneralResult(true);
 
         EmployeeInfo employeeInfo=new EmployeeInfo();
         EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(joinPartyTimeInfo.getEmployeeId());
         //也对大表做更新
+        employeeInfo.setUpdateBy(joinPartyTimeInfo.getUpdateBy());
+        employeeInfo.setUpdateTime(new Date());
         employeeInfo.setEmployeeId(joinPartyTimeInfo.getEmployeeId());
         employeeInfo.setEmployeeName(joinPartyTimeInfo.getEmployeeName());
         employeeInfo.setJoinPartyTimeProblemDetail(joinPartyTimeInfo.getJoinPartyTimeProblemDetail());
@@ -236,10 +244,23 @@ public class JoinPartyTimeInfoController {
             ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
             ordinaryOperateLog.setCheckTableName("入党时间模块");
             ordinaryOperateLog.setOperateType("修改");
+            Object param1=changePojolist.getOldValue();
+            Object param2=changePojolist.getNewValue();
+            if(param1 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param1= simpleDateFormat.format(param1);
+            }
+            if(param2 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param2= simpleDateFormat.format(param2);
+            }
             ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
-            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
-            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            ordinaryOperateLog.setOldValue(String.valueOf(param1));
+            ordinaryOperateLog.setNewValue(String.valueOf(param2));
             ordinaryOperateLog.setOperateTime(new Date());
+            ordinaryOperateLog.setOperator(userName);
             this.ordinaryOperateLogService.insert(ordinaryOperateLog);
         }
         res.setCode(CommonController.SUCCESS);

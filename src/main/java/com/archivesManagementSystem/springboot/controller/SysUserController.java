@@ -27,6 +27,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.print.Pageable;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -59,7 +60,8 @@ public class SysUserController {
      */
     @PostMapping("login")
     @ResponseBody
-    public Result loginCheck(@RequestBody SysUser sysUser) {
+    public Result loginCheck(@RequestBody SysUser sysUser,HttpServletRequest request) {
+        HttpSession session=request.getSession();
         //后期用于MD5加密
         String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
         Result res=new GeneralResult(true);
@@ -67,6 +69,7 @@ public class SysUserController {
             res.setMsg("登录成功");
             res.setData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getUserName());
             res.setIdData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getId());
+            session.setAttribute("userName",this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getUserName());
             res.setSuccess(true);
         }else{
             res.setMsg("登录失败");

@@ -20,11 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -207,12 +209,18 @@ public class WorkExperienceInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  Result update(@RequestBody WorkExperienceInfo workExperienceInfo){
+    public  Result update(@RequestBody WorkExperienceInfo workExperienceInfo,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userName = String.valueOf(session.getAttribute("userName"));
+        workExperienceInfo.setUpdateTime(new Date());
+        workExperienceInfo.setUpdateBy(userName);
         workExperienceInfo= this.workExperienceInfoService.update(workExperienceInfo);
         Result res=new GeneralResult(true);
         EmployeeInfo employeeInfo=new EmployeeInfo();
         EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(workExperienceInfo.getEmployeeId());
         //也对大表做更新
+        employeeInfo.setUpdateBy(userName);
+        employeeInfo.setUpdateTime(new Date());
         employeeInfo.setEmployeeId(workExperienceInfo.getEmployeeId());
         employeeInfo.setEmployeeName(workExperienceInfo.getEmployeeName());
         employeeInfo.setWorkExperienceCheckResult(workExperienceInfo.getWorkExperienceCheckResult());
@@ -232,9 +240,22 @@ public class WorkExperienceInfoController {
             ordinaryOperateLog.setCheckTableName("入党时间模块");
             ordinaryOperateLog.setOperateType("修改");
             ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
-            ordinaryOperateLog.setOldValue(String.valueOf(changePojolist.getOldValue()));
-            ordinaryOperateLog.setNewValue(String.valueOf(changePojolist.getNewValue()));
+            Object param1=changePojolist.getOldValue();
+            Object param2=changePojolist.getNewValue();
+            if(param1 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param1= simpleDateFormat.format(param1);
+            }
+            if(param2 instanceof Date){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                param2= simpleDateFormat.format(param2);
+            }
+            ordinaryOperateLog.setOldValue(String.valueOf(param1));
+            ordinaryOperateLog.setNewValue(String.valueOf(param2));
             ordinaryOperateLog.setOperateTime(new Date());
+            ordinaryOperateLog.setOperator(userName);
             this.ordinaryOperateLogService.insert(ordinaryOperateLog);
         }
         res.setCode(CommonController.SUCCESS);

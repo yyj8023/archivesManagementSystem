@@ -8,6 +8,7 @@ import com.archivesManagementSystem.springboot.util.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.assertj.core.internal.cglib.asm.$Opcodes;
+import org.springframework.beans.BeanUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -98,7 +99,7 @@ public class OrdinaryOperateLogController {
         List<OrdinaryOperateLog> ordinaryOperateLogList = new Vector<OrdinaryOperateLog>();
         List<OrdinaryOperateLog> ordinaryOperateLogList1=new Vector<OrdinaryOperateLog>();
         OrdinaryOperateLog ordinaryOperateLog1 = new OrdinaryOperateLog();
-        OrdinaryOperateLog ordinaryOperateLog2 = new OrdinaryOperateLog();
+
         if(ordinaryOperateLog.getEmployeeId()==""){
             ordinaryOperateLog.setEmployeeId(null);
         }
@@ -106,28 +107,45 @@ public class OrdinaryOperateLogController {
             ordinaryOperateLog.setEmployeeName(null);
         }
         if ((ordinaryOperateLog.getEmployeeName() != null) && (ordinaryOperateLog.getEmployeeId() == null)) {
-            String[] employeeNameArray = ordinaryOperateLog.getEmployeeName().split(" ");
-            for (int i = 0; i < employeeNameArray.length; i++) {
-                ordinaryOperateLog2.setEmployeeName(employeeNameArray[i]);
-                ordinaryOperateLogList1 = this.ordinaryOperateLogService.queryAll(ordinaryOperateLog2);
-                if (ordinaryOperateLogList1.size() != 0) {
-                    ordinaryOperateLogList.addAll(ordinaryOperateLogList1);
-                }
-            }
-            PageInfo<OrdinaryOperateLog> page = new PageInfo<>(ordinaryOperateLogList);
-            return page;
+            /*String[] employeeNameArray = ordinaryOperateLog.getEmployeeName().split(" ");*/
+      /*      if(employeeNameArray.length>1){
+
+            }*/
+            PageInfo<OrdinaryOperateLog> p1=new PageInfo<OrdinaryOperateLog>();
+          /*  for (int i = 0; i < employeeNameArray.length; i++) {*/
+                /*OrdinaryOperateLog ordinaryOperateLog2 = new OrdinaryOperateLog();
+                ordinaryOperateLog2.setEmployeeName(employeeNameArray[i]);*/
+                ordinaryOperateLogList1 = this.ordinaryOperateLogService.queryAll(ordinaryOperateLog);
+                p1=new PageInfo<OrdinaryOperateLog>(ordinaryOperateLogList1);
+              for(OrdinaryOperateLog ord:ordinaryOperateLogList1){
+                  ordinaryOperateLogList.add(ord);
+              }
+
+            /*}*/
+            PageInfo<OrdinaryOperateLog> p2=new PageInfo<OrdinaryOperateLog>();
+            BeanUtils.copyProperties(p1,p2);
+            p2.setList(ordinaryOperateLogList);
+            return p2;
         } else if ((ordinaryOperateLog.getEmployeeName() == null) && ordinaryOperateLog.getEmployeeId() != null) {
-            String[] employeeIdArray = ordinaryOperateLog.getEmployeeId().split(" ");
-            for (int i = 0; i < employeeIdArray.length; i++) {
-                System.out.println("员工Id" + employeeIdArray[i]);
-                ordinaryOperateLog2.setEmployeeId(employeeIdArray[i]);
-                ordinaryOperateLogList1 = this.ordinaryOperateLogService.queryAll(ordinaryOperateLog2);
-                if (ordinaryOperateLogList1.size() != 0) {
-                    ordinaryOperateLogList.addAll(ordinaryOperateLogList1);
+           /* String[] employeeIdArray = ordinaryOperateLog.getEmployeeId().split(" ");*/
+            PageInfo<OrdinaryOperateLog> p1=new PageInfo<OrdinaryOperateLog>();
+           /* for (int i = 0; i < employeeIdArray.length; i++) {*/
+              /*  System.out.println("员工Id" + employeeIdArray[i]);
+                OrdinaryOperateLog ordinaryOperateLog2 = new OrdinaryOperateLog();
+                ordinaryOperateLog2.setEmployeeId(employeeIdArray[i]);*/
+                ordinaryOperateLogList1 = this.ordinaryOperateLogService.queryAll(ordinaryOperateLog);
+                p1=new PageInfo<OrdinaryOperateLog>(ordinaryOperateLogList1);
+                for(OrdinaryOperateLog ord:ordinaryOperateLogList1){
+                    ordinaryOperateLogList.add(ord);
                 }
-            }
-            PageInfo<OrdinaryOperateLog> page = new PageInfo<>(ordinaryOperateLogList);
-            return page;
+             /*   if (ordinaryOperateLogList1.size() != 0) {
+                    ordinaryOperateLogList.addAll(ordinaryOperateLogList1);
+                }*/
+           /* }*/
+            PageInfo<OrdinaryOperateLog> p2=new PageInfo<OrdinaryOperateLog>();
+            BeanUtils.copyProperties(p1,p2);
+            p2.setList(ordinaryOperateLogList);
+            return p2;
         } else if ((ordinaryOperateLog.getEmployeeName() != null) && (ordinaryOperateLog.getEmployeeId() != null)) {
             String[] employeeNameArray = ordinaryOperateLog.getEmployeeName().split(" ");
             String[] employeeIdArray = ordinaryOperateLog.getEmployeeId().split(" ");
@@ -135,15 +153,18 @@ public class OrdinaryOperateLogController {
                 //为空。两个都有且超过1，太多了，返回为空值
             } else if (employeeIdArray.length == 1 && employeeNameArray.length == 1) {
                 //两个都为一个值时。精准查询
+                OrdinaryOperateLog ordinaryOperateLog2 = new OrdinaryOperateLog();
                 ordinaryOperateLog2.setEmployeeId(employeeIdArray[0]);
                 ordinaryOperateLog2.setEmployeeName(employeeNameArray[0]);
                 ordinaryOperateLogList = this.ordinaryOperateLogService.queryAll(ordinaryOperateLog2);
             }
             PageInfo<OrdinaryOperateLog> page = new PageInfo<>(ordinaryOperateLogList);
+            page.setList(ordinaryOperateLogList);
             return  page;
         } else {
             List<OrdinaryOperateLog> cs = this.ordinaryOperateLogService.queryAll(ordinaryOperateLog);
             PageInfo<OrdinaryOperateLog> page = new PageInfo<>(cs);
+            page.setList(cs);
             return page;
         }
     }
