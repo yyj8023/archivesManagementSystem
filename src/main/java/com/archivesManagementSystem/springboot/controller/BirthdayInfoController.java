@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-27 23:31:38
  */
+@CrossOrigin
 @RestController
 @RequestMapping("birthdayInfo")
 public class BirthdayInfoController {
@@ -94,8 +96,11 @@ public class BirthdayInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(@RequestBody BirthdayInfo birthdayInfo){
-        return this.birthdayInfoService.insert(birthdayInfo);
+    public Result insert(@RequestBody BirthdayInfo birthdayInfo){
+        Result res=new GeneralResult(true);
+        this.birthdayInfoService.insert(birthdayInfo);
+        res.setMsg("新增出生认定信息成功！");
+        return  res;
     }
 
     /**
@@ -103,10 +108,21 @@ public class BirthdayInfoController {
      * @param id
      * @return boolean
      */
-    @PostMapping("delete")
+    @GetMapping("delete")
     @ResponseBody
-    public Boolean delete(int id){
-        return this.birthdayInfoService.deleteById(id);
+    public Result delete(int id){
+        Result res=new GeneralResult(true);
+        BirthdayInfo birthdayInfo=new BirthdayInfo();
+        birthdayInfo=this.birthdayInfoService.queryById(id);
+        if(birthdayInfo!=null) {
+            res.setIdData(birthdayInfo);
+            this.birthdayInfoService.deleteById(id);
+            res.setMsg("删除成功！");
+        }else{
+            res.setMsg("删除失败！");
+            res.setSuccess(false);
+        }
+        return res;
     }
 
     /**
@@ -116,8 +132,16 @@ public class BirthdayInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  BirthdayInfo update(@RequestBody BirthdayInfo birthdayInfo){
-        return this.birthdayInfoService.update(birthdayInfo);
+    public  Result update(@RequestBody BirthdayInfo birthdayInfo){
+        birthdayInfo= this.birthdayInfoService.update(birthdayInfo);
+        Result res=new GeneralResult(true);
+        res.setMsg("更新成功！");
+        res.setData(birthdayInfo);
+        if(birthdayInfo==null){
+            res.setSuccess(false);
+            res.setMsg("更新失败！");
+        }
+        return  res;
     }
 
   /*  @PostMapping("deleteByEmployee")
@@ -147,6 +171,13 @@ public class BirthdayInfoController {
             }else{
                 int count=0;
                 List<BirthdayInfo> birthdayInfos = result.getList();
+                Iterator<BirthdayInfo> employeeInfoIterator=birthdayInfos.iterator();
+                while(employeeInfoIterator.hasNext()){
+                    BirthdayInfo employeeInfo=employeeInfoIterator.next();
+                    if(employeeInfo.getEmployeeName()==null){
+                        employeeInfoIterator.remove();
+                    }
+                }
                 for (BirthdayInfo birthdayInfo: birthdayInfos) {
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
                     count=this.birthdayInfoService.insert(birthdayInfo);
@@ -155,12 +186,20 @@ public class BirthdayInfoController {
                     }
                 }
                 res.setMsg("导入成功");
-                res.setData(birthdayInfos.size());
+                res.setTotalCount(birthdayInfos.size());
+                if(birthdayInfos.size()==0){
+                    res.setSuccess(false);
+                    res.setMsg("导入失败！没有对应的数据！");
+                }
                 System.out.println("从Excel导入数据一共 {} 行 "+birthdayInfos.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         }
         return res;
     }

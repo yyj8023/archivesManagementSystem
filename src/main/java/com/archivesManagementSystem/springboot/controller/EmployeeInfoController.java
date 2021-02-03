@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-20 22:14:49
  */
+@CrossOrigin
 @RestController
 @RequestMapping("employeeInfo")
 public class EmployeeInfoController {
@@ -68,85 +70,98 @@ public class EmployeeInfoController {
      * 单条插入员工信息
      *
      * @param employeeInfo
-     * @return int 若为6,则插入成功！(增加员工表的同时也增加了五个认定表初始值）
+     * @return Result
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(@RequestBody EmployeeInfo employeeInfo)
+    public Result insert(@RequestBody EmployeeInfo employeeInfo)
     {
-        int count=0;
-        //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
-        count+=this.employeeInfoService.insert(employeeInfo);
-        //生成出生日期认定表基本信息
-        BirthdayInfo birthdayInfo=new BirthdayInfo();
-        birthdayInfo.setEmployeeId(employeeInfo.getEmployeeId());
-        birthdayInfo.setEmployeeName(employeeInfo.getEmployeeName());
-        birthdayInfo.setBirthdayCard(employeeInfo.getBirthdayCard());
-        birthdayInfo.setBirthdayArchives(employeeInfo.getBirthdayArchives());
-        birthdayInfo.setBirthdayJudgment(employeeInfo.getBirthdayJudgment());
-        birthdayInfo.setBirthdayProblemDetail(employeeInfo.getBirthdayProblemDetail());
-        birthdayInfo.setBirthdayCheckResult(employeeInfo.getBirthdayCheckResult());
-        birthdayInfo.setBirthdayProblemCategory(employeeInfo.getBirthdayProblemCategory());
-        birthdayInfo.setBirthdayCheckRule(employeeInfo.getBirthdayCheckRule());
-        birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
-        birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
-        birthdayInfo.setUpdateTime(new Date());
-        count+=this.birthdayInfoService.insert(birthdayInfo);
-        //学历信息认定表基本信息
-        EducationInfo educationInfo=new EducationInfo();
-        educationInfo.setEmployeeId(employeeInfo.getEmployeeId());
-        educationInfo.setEmployeeName(employeeInfo.getEmployeeName());
-        educationInfo.setEducationDegree(employeeInfo.getEducationDegree());
-        educationInfo.setEducationBackgroud(employeeInfo.getEducationBackgroud());
-        educationInfo.setEducationBackgroudJudgment(employeeInfo.getEducationBackgroudJudgment());
-        educationInfo.setEducationDegreeeJudgment(employeeInfo.getEducationDegreeJudgment());
-        educationInfo.setEducationProblemCategory(employeeInfo.getEducationProblemCategory());
-        educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
-        educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
-        educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
-        educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
-        educationInfo.setUpdateTime(new Date());
-        count+=this.educationInfoService.insert(educationInfo);
-        //入党时间认定表基本信息
-        JoinPartyTimeInfo joinPartyTimeInfo=new JoinPartyTimeInfo();
-        joinPartyTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
-        joinPartyTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
-        joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
-        joinPartyTimeInfo.setJoinPartyIntroducer(employeeInfo.getJoinPartyIntroducer());
-        joinPartyTimeInfo.setJoinGroupTime(employeeInfo.getJoinGroupTime());
-        joinPartyTimeInfo.setJoinPartyTimeProblemDetail(employeeInfo.getJoinPartyTimeProblemDetail());
-        joinPartyTimeInfo.setJoinPartyTimeCheckResult(employeeInfo.getJoinPartyTimeCheckResult());
-        joinPartyTimeInfo.setJoinPartyTimeResearchSituation(employeeInfo.getJoinPartyTimeResearchSituation());
-        joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
-        joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
-        joinPartyTimeInfo.setUpdateTime(new Date());
-        count+=this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
-        //工作开始时间认定表
-        StartingJobTimeInfo startingJobTimeInfo=new StartingJobTimeInfo();
-        startingJobTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
-        startingJobTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
-        startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
-        startingJobTimeInfo.setStartingJobTimeArchvies(employeeInfo.getStartingJobTimeArchvies());
-        startingJobTimeInfo.setStartingJobTimeJudgment(employeeInfo.getStartingJobTimeJudgment());
-        startingJobTimeInfo.setStartingJobTimeProblemDetail(employeeInfo.getStartingJobTimeProblemDetail());
-        startingJobTimeInfo.setStartingJobTimeProblemCategory(employeeInfo.getStartingJobTimeProblemCategory());
-        startingJobTimeInfo.setStartingJobTimeCheckResult(employeeInfo.getStartingJobTimeCheckResult());
-        startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
-        startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
-        startingJobTimeInfo.setUpdateTime(new Date());
-        count+=this.startingJobTimeInfoService.insert(startingJobTimeInfo);
-        //工作经历认定表
-        WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
-        workExperienceInfo.setEmployeeId(employeeInfo.getEmployeeId());
-        workExperienceInfo.setEmployeeName(employeeInfo.getEmployeeName());
-        workExperienceInfo.setWorkExperienceProblemDetail(employeeInfo.getWorkExperienceProblemDetail());
-        workExperienceInfo.setWorkExperienceProblemCategory(employeeInfo.getWorkExperienceProblemCategory());
-        workExperienceInfo.setWorkExperienceCheckResult(employeeInfo.getWorkExperienceCheckResult());
-        workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
-        workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
-        workExperienceInfo.setUpdateTime(new Date());
-        count+=this.workExperienceInfoService.insert(workExperienceInfo);
-        return  count;
+        Result res=new GeneralResult(true);
+        EmployeeInfo employeeInfo1=this.employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId());
+        if(employeeInfo1!=null){
+            int count=0;
+            //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
+            count+=this.employeeInfoService.insert(employeeInfo);
+            //生成出生日期认定表基本信息
+            BirthdayInfo birthdayInfo=new BirthdayInfo();
+            birthdayInfo.setEmployeeId(employeeInfo.getEmployeeId());
+            birthdayInfo.setEmployeeName(employeeInfo.getEmployeeName());
+            birthdayInfo.setBirthdayCard(employeeInfo.getBirthdayCard());
+            birthdayInfo.setBirthdayArchives(employeeInfo.getBirthdayArchives());
+            birthdayInfo.setBirthdayJudgment(employeeInfo.getBirthdayJudgment());
+            birthdayInfo.setBirthdayProblemDetail(employeeInfo.getBirthdayProblemDetail());
+            birthdayInfo.setBirthdayCheckResult(employeeInfo.getBirthdayCheckResult());
+            birthdayInfo.setBirthdayProblemCategory(employeeInfo.getBirthdayProblemCategory());
+            birthdayInfo.setBirthdayCheckRule(employeeInfo.getBirthdayCheckRule());
+            birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
+            birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
+            birthdayInfo.setUpdateTime(new Date());
+            count+=this.birthdayInfoService.insert(birthdayInfo);
+            //学历信息认定表基本信息
+            EducationInfo educationInfo=new EducationInfo();
+            educationInfo.setEmployeeId(employeeInfo.getEmployeeId());
+            educationInfo.setEmployeeName(employeeInfo.getEmployeeName());
+            educationInfo.setEducationDegree(employeeInfo.getEducationDegree());
+            educationInfo.setEducationBackgroud(employeeInfo.getEducationBackgroud());
+            educationInfo.setEducationBackgroudJudgment(employeeInfo.getEducationBackgroudJudgment());
+            educationInfo.setEducationDegreeeJudgment(employeeInfo.getEducationDegreeJudgment());
+            educationInfo.setEducationProblemCategory(employeeInfo.getEducationProblemCategory());
+            educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
+            educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
+            educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
+            educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
+            educationInfo.setUpdateTime(new Date());
+            count+=this.educationInfoService.insert(educationInfo);
+            //入党时间认定表基本信息
+            JoinPartyTimeInfo joinPartyTimeInfo=new JoinPartyTimeInfo();
+            joinPartyTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
+            joinPartyTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
+            joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
+            joinPartyTimeInfo.setJoinPartyIntroducer(employeeInfo.getJoinPartyIntroducer());
+            joinPartyTimeInfo.setJoinGroupTime(employeeInfo.getJoinGroupTime());
+            joinPartyTimeInfo.setJoinPartyTimeProblemDetail(employeeInfo.getJoinPartyTimeProblemDetail());
+            joinPartyTimeInfo.setJoinPartyTimeCheckResult(employeeInfo.getJoinPartyTimeCheckResult());
+            joinPartyTimeInfo.setJoinPartyTimeResearchSituation(employeeInfo.getJoinPartyTimeResearchSituation());
+            joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
+            joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
+            joinPartyTimeInfo.setUpdateTime(new Date());
+            count+=this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
+            //工作开始时间认定表
+            StartingJobTimeInfo startingJobTimeInfo=new StartingJobTimeInfo();
+            startingJobTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
+            startingJobTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
+            startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
+            startingJobTimeInfo.setStartingJobTimeArchvies(employeeInfo.getStartingJobTimeArchvies());
+            startingJobTimeInfo.setStartingJobTimeJudgment(employeeInfo.getStartingJobTimeJudgment());
+            startingJobTimeInfo.setStartingJobTimeProblemDetail(employeeInfo.getStartingJobTimeProblemDetail());
+            startingJobTimeInfo.setStartingJobTimeProblemCategory(employeeInfo.getStartingJobTimeProblemCategory());
+            startingJobTimeInfo.setStartingJobTimeCheckResult(employeeInfo.getStartingJobTimeCheckResult());
+            startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
+            startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
+            startingJobTimeInfo.setUpdateTime(new Date());
+            count+=this.startingJobTimeInfoService.insert(startingJobTimeInfo);
+            //工作经历认定表
+            WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
+            workExperienceInfo.setEmployeeId(employeeInfo.getEmployeeId());
+            workExperienceInfo.setEmployeeName(employeeInfo.getEmployeeName());
+            workExperienceInfo.setWorkExperienceProblemDetail(employeeInfo.getWorkExperienceProblemDetail());
+            workExperienceInfo.setWorkExperienceProblemCategory(employeeInfo.getWorkExperienceProblemCategory());
+            workExperienceInfo.setWorkExperienceCheckResult(employeeInfo.getWorkExperienceCheckResult());
+            workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
+            workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
+            workExperienceInfo.setUpdateTime(new Date());
+            count+=this.workExperienceInfoService.insert(workExperienceInfo);
+            if(count==6){
+                res.setMsg("新增员工信息成功！");
+            }else{
+                res.setMsg("新增失败!");
+            }
+        }
+       else{
+           res.setMsg("已存在员工编号为"+employeeInfo1.getEmployeeId()+"的员工信息，请你进行更新操作！");
+           res.setSuccess(false);
+        }
+        return  res;
 
     }
 
@@ -155,21 +170,56 @@ public class EmployeeInfoController {
      * @param id
      * @return boolean
      */
-    @PostMapping("delete")
+    @GetMapping("delete")
     @ResponseBody
-    public Boolean delete(int id){
+    public Result delete(int id){
+        Result res=new GeneralResult(true);
         EmployeeInfo employeeInfo=new EmployeeInfo();
         employeeInfo=this.employeeInfoService.queryById(id);
+        if(employeeInfo!=null) {
+        res.setIdData(employeeInfo);  
         try {
             this.birthdayInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            this.startingJobTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            this.joinPartyTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            this.educationInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            this.workExperienceInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
         }catch (Exception e){
+            res.setMsg("删除出生日期信息出现异常");
+            res.setSuccess(false);
             e.printStackTrace();
         }
-        return this.employeeInfoService.deleteById(id);
+        try{
+            this.startingJobTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+        }catch (Exception e){
+            res.setMsg("删除开始工作时间信息出现异常");
+            res.setSuccess(false);
+            e.printStackTrace();
+        }
+        try{
+           this.joinPartyTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+        }catch (Exception e){
+            e.printStackTrace();
+            res.setMsg("删除入党时间出现异常");
+            res.setSuccess(false);
+        }
+        try {
+           this.educationInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+        }catch (Exception e){
+            res.setMsg("删除学历信息出现异常");
+            res.setSuccess(false);
+             e.printStackTrace();
+        }
+        try {
+            this.workExperienceInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+        }catch (Exception e){
+            res.setMsg("删除工作经历信息出现异常");
+            res.setSuccess(false);
+            e.printStackTrace();
+        }
+        this.employeeInfoService.deleteById(id);
+        res.setMsg("删除成功，绑定的5个认定表信息已删除");
+      }else{
+            res.setMsg("id"+id+"该员工相关信息不存在");
+            res.setSuccess(false);
+      }
+        return   res;
     }
 
     /**
@@ -210,8 +260,16 @@ public class EmployeeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  EmployeeInfo update(@RequestBody EmployeeInfo employeeInfo){
-        return this.employeeInfoService.update(employeeInfo);
+    public  Result update(@RequestBody EmployeeInfo employeeInfo){
+        employeeInfo= this.employeeInfoService.update(employeeInfo);
+        Result res=new GeneralResult(true);
+        res.setMsg("更新成功！");
+        res.setData(employeeInfo);
+        if(employeeInfo==null){
+            res.setSuccess(false);
+            res.setMsg("更新失败！");
+        }
+        return  res;
     }
 
     @PostMapping("importExcel")
@@ -234,6 +292,18 @@ public class EmployeeInfoController {
                 res.setMsg("导入失败");
             }else{
                 List<EmployeeInfo> employeeInfoList = result.getList();
+               /* for (EmployeeInfo employeeInfo: employeeInfoList) {
+                    if(employeeInfo==null){
+                        employeeInfoList.remove(employeeInfo);
+                    }
+                }*/
+               Iterator<EmployeeInfo> employeeInfoIterator=employeeInfoList.iterator();
+                while(employeeInfoIterator.hasNext()){
+                    EmployeeInfo employeeInfo=employeeInfoIterator.next();
+                    if(employeeInfo.getEmployeeName()==null){
+                        employeeInfoIterator.remove();
+                    }
+                }
                 for (EmployeeInfo employeeInfo: employeeInfoList) {
                     int count=0;
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
@@ -312,12 +382,20 @@ public class EmployeeInfoController {
                     }
                 }
                 res.setMsg("导入成功");
-                res.setData(employeeInfoList.size());
+                res.setTotalCount(employeeInfoList.size());
+                if(employeeInfoList.size()==0){
+                    res.setSuccess(false);
+                    res.setMsg("导入失败！没有对应的数据！");
+                }
                 System.out.println("从Excel导入数据一共 {} 行 "+employeeInfoList.size());
             } }catch (IOException e) {
-            System.out.println("导入失败：{}"+e.getMessage());
+             System.out.println("导入失败：{}"+e.getMessage());
+             res.setMsg("导入失败！出现异常！");
+             res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setMsg("导入失败！出现异常");
+            res.setSuccess(false);
         }
         return res;
     }
@@ -325,6 +403,7 @@ public class EmployeeInfoController {
     /**
      *
      * @Title: export
+     * @Description: 导出excel
      * @Description: 导出excel
      * @param response,request
      * @return void

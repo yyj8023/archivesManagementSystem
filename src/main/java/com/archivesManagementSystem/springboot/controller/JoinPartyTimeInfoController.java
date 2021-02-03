@@ -3,6 +3,7 @@ package com.archivesManagementSystem.springboot.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.service.JoinPartyTimeInfoService;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-27 23:32:23
  */
+@CrossOrigin
 @RestController
 @RequestMapping("joinPartyTimeInfo")
 public class JoinPartyTimeInfoController {
@@ -61,8 +64,11 @@ public class JoinPartyTimeInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
-        return  this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
+    public Result insert(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
+         Result res=new GeneralResult(true);
+         this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
+         res.setMsg("新增入党时间认定信息成功！");
+         return  res;
     }
 
     /**
@@ -70,10 +76,21 @@ public class JoinPartyTimeInfoController {
      * @param id
      * @return boolean
      */
-    @PostMapping("delete")
+    @GetMapping("delete")
     @ResponseBody
-    public Boolean delete(int id){
-        return this.joinPartyTimeInfoService.deleteById(id);
+    public Result delete(int id){
+        Result res=new GeneralResult(true);
+        JoinPartyTimeInfo joinPartyTimeInfo=new JoinPartyTimeInfo();
+        joinPartyTimeInfo=this.joinPartyTimeInfoService.queryById(id);
+        if(joinPartyTimeInfo!=null) {
+            res.setIdData(joinPartyTimeInfo);
+            this.joinPartyTimeInfoService.deleteById(id);
+            res.setMsg("删除成功！");
+        }else{
+            res.setMsg("删除失败！");
+            res.setSuccess(false);
+        }
+        return res;
     }
 
     /**
@@ -114,8 +131,17 @@ public class JoinPartyTimeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  JoinPartyTimeInfo update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
-        return this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
+    public  Result update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo){
+
+        joinPartyTimeInfo= this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
+        Result res=new GeneralResult(true);
+        res.setMsg("更新成功！");
+        res.setData(joinPartyTimeInfo);
+        if(joinPartyTimeInfo==null){
+            res.setSuccess(false);
+            res.setMsg("更新失败！");
+        }
+        return  res;
     }
 
     @PostMapping("importExcel")
@@ -139,6 +165,13 @@ public class JoinPartyTimeInfoController {
             }else{
                 int count=0;
                 List<JoinPartyTimeInfo> joinPartyTimeInfoList = result.getList();
+                Iterator<JoinPartyTimeInfo> employeeInfoIterator=joinPartyTimeInfoList.iterator();
+                while(employeeInfoIterator.hasNext()){
+                    JoinPartyTimeInfo employeeInfo=employeeInfoIterator.next();
+                    if(employeeInfo.getEmployeeName()==null){
+                        employeeInfoIterator.remove();
+                    }
+                }
                 for (JoinPartyTimeInfo joinPartyTimeInfo: joinPartyTimeInfoList) {
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
                     count=this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
@@ -147,12 +180,19 @@ public class JoinPartyTimeInfoController {
                     }
                 }
                 res.setMsg("导入成功");
-                res.setData(joinPartyTimeInfoList.size());
+                res.setTotalCount(joinPartyTimeInfoList.size());
+                if(joinPartyTimeInfoList.size()==0){
+                    res.setSuccess(false);
+                }
                 System.out.println("从Excel导入数据一共 {} 行 "+joinPartyTimeInfoList.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         }
         return res;
     }

@@ -21,6 +21,14 @@ public interface EmployeeInfoService {
     EmployeeInfo queryById(Integer id);
 
     /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    EmployeeInfo queryByEmployeeId(Integer employeeId);
+
+    /**
      * 查询多条数据
      *
      * @param employeeInfo 实例对象

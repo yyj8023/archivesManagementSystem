@@ -14,4 +14,13 @@ public interface Result extends Serializable {
     Object getData();
 
     void setData(Object var1);
+
+    void setIdData(Object var2);
+
+    Object getIdData();
+
+    int getTotalCount();
+
+    void setTotalCount(int totalCount);
+
 }

@@ -24,6 +24,14 @@ public interface EmployeeInfoDao {
     EmployeeInfo queryById(Integer id);
 
     /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    EmployeeInfo queryByEmployeeId(Integer employeeId);
+
+    /**
      * 查询指定行数据
      *
      * @param offset 查询起始位置

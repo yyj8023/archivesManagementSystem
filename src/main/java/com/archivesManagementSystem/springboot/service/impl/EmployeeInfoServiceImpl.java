@@ -32,6 +32,17 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     }
 
     /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    @Override
+    public EmployeeInfo queryByEmployeeId(Integer employeeId) {
+        return this.employeeInfoDao.queryByEmployeeId(employeeId);
+    }
+
+    /**
      * 查询多条数据
      *
      * @param employeeInfo 实例对象

@@ -40,6 +40,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-20 22:03:33
  */
+@CrossOrigin
 @RestController
 @RequestMapping("sysUser")
 public class SysUserController {
@@ -56,10 +57,20 @@ public class SysUserController {
      */
     @PostMapping("login")
     @ResponseBody
-    public String loginCheck(@RequestBody SysUser sysUser) {
+    public Result loginCheck(@RequestBody SysUser sysUser) {
         //后期用于MD5加密
         //String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
-        return this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword());
+        Result res=new GeneralResult(true);
+        res.setData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword()).getUserName());
+        res.setIdData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword()).getId());
+        if(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword())!=null){
+            res.setMsg("登录成功");
+            res.setSuccess(true);
+        }else{
+            res.setMsg("登录失败");
+            res.setSuccess(false);
+        }
+        return res;
     }
     /**
      * 通过主键查询单条数据

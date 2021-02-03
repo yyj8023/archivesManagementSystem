@@ -70,7 +70,7 @@ public interface SysUserDao {
      */
     int deleteById(Integer id);
 
-    String queryByNameAndPass(@Param("userName") String userName,@Param("userPassword") String userPassword);
+    SysUser queryByNameAndPass(@Param("userName") String userName,@Param("userPassword") String userPassword);
 
     int count(SysUser sysUser);
 }

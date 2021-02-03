@@ -67,7 +67,7 @@ public interface SysUserService {
      */
     boolean deleteById(Integer id);
 
-    String queryByNameAndPass(String userName,String userPassword);
+    SysUser queryByNameAndPass(String userName,String userPassword);
 
     int count(SysUser sysUser);
 }

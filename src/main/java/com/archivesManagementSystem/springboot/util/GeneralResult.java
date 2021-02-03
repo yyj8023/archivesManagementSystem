@@ -7,6 +7,7 @@ public class GeneralResult implements Result {
     private int totalCount;
     private int current;
     private Object data;
+    private Object idData;
 
     public GeneralResult() {
     }
@@ -54,4 +55,13 @@ public class GeneralResult implements Result {
     public void setData(Object data) {
         this.data = data;
     }
+
+    public Object getIdData() {
+        return this.idData;
+    }
+
+    public void setIdData(Object idData) {
+        this.idData = idData;
+    }
+
 }

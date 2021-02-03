@@ -49,6 +49,7 @@ import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
 import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.SysUser;
 import com.archivesManagementSystem.springboot.service.EducationCareerInfoService;
+import com.archivesManagementSystem.springboot.service.EmployeeInfoService;
 import com.archivesManagementSystem.springboot.util.ExcelUtils;
 import com.archivesManagementSystem.springboot.util.GeneralResult;
 import com.archivesManagementSystem.springboot.util.Result;
@@ -76,6 +77,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-20 22:15:23
  */
+@CrossOrigin
 @RestController
 @RequestMapping("educationCareerInfo")
 public class EducationCareerInfoController {
@@ -84,7 +86,8 @@ public class EducationCareerInfoController {
      */
     @Resource
     private EducationCareerInfoService educationCareerInfoService;
-
+    @Resource
+    private EmployeeInfoService employeeInfoService;
     /**
      * 通过主键查询单条数据
      *
@@ -104,8 +107,11 @@ public class EducationCareerInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(@RequestBody EducationCareerInfo educationCareerInfo){
-        return  this.educationCareerInfoService.insert(educationCareerInfo);
+    public Result insert(@RequestBody EducationCareerInfo educationCareerInfo){
+        Result res=new GeneralResult(true);
+        this.educationCareerInfoService.insert(educationCareerInfo);
+        res.setMsg("新增学历学历详情信息成功");
+        return res;
     }
 
     /**
@@ -113,10 +119,20 @@ public class EducationCareerInfoController {
      * @param id
      * @return boolean
      */
-    @PostMapping("delete")
+    @GetMapping("delete")
     @ResponseBody
-    public Boolean delete(int id){
-        return this.educationCareerInfoService.deleteById(id);
+    public Result delete(int id){
+        Result res=new GeneralResult(true);
+        EducationCareerInfo educationCareerInfo=this.educationCareerInfoService.queryById(id);
+        if(educationCareerInfo!=null){
+            res.setData(educationCareerInfo);
+            this.educationCareerInfoService.deleteById(id);
+            res.setMsg("删除成功");
+        }else{
+            res.setSuccess(false);
+            res.setMsg("删除失败!不存在"+id+"为主键的学历详情信息");
+        }
+        return res;
     }
 
     /**
@@ -157,8 +173,17 @@ public class EducationCareerInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  EducationCareerInfo update(@RequestBody EducationCareerInfo educationCareerInfo){
-        return this.educationCareerInfoService.update(educationCareerInfo);
+    public  Result update(@RequestBody EducationCareerInfo educationCareerInfo){
+        Result res=new GeneralResult(true);
+        educationCareerInfo=this.educationCareerInfoService.update(educationCareerInfo);
+        res.setMsg("更新成功！");
+        res.setData(educationCareerInfo);
+        if(educationCareerInfo==null){
+            res.setSuccess(false);
+            res.setMsg("更新失败！");
+        }
+        return  res;
+
     }
 
     @PostMapping("importExcel")

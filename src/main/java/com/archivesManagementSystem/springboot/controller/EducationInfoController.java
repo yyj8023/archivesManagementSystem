@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
+import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
 import com.archivesManagementSystem.springboot.service.EducationInfoService;
 import com.archivesManagementSystem.springboot.util.ExcelUtils;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-27 23:32:14
  */
+@CrossOrigin
 @RestController
 @RequestMapping("educationInfo")
 public class EducationInfoController {
@@ -56,13 +59,16 @@ public class EducationInfoController {
     /**
      * 单条插入员工信息
      *
-     * @param employeeInfo
+     * @param educationInfo
      * @return 实体对象，若为空，则插入不成功
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(@RequestBody EducationInfo employeeInfo){
-        return  this.educationInfoService.insert(employeeInfo);
+    public Result insert(@RequestBody EducationInfo educationInfo){
+        Result res=new GeneralResult(true);
+        this.educationInfoService.insert(educationInfo);
+        res.setMsg("新增学历信息成功！");
+        return  res;
     }
 
     /**
@@ -72,8 +78,20 @@ public class EducationInfoController {
      */
     @PostMapping("delete")
     @ResponseBody
-    public Boolean delete(int id){
-        return this.educationInfoService.deleteById(id);
+    public Result delete(@RequestBody  int id){
+        Result res=new GeneralResult(true);
+        EducationInfo educationInfo=new EducationInfo();
+        educationInfo=this.educationInfoService.queryById(id);
+        if(educationInfo!=null) {
+            res.setIdData(educationInfo);
+            this.educationInfoService.deleteById(id);
+            res.setMsg("删除成功！");
+        }else{
+            res.setMsg("删除失败！");
+            res.setSuccess(false);
+        }
+        return res;
+
     }
 
     /**
@@ -114,8 +132,16 @@ public class EducationInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  EducationInfo update(@RequestBody EducationInfo educationInfo){
-        return this.educationInfoService.update(educationInfo);
+    public  Result update(@RequestBody EducationInfo educationInfo){
+        Result res=new GeneralResult(true);
+       educationInfo=this.educationInfoService.update(educationInfo);
+       res.setMsg("更新成功！");
+       res.setData(educationInfo);
+       if(educationInfo==null){
+           res.setMsg("更新失败！");
+           res.setSuccess(false);
+       }
+       return  res;
     }
 
 
@@ -140,6 +166,13 @@ public class EducationInfoController {
             }else{
                 int count=0;
                 List<EducationInfo> educationInfos = result.getList();
+                Iterator<EducationInfo> employeeInfoIterator=educationInfos.iterator();
+                while(employeeInfoIterator.hasNext()){
+                    EducationInfo employeeInfo=employeeInfoIterator.next();
+                    if(employeeInfo.getEmployeeName()==null){
+                        employeeInfoIterator.remove();
+                    }
+                }
                 for (EducationInfo educationInfo: educationInfos) {
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
                     count=this.educationInfoService.insert(educationInfo);
@@ -148,12 +181,19 @@ public class EducationInfoController {
                     }
                 }
                 res.setMsg("导入成功");
-                res.setData(educationInfos.size());
+                res.setTotalCount(educationInfos.size());
+                if(educationInfos.size()==0){
+                    res.setSuccess(false);
+                }
                 System.out.println("从Excel导入数据一共 {} 行 "+educationInfos.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         }
         return res;
     }

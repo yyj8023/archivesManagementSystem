@@ -18,6 +18,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-27 23:32:33
  */
+@CrossOrigin
 @RestController
 @RequestMapping("ordinaryOperateLog")
 public class OrdinaryOperateLogController {

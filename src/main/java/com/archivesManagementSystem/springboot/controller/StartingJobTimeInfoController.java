@@ -3,6 +3,7 @@ package com.archivesManagementSystem.springboot.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
 import com.archivesManagementSystem.springboot.entity.StartingJobTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -34,6 +36,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-27 23:33:03
  */
+@CrossOrigin
 @RestController
 @RequestMapping("startingJobTimeInfo")
 public class StartingJobTimeInfoController {
@@ -62,8 +65,11 @@ public class StartingJobTimeInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
-        return  this.startingJobTimeInfoService.insert(startingJobTimeInfo);
+    public Result insert(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
+        Result res=new GeneralResult(true);
+        this.startingJobTimeInfoService.insert(startingJobTimeInfo);
+        res.setMsg("新增出生认定信息成功！");
+        return  res;
     }
 
     /**
@@ -71,10 +77,21 @@ public class StartingJobTimeInfoController {
      * @param id
      * @return boolean
      */
-    @PostMapping("delete")
+    @GetMapping("delete")
     @ResponseBody
-    public Boolean delete(int id){
-        return this.startingJobTimeInfoService.deleteById(id);
+    public Result delete(int id){
+        Result res=new GeneralResult(true);
+        StartingJobTimeInfo startingJobTimeInfo=new StartingJobTimeInfo();
+        startingJobTimeInfo=this.startingJobTimeInfoService.queryById(id);
+        if(startingJobTimeInfo!=null) {
+            res.setIdData(startingJobTimeInfo);
+            this.startingJobTimeInfoService.deleteById(id);
+            res.setMsg("删除成功！");
+        }else{
+            res.setMsg("删除失败！");
+            res.setSuccess(false);
+        }
+        return res;
     }
 
     /**
@@ -115,8 +132,16 @@ public class StartingJobTimeInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  StartingJobTimeInfo update(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
-        return this.startingJobTimeInfoService.update(startingJobTimeInfo);
+    public  Result update(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
+        startingJobTimeInfo= this.startingJobTimeInfoService.update(startingJobTimeInfo);
+        Result res=new GeneralResult(true);
+        res.setMsg("更新成功！");
+        res.setData(startingJobTimeInfo);
+        if(startingJobTimeInfo==null){
+            res.setSuccess(false);
+            res.setMsg("更新失败！");
+        }
+        return  res;
     }
 
     @PostMapping("importExcel")
@@ -140,6 +165,13 @@ public class StartingJobTimeInfoController {
             }else{
                 int count=0;
                 List<StartingJobTimeInfo> startingJobTimeInfoList = result.getList();
+                Iterator<StartingJobTimeInfo> employeeInfoIterator=startingJobTimeInfoList.iterator();
+                while(employeeInfoIterator.hasNext()){
+                    StartingJobTimeInfo employeeInfo=employeeInfoIterator.next();
+                    if(employeeInfo.getEmployeeName()==null){
+                        employeeInfoIterator.remove();
+                    }
+                }
                 for (StartingJobTimeInfo startingJobTimeInfo: startingJobTimeInfoList) {
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
                     count=this.startingJobTimeInfoService.insert(startingJobTimeInfo);
@@ -148,12 +180,19 @@ public class StartingJobTimeInfoController {
                     }
                 }
                 res.setMsg("导入成功");
-                res.setData(startingJobTimeInfoList.size());
+                res.setTotalCount(startingJobTimeInfoList.size());
+                if(startingJobTimeInfoList.size()==0){
+                    res.setSuccess(false);
+                }
                 System.out.println("从Excel导入数据一共 {} 行 "+startingJobTimeInfoList.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         }
         return res;
     }

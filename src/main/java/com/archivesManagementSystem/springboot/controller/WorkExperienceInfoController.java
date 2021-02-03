@@ -3,6 +3,7 @@ package com.archivesManagementSystem.springboot.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -34,6 +36,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-27 23:33:11
  */
+@CrossOrigin
 @RestController
 @RequestMapping("workExperienceInfo")
 public class WorkExperienceInfoController {
@@ -62,19 +65,33 @@ public class WorkExperienceInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(@RequestBody WorkExperienceInfo workExperienceInfo){
-        return  this.workExperienceInfoService.insert(workExperienceInfo);
+    public Result insert(@RequestBody WorkExperienceInfo workExperienceInfo){
+        Result res=new GeneralResult(true);
+        this.workExperienceInfoService.insert(workExperienceInfo);
+        res.setMsg("新增出生认定信息成功！");
+        return  res;
     }
 
     /**
      * 根据主键删除数据
      * @param id
-     * @return boolean
+     * @return
      */
-    @PostMapping("delete")
+    @GetMapping("delete")
     @ResponseBody
-    public Boolean delete(int id){
-        return this.workExperienceInfoService.deleteById(id);
+    public Result delete(int id){
+        Result res=new GeneralResult(true);
+        WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
+        workExperienceInfo=this.workExperienceInfoService.queryById(id);
+        if(workExperienceInfo!=null) {
+            res.setIdData(workExperienceInfo);
+            this.workExperienceInfoService.deleteById(id);
+            res.setMsg("删除成功！");
+        }else{
+            res.setMsg("删除失败！");
+            res.setSuccess(false);
+        }
+        return res;
     }
 
     /**
@@ -115,8 +132,16 @@ public class WorkExperienceInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  WorkExperienceInfo update(@RequestBody WorkExperienceInfo workExperienceInfo){
-        return this.workExperienceInfoService.update(workExperienceInfo);
+    public  Result update(@RequestBody WorkExperienceInfo workExperienceInfo){
+        workExperienceInfo= this.workExperienceInfoService.update(workExperienceInfo);
+        Result res=new GeneralResult(true);
+        res.setMsg("更新成功！");
+        res.setData(workExperienceInfo);
+        if(workExperienceInfo==null){
+            res.setSuccess(false);
+            res.setMsg("更新失败！");
+        }
+        return  res;
     }
 
     @PostMapping("importExcel")
@@ -140,6 +165,13 @@ public class WorkExperienceInfoController {
             }else{
                 int count=0;
                 List<WorkExperienceInfo> workExperienceInfoList = result.getList();
+                Iterator<WorkExperienceInfo> employeeInfoIterator=workExperienceInfoList.iterator();
+                while(employeeInfoIterator.hasNext()){
+                    WorkExperienceInfo employeeInfo=employeeInfoIterator.next();
+                    if(employeeInfo.getEmployeeName()==null){
+                        employeeInfoIterator.remove();
+                    }
+                }
                 for (WorkExperienceInfo workExperienceInfo: workExperienceInfoList) {
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
                     count=this.workExperienceInfoService.insert(workExperienceInfo);
@@ -148,12 +180,20 @@ public class WorkExperienceInfoController {
                     }
                 }
                 res.setMsg("导入成功");
-                res.setData(workExperienceInfoList.size());
+                res.setTotalCount(workExperienceInfoList.size());
+                if(workExperienceInfoList.size()==0){
+                    res.setSuccess(false);
+                    res.setSuccess(false);
+                }
                 System.out.println("从Excel导入数据一共 {} 行 "+workExperienceInfoList.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setMsg("导入失败！出现异常！");
+            res.setSuccess(false);
         }
         return res;
     }
