@@ -78,7 +78,7 @@ public class EmployeeInfoController {
     {
         Result res=new GeneralResult(true);
         EmployeeInfo employeeInfo1=this.employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId());
-        if(employeeInfo1!=null){
+        if(employeeInfo1==null){
             int count=0;
             //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
             count+=this.employeeInfoService.insert(employeeInfo);
