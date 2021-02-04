@@ -84,7 +84,7 @@ public class WorkExperienceInfoController {
         WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
         workExperienceInfo=this.workExperienceInfoService.queryById(id);
         if(workExperienceInfo!=null) {
-            res.setIdData(workExperienceInfo);
+            res.setData(workExperienceInfo);
             this.workExperienceInfoService.deleteById(id);
             res.setMsg("删除成功！");
         }else{

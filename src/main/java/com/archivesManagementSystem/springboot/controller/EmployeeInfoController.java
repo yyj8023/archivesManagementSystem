@@ -177,7 +177,7 @@ public class EmployeeInfoController {
         EmployeeInfo employeeInfo=new EmployeeInfo();
         employeeInfo=this.employeeInfoService.queryById(id);
         if(employeeInfo!=null) {
-        res.setIdData(employeeInfo);  
+        res.setData(employeeInfo);
         try {
             this.birthdayInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
         }catch (Exception e){
@@ -213,8 +213,12 @@ public class EmployeeInfoController {
             res.setSuccess(false);
             e.printStackTrace();
         }
-        this.employeeInfoService.deleteById(id);
-        res.setMsg("删除成功，绑定的5个认定表信息已删除");
+        if(!res.isSuccess()){
+            res.setMsg("关联的认定表删除失败！员工信息表无法删除");
+        }else{
+            this.employeeInfoService.deleteById(id);
+            res.setMsg("删除成功，绑定的5个认定表信息已删除");
+        }
       }else{
             res.setMsg("id"+id+"该员工相关信息不存在");
             res.setSuccess(false);

@@ -83,7 +83,7 @@ public class EducationInfoController {
         EducationInfo educationInfo=new EducationInfo();
         educationInfo=this.educationInfoService.queryById(id);
         if(educationInfo!=null) {
-            res.setIdData(educationInfo);
+            res.setData(educationInfo);
             this.educationInfoService.deleteById(id);
             res.setMsg("删除成功！");
         }else{

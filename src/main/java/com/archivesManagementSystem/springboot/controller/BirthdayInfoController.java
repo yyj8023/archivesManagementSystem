@@ -115,7 +115,7 @@ public class BirthdayInfoController {
         BirthdayInfo birthdayInfo=new BirthdayInfo();
         birthdayInfo=this.birthdayInfoService.queryById(id);
         if(birthdayInfo!=null) {
-            res.setIdData(birthdayInfo);
+            res.setData(birthdayInfo);
             this.birthdayInfoService.deleteById(id);
             res.setMsg("删除成功！");
         }else{
@@ -191,6 +191,7 @@ public class BirthdayInfoController {
                     res.setSuccess(false);
                     res.setMsg("导入失败！没有对应的数据！");
                 }
+                System.out.println("从Excel导入数据一共 {} 行 "+birthdayInfos.size());
                 System.out.println("从Excel导入数据一共 {} 行 "+birthdayInfos.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());

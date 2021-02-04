@@ -84,7 +84,7 @@ public class StartingJobTimeInfoController {
         StartingJobTimeInfo startingJobTimeInfo=new StartingJobTimeInfo();
         startingJobTimeInfo=this.startingJobTimeInfoService.queryById(id);
         if(startingJobTimeInfo!=null) {
-            res.setIdData(startingJobTimeInfo);
+            res.setData(startingJobTimeInfo);
             this.startingJobTimeInfoService.deleteById(id);
             res.setMsg("删除成功！");
         }else{

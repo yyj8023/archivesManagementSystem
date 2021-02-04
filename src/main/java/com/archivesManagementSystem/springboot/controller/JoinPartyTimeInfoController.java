@@ -83,7 +83,7 @@ public class JoinPartyTimeInfoController {
         JoinPartyTimeInfo joinPartyTimeInfo=new JoinPartyTimeInfo();
         joinPartyTimeInfo=this.joinPartyTimeInfoService.queryById(id);
         if(joinPartyTimeInfo!=null) {
-            res.setIdData(joinPartyTimeInfo);
+            res.setData(joinPartyTimeInfo);
             this.joinPartyTimeInfoService.deleteById(id);
             res.setMsg("删除成功！");
         }else{
