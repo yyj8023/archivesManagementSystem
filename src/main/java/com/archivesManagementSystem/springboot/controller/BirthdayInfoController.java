@@ -3,6 +3,7 @@ package com.archivesManagementSystem.springboot.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.*;
 import com.archivesManagementSystem.springboot.service.BirthdayInfoService;
 import com.archivesManagementSystem.springboot.util.ExcelUtils;
@@ -99,6 +100,7 @@ public class BirthdayInfoController {
     public Result insert(@RequestBody BirthdayInfo birthdayInfo){
         Result res=new GeneralResult(true);
         this.birthdayInfoService.insert(birthdayInfo);
+        res.setCode(CommonController.SUCCESS);
         res.setMsg("新增出生认定信息成功！");
         return  res;
     }
@@ -117,8 +119,10 @@ public class BirthdayInfoController {
         if(birthdayInfo!=null) {
             res.setData(birthdayInfo);
             this.birthdayInfoService.deleteById(id);
+            res.setCode(CommonController.SUCCESS);
             res.setMsg("删除成功！");
         }else{
+            res.setCode(CommonController.ERROR);
             res.setMsg("删除失败！");
             res.setSuccess(false);
         }
@@ -135,10 +139,12 @@ public class BirthdayInfoController {
     public  Result update(@RequestBody BirthdayInfo birthdayInfo){
         birthdayInfo= this.birthdayInfoService.update(birthdayInfo);
         Result res=new GeneralResult(true);
+        res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
         res.setData(birthdayInfo);
         if(birthdayInfo==null){
             res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
             res.setMsg("更新失败！");
         }
         return  res;
@@ -167,6 +173,7 @@ public class BirthdayInfoController {
             ExcelImportResult<BirthdayInfo> result = ExcelImportUtil.importExcelMore(file.getInputStream(), BirthdayInfo.class, importParams);
             if(result.isVerfiyFail()){
                 res.setSuccess(false);
+                res.setCode(CommonController.ERROR);
                 res.setMsg("导入失败");
             }else{
                 int count=0;
@@ -185,10 +192,12 @@ public class BirthdayInfoController {
                         System.out.println("成功");
                     }
                 }
+                res.setCode(CommonController.SUCCESS);
                 res.setMsg("导入成功");
                 res.setTotalCount(birthdayInfos.size());
                 if(birthdayInfos.size()==0){
                     res.setSuccess(false);
+                    res.setCode(CommonController.ERROR);
                     res.setMsg("导入失败！没有对应的数据！");
                 }
                 System.out.println("从Excel导入数据一共 {} 行 "+birthdayInfos.size());

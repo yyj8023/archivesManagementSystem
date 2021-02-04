@@ -3,6 +3,7 @@ package com.archivesManagementSystem.springboot.util;
 public class GeneralResult implements Result {
     private static final long serialVersionUID = -940139127925466172L;
     private String msg;
+    private String code;
     private boolean success = false;
     private int totalCount;
     private int current;
@@ -46,6 +47,14 @@ public class GeneralResult implements Result {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Object getData() {

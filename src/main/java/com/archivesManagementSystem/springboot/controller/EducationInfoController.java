@@ -3,6 +3,7 @@ package com.archivesManagementSystem.springboot.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
@@ -67,6 +68,7 @@ public class EducationInfoController {
     public Result insert(@RequestBody EducationInfo educationInfo){
         Result res=new GeneralResult(true);
         this.educationInfoService.insert(educationInfo);
+        res.setCode(CommonController.SUCCESS);
         res.setMsg("新增学历信息成功！");
         return  res;
     }
@@ -85,8 +87,10 @@ public class EducationInfoController {
         if(educationInfo!=null) {
             res.setData(educationInfo);
             this.educationInfoService.deleteById(id);
+            res.setCode(CommonController.SUCCESS);
             res.setMsg("删除成功！");
         }else{
+            res.setCode(CommonController.ERROR);
             res.setMsg("删除失败！");
             res.setSuccess(false);
         }
@@ -135,9 +139,11 @@ public class EducationInfoController {
     public  Result update(@RequestBody EducationInfo educationInfo){
         Result res=new GeneralResult(true);
        educationInfo=this.educationInfoService.update(educationInfo);
+        res.setCode(CommonController.SUCCESS);
        res.setMsg("更新成功！");
        res.setData(educationInfo);
        if(educationInfo==null){
+           res.setCode(CommonController.ERROR);
            res.setMsg("更新失败！");
            res.setSuccess(false);
        }
@@ -162,6 +168,7 @@ public class EducationInfoController {
             ExcelImportResult<EducationInfo> result = ExcelImportUtil.importExcelMore(file.getInputStream(), EducationInfo.class, importParams);
             if(result.isVerfiyFail()){
                 res.setSuccess(false);
+                res.setCode(CommonController.ERROR);
                 res.setMsg("导入失败");
             }else{
                 int count=0;
@@ -180,6 +187,7 @@ public class EducationInfoController {
                         System.out.println("成功");
                     }
                 }
+                res.setCode(CommonController.SUCCESS);
                 res.setMsg("导入成功");
                 res.setTotalCount(educationInfos.size());
                 if(educationInfos.size()==0){
@@ -188,10 +196,12 @@ public class EducationInfoController {
                 System.out.println("从Excel导入数据一共 {} 行 "+educationInfos.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());
+            res.setCode(CommonController.ERROR);
             res.setMsg("导入失败！出现异常！");
             res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setCode(CommonController.ERROR);
             res.setMsg("导入失败！出现异常！");
             res.setSuccess(false);
         }

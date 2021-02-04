@@ -11,6 +11,10 @@ public interface Result extends Serializable {
 
     void setMsg(String var1);
 
+    String getCode();
+
+    void setCode(String var1);
+
     Object getData();
 
     void setData(Object var1);

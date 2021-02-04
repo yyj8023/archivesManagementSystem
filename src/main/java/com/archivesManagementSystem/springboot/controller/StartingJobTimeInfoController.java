@@ -3,6 +3,7 @@ package com.archivesManagementSystem.springboot.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
 import com.archivesManagementSystem.springboot.entity.StartingJobTimeInfo;
@@ -68,6 +69,7 @@ public class StartingJobTimeInfoController {
     public Result insert(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
         Result res=new GeneralResult(true);
         this.startingJobTimeInfoService.insert(startingJobTimeInfo);
+        res.setCode(CommonController.SUCCESS);
         res.setMsg("新增出生认定信息成功！");
         return  res;
     }
@@ -86,8 +88,10 @@ public class StartingJobTimeInfoController {
         if(startingJobTimeInfo!=null) {
             res.setData(startingJobTimeInfo);
             this.startingJobTimeInfoService.deleteById(id);
+            res.setCode(CommonController.SUCCESS);
             res.setMsg("删除成功！");
         }else{
+            res.setCode(CommonController.ERROR);
             res.setMsg("删除失败！");
             res.setSuccess(false);
         }
@@ -135,10 +139,12 @@ public class StartingJobTimeInfoController {
     public  Result update(@RequestBody StartingJobTimeInfo startingJobTimeInfo){
         startingJobTimeInfo= this.startingJobTimeInfoService.update(startingJobTimeInfo);
         Result res=new GeneralResult(true);
+        res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
         res.setData(startingJobTimeInfo);
         if(startingJobTimeInfo==null){
             res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
             res.setMsg("更新失败！");
         }
         return  res;
@@ -161,6 +167,7 @@ public class StartingJobTimeInfoController {
             ExcelImportResult<StartingJobTimeInfo> result = ExcelImportUtil.importExcelMore(file.getInputStream(), StartingJobTimeInfo.class, importParams);
             if(result.isVerfiyFail()){
                 res.setSuccess(false);
+                res.setCode(CommonController.ERROR);
                 res.setMsg("导入失败");
             }else{
                 int count=0;
@@ -179,6 +186,7 @@ public class StartingJobTimeInfoController {
                         System.out.println("成功");
                     }
                 }
+                res.setCode(CommonController.SUCCESS);
                 res.setMsg("导入成功");
                 res.setTotalCount(startingJobTimeInfoList.size());
                 if(startingJobTimeInfoList.size()==0){
@@ -187,10 +195,12 @@ public class StartingJobTimeInfoController {
                 System.out.println("从Excel导入数据一共 {} 行 "+startingJobTimeInfoList.size());
             } }catch (IOException e) {
             System.out.println("导入失败：{}"+e.getMessage());
+            res.setCode(CommonController.ERROR);
             res.setMsg("导入失败！出现异常！");
             res.setSuccess(false);
         } catch (Exception e1) {
             System.out.println("导入失败：{}"+e1.getMessage());
+            res.setCode(CommonController.ERROR);
             res.setMsg("导入失败！出现异常！");
             res.setSuccess(false);
         }

@@ -45,6 +45,7 @@ package com.archivesManagementSystem.springboot.controller;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.EducationCareerInfo;
 import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.SysUser;
@@ -110,6 +111,7 @@ public class EducationCareerInfoController {
     public Result insert(@RequestBody EducationCareerInfo educationCareerInfo){
         Result res=new GeneralResult(true);
         this.educationCareerInfoService.insert(educationCareerInfo);
+        res.setCode(CommonController.SUCCESS);
         res.setMsg("新增学历学历详情信息成功");
         return res;
     }
@@ -127,9 +129,11 @@ public class EducationCareerInfoController {
         if(educationCareerInfo!=null){
             res.setData(educationCareerInfo);
             this.educationCareerInfoService.deleteById(id);
+            res.setCode(CommonController.SUCCESS);
             res.setMsg("删除成功");
         }else{
             res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
             res.setMsg("删除失败!不存在"+id+"为主键的学历详情信息");
         }
         return res;
@@ -176,10 +180,12 @@ public class EducationCareerInfoController {
     public  Result update(@RequestBody EducationCareerInfo educationCareerInfo){
         Result res=new GeneralResult(true);
         educationCareerInfo=this.educationCareerInfoService.update(educationCareerInfo);
+        res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
         res.setData(educationCareerInfo);
         if(educationCareerInfo==null){
             res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
             res.setMsg("更新失败！");
         }
         return  res;
@@ -203,6 +209,7 @@ public class EducationCareerInfoController {
             ExcelImportResult<EducationCareerInfo> result = ExcelImportUtil.importExcelMore(file.getInputStream(), EducationCareerInfo.class, importParams);
             if(result.isVerfiyFail()){
                 res.setSuccess(false);
+                res.setCode(CommonController.ERROR);
                 res.setMsg("导入失败");
             }else{
                 List<EducationCareerInfo> educationCareerInfos = result.getList();
@@ -215,6 +222,7 @@ public class EducationCareerInfoController {
                         System.out.println("成功");
                     }
                 }
+                res.setCode(CommonController.SUCCESS);
                 res.setMsg("导入成功");
                 res.setData(educationCareerInfos.size());
                 System.out.println("从Excel导入数据一共 {} 行 "+educationCareerInfos.size());
