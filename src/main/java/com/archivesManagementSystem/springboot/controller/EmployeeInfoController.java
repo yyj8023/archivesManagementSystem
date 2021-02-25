@@ -296,11 +296,6 @@ public class EmployeeInfoController {
                 res.setMsg("导入失败");
             }else{
                 List<EmployeeInfo> employeeInfoList = result.getList();
-               /* for (EmployeeInfo employeeInfo: employeeInfoList) {
-                    if(employeeInfo==null){
-                        employeeInfoList.remove(employeeInfo);
-                    }
-                }*/
                Iterator<EmployeeInfo> employeeInfoIterator=employeeInfoList.iterator();
                 while(employeeInfoIterator.hasNext()){
                     EmployeeInfo employeeInfo=employeeInfoIterator.next();
@@ -311,9 +306,8 @@ public class EmployeeInfoController {
                 for (EmployeeInfo employeeInfo: employeeInfoList) {
                     int count=0;
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
-                    count+=this.employeeInfoService.insert(employeeInfo);
                     //生成出生日期认定表基本信息
-                    BirthdayInfo birthdayInfo=new BirthdayInfo();
+                    BirthdayInfo birthdayInfo = new BirthdayInfo();
                     birthdayInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     birthdayInfo.setEmployeeName(employeeInfo.getEmployeeName());
                     birthdayInfo.setBirthdayCard(employeeInfo.getBirthdayCard());
@@ -326,9 +320,8 @@ public class EmployeeInfoController {
                     birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
                     birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     birthdayInfo.setUpdateTime(new Date());
-                    count+=this.birthdayInfoService.insert(birthdayInfo);
                     //学历信息认定表基本信息
-                    EducationInfo educationInfo=new EducationInfo();
+                    EducationInfo educationInfo = new EducationInfo();
                     educationInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     educationInfo.setEmployeeName(employeeInfo.getEmployeeName());
                     educationInfo.setEducationDegree(employeeInfo.getEducationDegree());
@@ -341,9 +334,8 @@ public class EmployeeInfoController {
                     educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
                     educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     educationInfo.setUpdateTime(new Date());
-                    count+=this.educationInfoService.insert(educationInfo);
                     //入党时间认定表基本信息
-                    JoinPartyTimeInfo joinPartyTimeInfo=new JoinPartyTimeInfo();
+                    JoinPartyTimeInfo joinPartyTimeInfo = new JoinPartyTimeInfo();
                     joinPartyTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     joinPartyTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
                     joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
@@ -355,9 +347,8 @@ public class EmployeeInfoController {
                     joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
                     joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     joinPartyTimeInfo.setUpdateTime(new Date());
-                    count+=this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
                     //工作开始时间认定表
-                    StartingJobTimeInfo startingJobTimeInfo=new StartingJobTimeInfo();
+                    StartingJobTimeInfo startingJobTimeInfo = new StartingJobTimeInfo();
                     startingJobTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     startingJobTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
                     startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
@@ -369,9 +360,8 @@ public class EmployeeInfoController {
                     startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
                     startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     startingJobTimeInfo.setUpdateTime(new Date());
-                    count+=this.startingJobTimeInfoService.insert(startingJobTimeInfo);
                     //工作经历认定表
-                    WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
+                    WorkExperienceInfo workExperienceInfo = new WorkExperienceInfo();
                     workExperienceInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     workExperienceInfo.setEmployeeName(employeeInfo.getEmployeeName());
                     workExperienceInfo.setWorkExperienceProblemDetail(employeeInfo.getWorkExperienceProblemDetail());
@@ -380,9 +370,24 @@ public class EmployeeInfoController {
                     workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
                     workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     workExperienceInfo.setUpdateTime(new Date());
-                    count+=this.workExperienceInfoService.insert(workExperienceInfo);
-                    if(count==6){
-                        System.out.println("成功");
+                    //有重复员工编号的值直接覆盖掉
+                    if(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId())!=null){
+                        this.employeeInfoService.update(employeeInfo);
+                        this.birthdayInfoService.update(birthdayInfo);
+                        this.educationInfoService.update(educationInfo);
+                        this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
+                        this.startingJobTimeInfoService.update(startingJobTimeInfo);
+                        this.workExperienceInfoService.update(workExperienceInfo);
+                    }else {
+                        count += this.employeeInfoService.insert(employeeInfo);
+                        count += this.birthdayInfoService.insert(birthdayInfo);
+                        count += this.educationInfoService.insert(educationInfo);
+                        count += this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
+                        count += this.startingJobTimeInfoService.insert(startingJobTimeInfo);
+                        count += this.workExperienceInfoService.insert(workExperienceInfo);
+                        if (count == 6) {
+                            System.out.println("成功");
+                        }
                     }
                 }
                 res.setMsg("导入成功");

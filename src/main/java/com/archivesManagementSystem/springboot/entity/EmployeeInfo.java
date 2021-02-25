@@ -55,12 +55,12 @@ public class EmployeeInfo implements Serializable {
     /**
     * 出生日期问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 7)
+    @Excel(name = "问题描述",fixedIndex = 8)
     private String birthdayProblemDetail;
     /**
     * 出生日期认定结果描述
     */
-    @Excel(name = "出生认定结果描述",fixedIndex = 8)
+    @Excel(name = "出生认定结果描述",fixedIndex = 9)
     private String birthdayCheckResult;
     /**
     * 身份证出生日期
@@ -79,7 +79,7 @@ public class EmployeeInfo implements Serializable {
     /**
     * 出生日期问题分类
     */
-    @Excel(name = "问题分类",fixedIndex = 11)
+    @Excel(name = "问题分类",fixedIndex = 12)
     private String birthdayProblemCategory;
     /**
     * 出生日期认定规则
@@ -89,17 +89,17 @@ public class EmployeeInfo implements Serializable {
     /**
     * 出生日期小结
     */
-    @Excel(name = "小结",fixedIndex = 13)
+    @Excel(name = "小结",fixedIndex = 14)
     private String birthdayCheckRemark;
     /**
     * 入党时间问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 14)
+    @Excel(name = "问题描述",fixedIndex = 15)
     private String joinPartyTimeProblemDetail;
     /**
     * 入党时间认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 15)
+    @Excel(name = "认定结果描述",fixedIndex = 16)
     private String joinPartyTimeCheckResult;
     /**
     * 入党时间调研情况
@@ -124,17 +124,17 @@ public class EmployeeInfo implements Serializable {
     /**
     * 入党时间小结
     */
-    @Excel(name = "小结",fixedIndex = 20)
+    @Excel(name = "小结",fixedIndex = 21)
     private String joinPartyTimeRemark;
     /**
     * 参加工作时间问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 21)
+    @Excel(name = "问题描述",fixedIndex = 22)
     private String startingJobTimeProblemDetail;
     /**
     * 参加工作时间认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 22)
+    @Excel(name = "认定结果描述",fixedIndex = 23)
     private String startingJobTimeCheckResult;
     /**
     * 自填工作时间
@@ -153,22 +153,22 @@ public class EmployeeInfo implements Serializable {
     /**
     * 参加工作时间问题分类
     */
-    @Excel(name = "问题分类",fixedIndex = 25)
+    @Excel(name = "问题分类",fixedIndex = 26)
     private String startingJobTimeProblemCategory;
     /**
     * 参加工作时间小结
     */
-    @Excel(name = "小结",fixedIndex = 26)
+    @Excel(name = "小结",fixedIndex = 27)
     private String startingJobTimeCheckRemark;
     /**
     * 学历问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 27)
+    @Excel(name = "问题描述",fixedIndex = 28)
     private String educationProblemDetail;
     /**
     * 学历认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 28)
+    @Excel(name = "认定结果描述",fixedIndex = 29)
     private String educationCheckResult;
     /**
     * 最高学位
@@ -192,32 +192,32 @@ public class EmployeeInfo implements Serializable {
     * 学历问题分类
     */
 
-    @Excel(name = "问题分类",fixedIndex = 31)
+    @Excel(name = "问题分类",fixedIndex = 32)
     private String educationProblemCategory;
     /**
     * 学历小结
     */
-    @Excel(name = "小结",fixedIndex = 32)
+    @Excel(name = "小结",fixedIndex = 33)
     private String educationRemark;
     /**
     * 工作经历问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 33)
+    @Excel(name = "问题描述",fixedIndex = 37)
     private String workExperienceProblemDetail;
     /**
     * 工作经历认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 34)
+    @Excel(name = "认定结果描述",fixedIndex = 38)
     private String workExperienceCheckResult;
     /**
     * 工作经历问题分类
     */
-    @Excel(name = "问题分类",fixedIndex = 35)
+    @Excel(name = "问题分类",fixedIndex = 39)
     private String workExperienceProblemCategory;
     /**
     * 工作经历小结
     */
-    @Excel(name = "小结",fixedIndex = 36)
+    @Excel(name = "小结",fixedIndex = 40)
     private String workExperienceRemark;
     /**
     * 补充材料情况
