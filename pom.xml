@@ -136,7 +136,9 @@
                     <include>**/*.xml</include>
                     <include>**/*.xlsx</include>
                 </includes>
-
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
     </build>
