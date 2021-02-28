@@ -123,4 +123,15 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     public EducationInfo queryByEmployeeName(String employeeName) {
         return this.educationInfoDao.queryByEmployeeName(employeeName);
     }
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    @Override
+    public boolean deleteByEmployeeIds(String[] ids) {
+        return this.educationInfoDao.deleteByEmployeeIds(ids) > 0;
+    }
 }

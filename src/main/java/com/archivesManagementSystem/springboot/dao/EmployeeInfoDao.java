@@ -87,4 +87,19 @@ public interface EmployeeInfoDao {
      */
     int deleteById(Integer id);
 
+    /**
+     * 通过主键ids查找数据
+     *
+     * @param ids 主键
+     * @return 对象列表
+     */
+    List<EmployeeInfo> queryByIds(int[] ids);
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    int deleteByEmployeeIds(String[] ids);
 }

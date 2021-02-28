@@ -86,4 +86,11 @@ public interface JoinPartyTimeInfoService {
      */
     JoinPartyTimeInfo queryByEmployeeName(String employeeName);
 
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    boolean deleteByEmployeeIds(String[] ids);
 }

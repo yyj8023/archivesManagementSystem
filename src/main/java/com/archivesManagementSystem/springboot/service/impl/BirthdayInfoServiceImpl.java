@@ -124,4 +124,15 @@ public class BirthdayInfoServiceImpl implements BirthdayInfoService {
     public BirthdayInfo queryByEmployeeName(String employeeName) {
         return this.birthdayInfoDao.queryByEmployeeName(employeeName);
     }
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    @Override
+    public boolean deleteByEmployeeIds(String[] ids) {
+        return this.birthdayInfoDao.deleteByEmployeeIds(ids) > 0;
+    }
 }

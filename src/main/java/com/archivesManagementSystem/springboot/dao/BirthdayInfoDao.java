@@ -89,4 +89,12 @@ public interface BirthdayInfoDao {
      * @return 实例对象
      */
     BirthdayInfo queryByEmployeeName(String employeeName);
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    int deleteByEmployeeIds(String[] ids);
 }

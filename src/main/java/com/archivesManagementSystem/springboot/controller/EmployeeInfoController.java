@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.entity.*;
+import com.archivesManagementSystem.springboot.qo.DeleteQO;
 import com.archivesManagementSystem.springboot.service.*;
 import com.archivesManagementSystem.springboot.util.ExcelUtils;
 import com.archivesManagementSystem.springboot.util.GeneralResult;
@@ -24,10 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * 员工基本信息表(EmployeeInfo)表控制层
@@ -167,61 +165,122 @@ public class EmployeeInfoController {
     /**
      * 根据主键删除数据
      *
-     * @param id
+     * @param deleteQO
      * @return boolean
      */
-    @GetMapping("delete")
+    @PostMapping("delete")
     @ResponseBody
-    public Result delete(int id) {
+    public Result delete(@RequestBody DeleteQO deleteQO) {
         Result res = new GeneralResult(true);
-        EmployeeInfo employeeInfo = new EmployeeInfo();
-        employeeInfo = this.employeeInfoService.queryById(id);
-        if (employeeInfo != null) {
-            res.setData(employeeInfo);
-            try {
-                this.birthdayInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            } catch (Exception e) {
-                res.setMsg("删除出生日期信息出现异常");
-                res.setSuccess(false);
-                e.printStackTrace();
-            }
-            try {
-                this.startingJobTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            } catch (Exception e) {
-                res.setMsg("删除开始工作时间信息出现异常");
-                res.setSuccess(false);
-                e.printStackTrace();
-            }
-            try {
-                this.joinPartyTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            } catch (Exception e) {
-                e.printStackTrace();
-                res.setMsg("删除入党时间出现异常");
-                res.setSuccess(false);
-            }
-            try {
-                this.educationInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            } catch (Exception e) {
-                res.setMsg("删除学历信息出现异常");
-                res.setSuccess(false);
-                e.printStackTrace();
-            }
-            try {
-                this.workExperienceInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-            } catch (Exception e) {
-                res.setMsg("删除工作经历信息出现异常");
-                res.setSuccess(false);
-                e.printStackTrace();
-            }
-            if (!res.isSuccess()) {
-                res.setMsg("关联的认定表删除失败！员工信息表无法删除");
+        //只传入一个id
+        if (deleteQO.getIds() == null || deleteQO.getIds().length <1) {
+            int id = deleteQO.getId();
+            EmployeeInfo employeeInfo = new EmployeeInfo();
+            employeeInfo = this.employeeInfoService.queryById(id);
+            if (employeeInfo != null) {
+                res.setData(employeeInfo);
+                try {
+                    this.birthdayInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+                } catch (Exception e) {
+                    res.setMsg("删除出生日期信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                try {
+                    this.startingJobTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+                } catch (Exception e) {
+                    res.setMsg("删除开始工作时间信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                try {
+                    this.joinPartyTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    res.setMsg("删除入党时间出现异常");
+                    res.setSuccess(false);
+                }
+                try {
+                    this.educationInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+                } catch (Exception e) {
+                    res.setMsg("删除学历信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                try {
+                    this.workExperienceInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+                } catch (Exception e) {
+                    res.setMsg("删除工作经历信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                if (!res.isSuccess()) {
+                    res.setMsg("关联的认定表删除失败！员工信息表无法删除");
+                } else {
+                    this.employeeInfoService.deleteById(id);
+                    res.setMsg("删除成功，绑定的5个认定表信息已删除");
+                }
             } else {
-                this.employeeInfoService.deleteById(id);
-                res.setMsg("删除成功，绑定的5个认定表信息已删除");
+                res.setMsg("id" + id + "该员工相关信息不存在");
+                res.setSuccess(false);
             }
-        } else {
-            res.setMsg("id" + id + "该员工相关信息不存在");
-            res.setSuccess(false);
+        }else {
+            // 删除多个ids
+            List<EmployeeInfo> employeeInfoList = new ArrayList<>();
+            employeeInfoList = this.employeeInfoService.queryByIds(deleteQO.getIds());
+            if (employeeInfoList != null || employeeInfoList.size()>1) {
+                String[] ids = new String[employeeInfoList.size()];
+                int index = 0;
+                for (EmployeeInfo employeeInfo:employeeInfoList) {
+                    ids[index++] = employeeInfo.getEmployeeId();
+                }
+                res.setData(employeeInfoList);
+                try {
+                    this.birthdayInfoService.deleteByEmployeeIds(ids);
+                } catch (Exception e) {
+                    res.setMsg("删除出生日期信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                try {
+                    this.startingJobTimeInfoService.deleteByEmployeeIds(ids);
+                } catch (Exception e) {
+                    res.setMsg("删除开始工作时间信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                try {
+                    this.joinPartyTimeInfoService.deleteByEmployeeIds(ids);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    res.setMsg("删除入党时间出现异常");
+                    res.setSuccess(false);
+                }
+                try {
+                    this.educationInfoService.deleteByEmployeeIds(ids);
+                } catch (Exception e) {
+                    res.setMsg("删除学历信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                try {
+                    this.workExperienceInfoService.deleteByEmployeeIds(ids);
+                } catch (Exception e) {
+                    res.setMsg("删除工作经历信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+                if (!res.isSuccess()) {
+                    res.setMsg("关联的认定表删除失败！员工信息表无法删除");
+                } else {
+                    this.employeeInfoService.deleteByEmployeeIds(ids);
+                    res.setMsg("删除成功，绑定的5个认定表信息已删除");
+                }
+            } else {
+                //这里批量删除的提示有问题，待修改
+                res.setMsg("id" + Arrays.toString(deleteQO.getIds()) + "该员工相关信息不存在");
+                res.setSuccess(false);
+            }
         }
         return res;
     }

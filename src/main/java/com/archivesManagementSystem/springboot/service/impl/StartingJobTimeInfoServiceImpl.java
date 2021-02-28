@@ -125,4 +125,15 @@ public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoServic
     public StartingJobTimeInfo queryByEmployeeName(String employeeName) {
         return this.startingJobTimeInfoDao.queryByEmployeeName(employeeName);
     }
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    @Override
+    public boolean deleteByEmployeeIds(String[] ids) {
+        return this.startingJobTimeInfoDao.deleteByEmployeeIds(ids) > 0;
+    }
 }

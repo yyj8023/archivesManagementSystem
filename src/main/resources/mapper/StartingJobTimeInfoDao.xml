@@ -159,4 +159,12 @@
         where employee_name = #{employeeName}
     </select>
 
+    <!--通过员工ids删除-->
+    <delete id="deleteByEmployeeIds" parameterType="java.util.List">
+        delete from archivesmanagementsystem.starting_job_time_info where employee_id in
+        <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

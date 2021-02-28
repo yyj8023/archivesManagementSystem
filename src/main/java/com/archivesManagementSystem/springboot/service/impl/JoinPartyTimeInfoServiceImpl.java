@@ -124,4 +124,16 @@ public class JoinPartyTimeInfoServiceImpl implements JoinPartyTimeInfoService {
     public JoinPartyTimeInfo queryByEmployeeName(String employeeName) {
         return this.joinPartyTimeInfoDao.queryByEmployeeName(employeeName);
     }
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    @Override
+    public boolean deleteByEmployeeIds(String[] ids) {
+        return this.joinPartyTimeInfoDao.deleteByEmployeeIds(ids) > 0;
+    }
+
 }

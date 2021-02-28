@@ -119,4 +119,26 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     public boolean deleteById(Integer id) {
         return this.employeeInfoDao.deleteById(id) > 0;
     }
+
+    /**
+     * 通过主键ids查找数据
+     *
+     * @param ids 主键
+     * @return 对象列表
+     */
+    @Override
+    public List<EmployeeInfo> queryByIds(int[] ids) {
+        return this.employeeInfoDao.queryByIds(ids);
+    }
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    @Override
+    public boolean deleteByEmployeeIds(String[] ids) {
+        return this.employeeInfoDao.deleteByEmployeeIds(ids) > 0;
+    }
 }

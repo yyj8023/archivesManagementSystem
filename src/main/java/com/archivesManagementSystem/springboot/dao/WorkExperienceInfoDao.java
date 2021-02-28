@@ -93,4 +93,12 @@ public interface WorkExperienceInfoDao {
      * @return 实例对象
      */
     WorkExperienceInfo queryByEmployeeName(String employeeName);
+
+    /**
+     * 通过主键employeeIds删除数据
+     *
+     * @param ids 主键
+     * @return 是否成功
+     */
+    int deleteByEmployeeIds(String[] ids);
 }
