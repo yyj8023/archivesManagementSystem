@@ -6,6 +6,7 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.entity.SysUser;
+import com.archivesManagementSystem.springboot.qo.UserLoginQO;
 import com.archivesManagementSystem.springboot.service.SysUserService;
 import com.archivesManagementSystem.springboot.util.*;
 import com.github.pagehelper.PageHelper;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,12 +61,12 @@ public class SysUserController {
     @ResponseBody
     public Result loginCheck(@RequestBody SysUser sysUser) {
         //后期用于MD5加密
-        //String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
+        String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
         Result res=new GeneralResult(true);
-        res.setData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword()).getUserName());
-        res.setIdData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword()).getId());
-        if(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),sysUser.getUserPassword())!=null){
+        if(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword)!=null){
             res.setMsg("登录成功");
+            res.setData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getUserName());
+            res.setIdData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getId());
             res.setSuccess(true);
         }else{
             res.setMsg("登录失败");
@@ -79,8 +81,14 @@ public class SysUserController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
-    public SysUser selectOne(Integer id) {
-        return this.sysUserService.queryById(id);
+    public UserLoginQO selectOne(Integer id) {
+        SysUser sysUser = this.sysUserService.queryById(id);
+        UserLoginQO userLoginQO = new UserLoginQO();
+        userLoginQO.setId(sysUser.getId());
+        userLoginQO.setUserName(sysUser.getUserName());
+        userLoginQO.setUserRole(sysUser.getUserRole());
+        userLoginQO.setUserFlag(sysUser.getUserFlag());
+        return userLoginQO;
     }
 
     /**
@@ -90,9 +98,18 @@ public class SysUserController {
      * @return 对象列表
      */
     @GetMapping("selectAll")
-    public List<SysUser> selectAll(SysUser sysUser)
-    {
-        return this.sysUserService.queryAll(sysUser);
+    public List<UserLoginQO> selectAll(SysUser sysUser) {
+        List<SysUser> sysUserList = this.sysUserService.queryAll(sysUser);
+        List<UserLoginQO> userLoginQOList = new ArrayList<>();
+        for (int i=0;i<sysUserList.size();i++){
+            UserLoginQO userLoginQO = new UserLoginQO();
+            userLoginQO.setId(sysUserList.get(i).getId());
+            userLoginQO.setUserName(sysUserList.get(i).getUserName());
+            userLoginQO.setUserRole(sysUserList.get(i).getUserRole());
+            userLoginQO.setUserFlag(sysUserList.get(i).getUserFlag());
+            userLoginQOList.add(userLoginQO);
+        }
+        return userLoginQOList;
     }
 
     /**
@@ -116,7 +133,10 @@ public class SysUserController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public int insert(SysUser sysUser){
+    public int insert(@RequestBody SysUser sysUser){
+        //MD5加密
+        String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
+        sysUser.setUserPassword(encodePassword);
         return this.sysUserService.insert(sysUser);
     }
 
@@ -138,7 +158,12 @@ public class SysUserController {
      */
     @PostMapping("update")
     @ResponseBody
-    public SysUser update(SysUser sysUser){
+    public SysUser update(@RequestBody SysUser sysUser){
+        //MD5加密
+        if (sysUser.getUserPassword() != null && !("").equals(sysUser.getUserPassword())){
+            String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
+            sysUser.setUserPassword(encodePassword);
+        }
         return this.sysUserService.update(sysUser);
     }
 
