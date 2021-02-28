@@ -1,6 +1,8 @@
 package com.archivesManagementSystem.springboot.service;
 
 import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
+
 import java.util.List;
 
 /**
@@ -67,5 +69,21 @@ public interface BirthdayInfoService {
      */
     boolean deleteById(Integer id);
 
-    boolean deleteByEmployee(int employeeId,String employeeName);
+    boolean deleteByEmployee(String employeeId,String employeeName);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    BirthdayInfo queryByEmployeeId(String employeeId);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    BirthdayInfo queryByEmployeeName(String employeeName);
 }

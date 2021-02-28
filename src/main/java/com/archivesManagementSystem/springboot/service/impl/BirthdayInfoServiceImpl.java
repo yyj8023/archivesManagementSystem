@@ -2,6 +2,7 @@ package com.archivesManagementSystem.springboot.service.impl;
 
 import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.dao.BirthdayInfoDao;
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.service.BirthdayInfoService;
 import org.springframework.stereotype.Service;
 
@@ -99,7 +100,28 @@ public class BirthdayInfoServiceImpl implements BirthdayInfoService {
     }
 
     @Override
-    public boolean deleteByEmployee(int employeeId,String employeeName){
+    public boolean deleteByEmployee(String employeeId,String employeeName){
         return  this.birthdayInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    @Override
+    public BirthdayInfo queryByEmployeeId(String employeeId) {
+        return this.birthdayInfoDao.queryByEmployeeId(employeeId);
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    @Override
+    public BirthdayInfo queryByEmployeeName(String employeeName) {
+        return this.birthdayInfoDao.queryByEmployeeName(employeeName);
     }
 }

@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.dao;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -71,5 +72,21 @@ public interface JoinPartyTimeInfoDao {
      */
     int deleteById(Integer id);
 
-    int deleteByEmployee(@Param("employeeId") int employeeId,@Param("employeeName") String employeeName);
+    int deleteByEmployee(@Param("employeeId") String employeeId,@Param("employeeName") String employeeName);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    JoinPartyTimeInfo queryByEmployeeId(String employeeId);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    JoinPartyTimeInfo queryByEmployeeName(String employeeName);
 }

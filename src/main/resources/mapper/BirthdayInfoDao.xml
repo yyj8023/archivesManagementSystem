@@ -152,4 +152,19 @@
         delete from archivesmanagementsystem.birthday_info where employee_id = #{employeeId} and employee_name=#{employeeName}
     </delete>
 
+    <!--查询单个-->
+    <select id="queryByEmployeeId" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+        from archivesmanagementsystem.birthday_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByEmployeeName" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+        from archivesmanagementsystem.birthday_info
+        where employee_name = #{employeeName}
+    </select>
 </mapper>

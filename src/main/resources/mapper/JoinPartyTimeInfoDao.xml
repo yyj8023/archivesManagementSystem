@@ -143,4 +143,20 @@
         delete from archivesmanagementsystem.join_party_time_info where employee_id = #{employeeId} and employee_name=#{employeeName}
     </delete>
 
+    <!--查询单个-->
+    <select id="queryByEmployeeId" resultMap="BaseResultMap">
+        select
+           id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+        from archivesmanagementsystem.join_party_time_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByEmployeeName" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+        from archivesmanagementsystem.join_party_time_info
+        where employee_name = #{employeeName}
+    </select>
+
 </mapper>

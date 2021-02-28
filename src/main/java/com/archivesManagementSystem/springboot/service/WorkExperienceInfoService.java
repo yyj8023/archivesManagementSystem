@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import java.util.List;
@@ -68,6 +69,23 @@ public interface WorkExperienceInfoService {
      */
     boolean deleteById(Integer id);
 
-    boolean deleteByEmployee(int employeeId,String employeeName);
+    boolean deleteByEmployee(String employeeId,String employeeName);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    WorkExperienceInfo queryByEmployeeId(String employeeId);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    WorkExperienceInfo queryByEmployeeName(String employeeName);
+
 
 }

@@ -6,6 +6,7 @@ import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.service.JoinPartyTimeInfoService;
 import com.archivesManagementSystem.springboot.util.ExcelUtils;
@@ -29,6 +30,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * 入党时间信息认定表(JoinPartyTimeInfo)表控制层
@@ -110,18 +112,72 @@ public class JoinPartyTimeInfoController {
 
     /**
      * 查询全部数据分页展示
-     * @param m
      * @param start
      * @param size
      * @return
      * @throws Exception
      */
-    @GetMapping("selectAllForPage")
+/*    @GetMapping("selectAllForPage")
     public PageInfo<JoinPartyTimeInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<JoinPartyTimeInfo> cs=this.joinPartyTimeInfoService.queryAllByPage();
         PageInfo<JoinPartyTimeInfo> page = new PageInfo<>(cs);
         return page;
+        *//*m.addAttribute("page", page);
+        //返回页面对象
+        ModelAndView  modelAndView= new ModelAndView("pageDemo");
+        return modelAndView;*//*
+    }*/
+    @PostMapping("selectAllForPage")
+    @ResponseBody
+    public PageInfo<JoinPartyTimeInfo> selectAllForPage(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+        PageHelper.startPage(start, size);
+        List<JoinPartyTimeInfo> joinPartyTimeInfoList = new Vector<JoinPartyTimeInfo>();
+        JoinPartyTimeInfo joinPartyTimeInfo1 = new JoinPartyTimeInfo();
+        JoinPartyTimeInfo joinPartyTimeInfo2 = new JoinPartyTimeInfo();
+        if (joinPartyTimeInfo.getEmployeeName() != null && joinPartyTimeInfo.getEmployeeId() == null) {
+            String[] employeeNameArray = joinPartyTimeInfo.getEmployeeName().split(" ");
+            for (int i = 0; i < employeeNameArray.length; i++) {
+                System.out.println("员工NAME" + employeeNameArray[i]);
+                joinPartyTimeInfo1 = this.joinPartyTimeInfoService.queryByEmployeeName(employeeNameArray[i]);
+                if (joinPartyTimeInfo1 != null) {
+                    joinPartyTimeInfoList.add(joinPartyTimeInfo1);
+                }
+            }
+            PageInfo<JoinPartyTimeInfo> page = new PageInfo<>(joinPartyTimeInfoList);
+            return page;
+        } else if (joinPartyTimeInfo.getEmployeeName() == null && joinPartyTimeInfo.getEmployeeId() != null) {
+            String[] employeeIdArray = joinPartyTimeInfo.getEmployeeId().split(" ");
+            for (int i = 0; i < employeeIdArray.length; i++) {
+                System.out.println("员工Id" + employeeIdArray[i]);
+                joinPartyTimeInfo1 = this.joinPartyTimeInfoService.queryByEmployeeId(employeeIdArray[i]);
+                if (joinPartyTimeInfo1 != null) {
+                   joinPartyTimeInfoList.add(joinPartyTimeInfo1);
+                }
+            }
+            PageInfo<JoinPartyTimeInfo> page = new PageInfo<>(joinPartyTimeInfoList);
+            return page;
+        } else if (joinPartyTimeInfo.getEmployeeName() != null && joinPartyTimeInfo.getEmployeeId() != null) {
+            String[] employeeNameArray = joinPartyTimeInfo.getEmployeeName().split(" ");
+            String[] employeeIdArray = joinPartyTimeInfo.getEmployeeId().split(" ");
+            if (employeeIdArray.length > 1 || employeeNameArray.length > 1) {
+                //为空。两个都有且超过1，太多了，返回为空值
+            } else if (employeeIdArray.length == 1 && employeeNameArray.length == 1) {
+                //两个都为一个值时。精准查询
+                joinPartyTimeInfo2.setEmployeeId(employeeIdArray[0]);
+                joinPartyTimeInfo2.setEmployeeName(employeeNameArray[0]);
+                joinPartyTimeInfoList = this.joinPartyTimeInfoService.queryAll(joinPartyTimeInfo2);
+            }
+            PageInfo<JoinPartyTimeInfo> page = new PageInfo<>(joinPartyTimeInfoList);
+            return  page;
+        } else {
+            List<JoinPartyTimeInfo> cs = this.joinPartyTimeInfoService.queryAll(joinPartyTimeInfo);
+            PageInfo<JoinPartyTimeInfo> page = new PageInfo<>(cs);
+            return page;
+        }
+
+        /*   List<EmployeeInfo> cs=this.employeeInfoService.queryAll(employeeInfo);*/
+
         /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");

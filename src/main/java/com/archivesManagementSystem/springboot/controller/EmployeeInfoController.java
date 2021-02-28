@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * 员工基本信息表(EmployeeInfo)表控制层
@@ -74,16 +75,15 @@ public class EmployeeInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public Result insert(@RequestBody EmployeeInfo employeeInfo)
-    {
-        Result res=new GeneralResult(true);
-        EmployeeInfo employeeInfo1=this.employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId());
-        if(employeeInfo1==null){
-            int count=0;
+    public Result insert(@RequestBody EmployeeInfo employeeInfo) {
+        Result res = new GeneralResult(true);
+        EmployeeInfo employeeInfo1 = this.employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId());
+        if (employeeInfo1 == null) {
+            int count = 0;
             //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
-            count+=this.employeeInfoService.insert(employeeInfo);
+            count += this.employeeInfoService.insert(employeeInfo);
             //生成出生日期认定表基本信息
-            BirthdayInfo birthdayInfo=new BirthdayInfo();
+            BirthdayInfo birthdayInfo = new BirthdayInfo();
             birthdayInfo.setEmployeeId(employeeInfo.getEmployeeId());
             birthdayInfo.setEmployeeName(employeeInfo.getEmployeeName());
             birthdayInfo.setBirthdayCard(employeeInfo.getBirthdayCard());
@@ -96,9 +96,9 @@ public class EmployeeInfoController {
             birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
             birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
             birthdayInfo.setUpdateTime(new Date());
-            count+=this.birthdayInfoService.insert(birthdayInfo);
+            count += this.birthdayInfoService.insert(birthdayInfo);
             //学历信息认定表基本信息
-            EducationInfo educationInfo=new EducationInfo();
+            EducationInfo educationInfo = new EducationInfo();
             educationInfo.setEmployeeId(employeeInfo.getEmployeeId());
             educationInfo.setEmployeeName(employeeInfo.getEmployeeName());
             educationInfo.setEducationDegree(employeeInfo.getEducationDegree());
@@ -111,9 +111,9 @@ public class EmployeeInfoController {
             educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
             educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
             educationInfo.setUpdateTime(new Date());
-            count+=this.educationInfoService.insert(educationInfo);
+            count += this.educationInfoService.insert(educationInfo);
             //入党时间认定表基本信息
-            JoinPartyTimeInfo joinPartyTimeInfo=new JoinPartyTimeInfo();
+            JoinPartyTimeInfo joinPartyTimeInfo = new JoinPartyTimeInfo();
             joinPartyTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
             joinPartyTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
             joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
@@ -125,9 +125,9 @@ public class EmployeeInfoController {
             joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
             joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
             joinPartyTimeInfo.setUpdateTime(new Date());
-            count+=this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
+            count += this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
             //工作开始时间认定表
-            StartingJobTimeInfo startingJobTimeInfo=new StartingJobTimeInfo();
+            StartingJobTimeInfo startingJobTimeInfo = new StartingJobTimeInfo();
             startingJobTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
             startingJobTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
             startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
@@ -139,9 +139,9 @@ public class EmployeeInfoController {
             startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
             startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
             startingJobTimeInfo.setUpdateTime(new Date());
-            count+=this.startingJobTimeInfoService.insert(startingJobTimeInfo);
+            count += this.startingJobTimeInfoService.insert(startingJobTimeInfo);
             //工作经历认定表
-            WorkExperienceInfo workExperienceInfo=new WorkExperienceInfo();
+            WorkExperienceInfo workExperienceInfo = new WorkExperienceInfo();
             workExperienceInfo.setEmployeeId(employeeInfo.getEmployeeId());
             workExperienceInfo.setEmployeeName(employeeInfo.getEmployeeName());
             workExperienceInfo.setWorkExperienceProblemDetail(employeeInfo.getWorkExperienceProblemDetail());
@@ -150,112 +150,159 @@ public class EmployeeInfoController {
             workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
             workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
             workExperienceInfo.setUpdateTime(new Date());
-            count+=this.workExperienceInfoService.insert(workExperienceInfo);
-            if(count==6){
+            count += this.workExperienceInfoService.insert(workExperienceInfo);
+            if (count == 6) {
                 res.setMsg("新增员工信息成功！");
-            }else{
+            } else {
                 res.setMsg("新增失败!");
             }
+        } else {
+            res.setMsg("已存在员工编号为" + employeeInfo1.getEmployeeId() + "的员工信息，请你进行更新操作！");
+            res.setSuccess(false);
         }
-       else{
-           res.setMsg("已存在员工编号为"+employeeInfo1.getEmployeeId()+"的员工信息，请你进行更新操作！");
-           res.setSuccess(false);
-        }
-        return  res;
+        return res;
 
     }
 
     /**
      * 根据主键删除数据
+     *
      * @param id
      * @return boolean
      */
     @GetMapping("delete")
     @ResponseBody
-    public Result delete(int id){
-        Result res=new GeneralResult(true);
-        EmployeeInfo employeeInfo=new EmployeeInfo();
-        employeeInfo=this.employeeInfoService.queryById(id);
-        if(employeeInfo!=null) {
-        res.setData(employeeInfo);
-        try {
-            this.birthdayInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-        }catch (Exception e){
-            res.setMsg("删除出生日期信息出现异常");
+    public Result delete(int id) {
+        Result res = new GeneralResult(true);
+        EmployeeInfo employeeInfo = new EmployeeInfo();
+        employeeInfo = this.employeeInfoService.queryById(id);
+        if (employeeInfo != null) {
+            res.setData(employeeInfo);
+            try {
+                this.birthdayInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+            } catch (Exception e) {
+                res.setMsg("删除出生日期信息出现异常");
+                res.setSuccess(false);
+                e.printStackTrace();
+            }
+            try {
+                this.startingJobTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+            } catch (Exception e) {
+                res.setMsg("删除开始工作时间信息出现异常");
+                res.setSuccess(false);
+                e.printStackTrace();
+            }
+            try {
+                this.joinPartyTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+            } catch (Exception e) {
+                e.printStackTrace();
+                res.setMsg("删除入党时间出现异常");
+                res.setSuccess(false);
+            }
+            try {
+                this.educationInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+            } catch (Exception e) {
+                res.setMsg("删除学历信息出现异常");
+                res.setSuccess(false);
+                e.printStackTrace();
+            }
+            try {
+                this.workExperienceInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+            } catch (Exception e) {
+                res.setMsg("删除工作经历信息出现异常");
+                res.setSuccess(false);
+                e.printStackTrace();
+            }
+            if (!res.isSuccess()) {
+                res.setMsg("关联的认定表删除失败！员工信息表无法删除");
+            } else {
+                this.employeeInfoService.deleteById(id);
+                res.setMsg("删除成功，绑定的5个认定表信息已删除");
+            }
+        } else {
+            res.setMsg("id" + id + "该员工相关信息不存在");
             res.setSuccess(false);
-            e.printStackTrace();
         }
-        try{
-            this.startingJobTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-        }catch (Exception e){
-            res.setMsg("删除开始工作时间信息出现异常");
-            res.setSuccess(false);
-            e.printStackTrace();
-        }
-        try{
-           this.joinPartyTimeInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-        }catch (Exception e){
-            e.printStackTrace();
-            res.setMsg("删除入党时间出现异常");
-            res.setSuccess(false);
-        }
-        try {
-           this.educationInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-        }catch (Exception e){
-            res.setMsg("删除学历信息出现异常");
-            res.setSuccess(false);
-             e.printStackTrace();
-        }
-        try {
-            this.workExperienceInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
-        }catch (Exception e){
-            res.setMsg("删除工作经历信息出现异常");
-            res.setSuccess(false);
-            e.printStackTrace();
-        }
-        if(!res.isSuccess()){
-            res.setMsg("关联的认定表删除失败！员工信息表无法删除");
-        }else{
-            this.employeeInfoService.deleteById(id);
-            res.setMsg("删除成功，绑定的5个认定表信息已删除");
-        }
-      }else{
-            res.setMsg("id"+id+"该员工相关信息不存在");
-            res.setSuccess(false);
-      }
-        return   res;
+        return res;
     }
 
     /**
      * 根据某个字段查询所有的实体集合
+     *
      * @param employeeInfo
      * @return List集合
      */
 
     @GetMapping("selectAll")
-    public List<EmployeeInfo> selectAll(EmployeeInfo employeeInfo){
-        return  this.employeeInfoService.queryAll(employeeInfo);
+    public List<EmployeeInfo> selectAll(EmployeeInfo employeeInfo) {
+        return this.employeeInfoService.queryAll(employeeInfo);
     }
 
     /**
      * 查询全部数据分页展示
-     * @param m
+     *
      * @param start
      * @param size
      * @return
      * @throws Exception
      */
-    @GetMapping("selectAllForPage")
-    public PageInfo<EmployeeInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        PageHelper.startPage(start,size);
-        List<EmployeeInfo> cs=this.employeeInfoService.queryAllByPage();
-        PageInfo<EmployeeInfo> page = new PageInfo<>(cs);
-        return page;
+    @PostMapping("selectAllForPage")
+    @ResponseBody
+    public PageInfo<EmployeeInfo> selectAllForPage(@RequestBody EmployeeInfo employeeInfo, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+        PageHelper.startPage(start, size);
+        List<EmployeeInfo> employeeInfoList = new Vector<EmployeeInfo>();
+        EmployeeInfo employeeInfo1 = new EmployeeInfo();
+        EmployeeInfo employeeInfo2 = new EmployeeInfo();
+        if (employeeInfo.getEmployeeName() != null && employeeInfo.getEmployeeId() == null) {
+            String[] employeeNameArray = employeeInfo.getEmployeeName().split(" ");
+            for (int i = 0; i < employeeNameArray.length; i++) {
+                System.out.println("员工NAME" + employeeNameArray[i]);
+                employeeInfo1 = this.employeeInfoService.queryByEmployeeName(employeeNameArray[i]);
+                if (employeeInfo1 != null) {
+                    employeeInfoList.add(employeeInfo1);
+                }
+            }
+            PageInfo<EmployeeInfo> page = new PageInfo<>(employeeInfoList);
+            return page;
+        } else if (employeeInfo.getEmployeeName() == null && employeeInfo.getEmployeeId() != null) {
+            String[] employeeIdArray = employeeInfo.getEmployeeId().split(" ");
+            for (int i = 0; i < employeeIdArray.length; i++) {
+                System.out.println("员工Id" + employeeIdArray[i]);
+                employeeInfo1 = this.employeeInfoService.queryByEmployeeId(employeeIdArray[i]);
+                if (employeeInfo1 != null) {
+                    employeeInfoList.add(employeeInfo1);
+                }
+            }
+            PageInfo<EmployeeInfo> page = new PageInfo<>(employeeInfoList);
+            return page;
+        } else if (employeeInfo.getEmployeeName() != null && employeeInfo.getEmployeeId() != null) {
+            String[] employeeNameArray = employeeInfo.getEmployeeName().split(" ");
+            String[] employeeIdArray = employeeInfo.getEmployeeId().split(" ");
+            if (employeeIdArray.length > 1 || employeeNameArray.length > 1) {
+                //为空。两个都有且超过1，太多了，返回为空值
+            } else if (employeeIdArray.length == 1 && employeeNameArray.length == 1) {
+                //两个都为一个值时。精准查询
+                employeeInfo2.setEmployeeId(employeeIdArray[0]);
+                employeeInfo2.setEmployeeName(employeeNameArray[0]);
+                employeeInfoList = this.employeeInfoService.queryAll(employeeInfo2);
+            }
+            PageInfo<EmployeeInfo> page = new PageInfo<>(employeeInfoList);
+            return  page;
+        } else {
+            List<EmployeeInfo> cs = this.employeeInfoService.queryAll(employeeInfo);
+            PageInfo<EmployeeInfo> page = new PageInfo<>(cs);
+            return page;
+        }
+
+        /*   List<EmployeeInfo> cs=this.employeeInfoService.queryAll(employeeInfo);*/
+
         /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
         return modelAndView;*/
     }
+
+
 
     /**
      * 根据实体类做更新

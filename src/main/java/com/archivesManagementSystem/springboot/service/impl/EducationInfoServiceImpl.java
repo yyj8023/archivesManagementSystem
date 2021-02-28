@@ -2,6 +2,7 @@ package com.archivesManagementSystem.springboot.service.impl;
 
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
 import com.archivesManagementSystem.springboot.dao.EducationInfoDao;
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.service.EducationInfoService;
 import org.springframework.stereotype.Service;
 
@@ -98,7 +99,28 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     }
 
     @Override
-    public boolean deleteByEmployee(int employeeId,String employeeName){
+    public boolean deleteByEmployee(String employeeId,String employeeName){
         return  this.educationInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    @Override
+    public EducationInfo queryByEmployeeId(String employeeId) {
+        return this.educationInfoDao.queryByEmployeeId(employeeId);
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    @Override
+    public EducationInfo queryByEmployeeName(String employeeName) {
+        return this.educationInfoDao.queryByEmployeeName(employeeName);
     }
 }

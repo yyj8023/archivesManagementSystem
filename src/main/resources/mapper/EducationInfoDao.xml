@@ -149,4 +149,20 @@
     <delete id="deleteByEmployee">
         delete from archivesmanagementsystem.education_info where employee_id = #{employeeId} and employee_name=#{employeeName}
     </delete>
+
+    <!--查询单个-->
+    <select id="queryByEmployeeId" resultMap="BaseResultMap">
+        select
+         id, employee_id, employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time
+        from archivesmanagementsystem.education_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByEmployeeName" resultMap="BaseResultMap">
+        select
+         id, employee_id, employee_name, education_degree, education_backgroud, education_problem_category, education_problem_detail, education_check_result, education_backgroud_judgment, education_degreee_judgment, education_remark, update_by, update_time
+        from archivesmanagementsystem.education_info
+        where employee_name = #{employeeName}
+    </select>
 </mapper>

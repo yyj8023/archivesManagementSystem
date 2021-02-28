@@ -1,6 +1,7 @@
 package com.archivesManagementSystem.springboot.dao;
 
 import com.archivesManagementSystem.springboot.entity.EducationInfo;
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -70,6 +71,21 @@ public interface EducationInfoDao {
      */
     int deleteById(Integer id);
 
-    int deleteByEmployee(@Param("employeeId") int employeeId,@Param("employeeName") String employeeName);
+    int deleteByEmployee(@Param("employeeId") String employeeId,@Param("employeeName") String employeeName);
 
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    EducationInfo queryByEmployeeId(String employeeId);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    EducationInfo queryByEmployeeName(String employeeName);
 }

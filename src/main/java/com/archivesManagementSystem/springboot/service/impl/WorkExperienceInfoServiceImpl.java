@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service.impl;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import com.archivesManagementSystem.springboot.dao.WorkExperienceInfoDao;
@@ -99,7 +100,29 @@ public class WorkExperienceInfoServiceImpl implements WorkExperienceInfoService 
     }
 
     @Override
-    public boolean deleteByEmployee(int employeeId,String employeeName){
+    public boolean deleteByEmployee(String employeeId,String employeeName){
         return  this.workExperienceInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    @Override
+    public WorkExperienceInfo queryByEmployeeId(String employeeId) {
+        return this.workExperienceInfoDao.queryByEmployeeId(employeeId);
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    @Override
+    public WorkExperienceInfo queryByEmployeeName(String employeeName) {
+        return this.workExperienceInfoDao.queryByEmployeeName(employeeName);
     }
 }

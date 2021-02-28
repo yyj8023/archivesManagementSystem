@@ -4,10 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.archivesManagementSystem.springboot.common.CommonController;
-import com.archivesManagementSystem.springboot.entity.BirthdayInfo;
-import com.archivesManagementSystem.springboot.entity.EducationInfo;
-import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
-import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
+import com.archivesManagementSystem.springboot.entity.*;
 import com.archivesManagementSystem.springboot.service.WorkExperienceInfoService;
 import com.archivesManagementSystem.springboot.util.ExcelUtils;
 import com.archivesManagementSystem.springboot.util.GeneralResult;
@@ -30,6 +27,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * 工作经历信息认定表(WorkExperienceInfo)表控制层
@@ -111,23 +109,77 @@ public class WorkExperienceInfoController {
 
     /**
      * 查询全部数据分页展示
-     * @param m
      * @param start
      * @param size
      * @return
      * @throws Exception
      */
-    @GetMapping("selectAllForPage")
-    public PageInfo<WorkExperienceInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
-        PageHelper.startPage(start,size);
-        List<WorkExperienceInfo> cs=this.workExperienceInfoService.queryAllByPage();
-        PageInfo<WorkExperienceInfo> page = new PageInfo<>(cs);
-        return page;
+    @PostMapping("selectAllForPage")
+    @ResponseBody
+    public PageInfo<WorkExperienceInfo> selectAllForPage(@RequestBody WorkExperienceInfo workExperienceInfo, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+        PageHelper.startPage(start, size);
+        List<WorkExperienceInfo> workExperienceInfoList = new Vector<WorkExperienceInfo>();
+        WorkExperienceInfo workExperienceInfo1 = new WorkExperienceInfo();
+        WorkExperienceInfo workExperienceInfo2 = new WorkExperienceInfo();
+        if (workExperienceInfo.getEmployeeName() != null && workExperienceInfo.getEmployeeId() == null) {
+            String[] employeeNameArray = workExperienceInfo.getEmployeeName().split(" ");
+            for (int i = 0; i < employeeNameArray.length; i++) {
+                System.out.println("员工NAME" + employeeNameArray[i]);
+                workExperienceInfo1 = this.workExperienceInfoService.queryByEmployeeName(employeeNameArray[i]);
+                if (workExperienceInfo1 != null) {
+                    workExperienceInfoList.add(workExperienceInfo1);
+                }
+            }
+            PageInfo<WorkExperienceInfo> page = new PageInfo<>(workExperienceInfoList);
+            return page;
+        } else if (workExperienceInfo.getEmployeeName() == null && workExperienceInfo.getEmployeeId() != null) {
+            String[] employeeIdArray = workExperienceInfo.getEmployeeId().split(" ");
+            for (int i = 0; i < employeeIdArray.length; i++) {
+                System.out.println("员工Id" + employeeIdArray[i]);
+                workExperienceInfo1 = this.workExperienceInfoService.queryByEmployeeId(employeeIdArray[i]);
+                if (workExperienceInfo1 != null) {
+                    workExperienceInfoList.add(workExperienceInfo1);
+                }
+            }
+            PageInfo<WorkExperienceInfo> page = new PageInfo<>(workExperienceInfoList);
+            return page;
+        } else if (workExperienceInfo.getEmployeeName() != null && workExperienceInfo.getEmployeeId() != null) {
+            String[] employeeNameArray = workExperienceInfo.getEmployeeName().split(" ");
+            String[] employeeIdArray = workExperienceInfo.getEmployeeId().split(" ");
+            if (employeeIdArray.length > 1 || employeeNameArray.length > 1) {
+                //为空。两个都有且超过1，太多了，返回为空值
+            } else if (employeeIdArray.length == 1 && employeeNameArray.length == 1) {
+                //两个都为一个值时。精准查询
+                workExperienceInfo2.setEmployeeId(employeeIdArray[0]);
+                workExperienceInfo2.setEmployeeName(employeeNameArray[0]);
+                workExperienceInfoList = this.workExperienceInfoService.queryAll(workExperienceInfo2);
+            }
+            PageInfo<WorkExperienceInfo> page = new PageInfo<>(workExperienceInfoList);
+            return  page;
+        } else {
+            List<WorkExperienceInfo> cs = this.workExperienceInfoService.queryAll(workExperienceInfo);
+            PageInfo<WorkExperienceInfo> page = new PageInfo<>(cs);
+            return page;
+        }
+
+        /*   List<EmployeeInfo> cs=this.employeeInfoService.queryAll(employeeInfo);*/
+
         /*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
         return modelAndView;*/
     }
+   /* @GetMapping("selectAllForPage")
+    public PageInfo<WorkExperienceInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+        PageHelper.startPage(start,size);
+        List<WorkExperienceInfo> cs=this.workExperienceInfoService.queryAllByPage();
+        PageInfo<WorkExperienceInfo> page = new PageInfo<>(cs);
+        return page;
+        *//*m.addAttribute("page", page);
+        //返回页面对象
+        ModelAndView  modelAndView= new ModelAndView("pageDemo");
+        return modelAndView;*//*
+    }*/
 
     /**
      * 根据实体类做更新

@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service.impl;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.dao.JoinPartyTimeInfoDao;
 import com.archivesManagementSystem.springboot.service.JoinPartyTimeInfoService;
@@ -98,7 +99,29 @@ public class JoinPartyTimeInfoServiceImpl implements JoinPartyTimeInfoService {
     }
 
     @Override
-    public boolean deleteByEmployee(int employeeId,String employeeName){
+    public boolean deleteByEmployee(String employeeId,String employeeName){
         return  this.joinPartyTimeInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    @Override
+    public JoinPartyTimeInfo queryByEmployeeId(String employeeId) {
+        return this.joinPartyTimeInfoDao.queryByEmployeeId(employeeId);
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    @Override
+    public JoinPartyTimeInfo queryByEmployeeName(String employeeName) {
+        return this.joinPartyTimeInfoDao.queryByEmployeeName(employeeName);
     }
 }

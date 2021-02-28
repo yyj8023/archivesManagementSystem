@@ -1,9 +1,12 @@
 package com.archivesManagementSystem.springboot.dao;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.JoinPartyTimeInfo;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.assertj.core.internal.cglib.asm.$ClassWriter;
+
 import java.util.List;
 
 /**
@@ -73,5 +76,21 @@ public interface WorkExperienceInfoDao {
      */
     int deleteById(Integer id);
 
-    int deleteByEmployee(@Param("employeeId") int employeeId,@Param("employeeName") String employeeName);
+    int deleteByEmployee(@Param("employeeId") String employeeId,@Param("employeeName") String employeeName);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    WorkExperienceInfo queryByEmployeeId(String employeeId);
+
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    WorkExperienceInfo queryByEmployeeName(String employeeName);
 }

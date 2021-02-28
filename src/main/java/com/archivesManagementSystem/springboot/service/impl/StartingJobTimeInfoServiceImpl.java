@@ -1,5 +1,6 @@
 package com.archivesManagementSystem.springboot.service.impl;
 
+import com.archivesManagementSystem.springboot.entity.EmployeeInfo;
 import com.archivesManagementSystem.springboot.entity.StartingJobTimeInfo;
 import com.archivesManagementSystem.springboot.dao.StartingJobTimeInfoDao;
 import com.archivesManagementSystem.springboot.entity.WorkExperienceInfo;
@@ -99,7 +100,29 @@ public class StartingJobTimeInfoServiceImpl implements StartingJobTimeInfoServic
     }
 
     @Override
-    public boolean deleteByEmployee(int employeeId,String employeeName){
+    public boolean deleteByEmployee(String employeeId,String employeeName){
         return  this.startingJobTimeInfoDao.deleteByEmployee(employeeId,employeeName)>0;
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeId 主键
+     * @return 实例对象
+     */
+    @Override
+    public StartingJobTimeInfo queryByEmployeeId(String employeeId) {
+        return this.startingJobTimeInfoDao.queryByEmployeeId(employeeId);
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    @Override
+    public StartingJobTimeInfo queryByEmployeeName(String employeeName) {
+        return this.startingJobTimeInfoDao.queryByEmployeeName(employeeName);
     }
 }

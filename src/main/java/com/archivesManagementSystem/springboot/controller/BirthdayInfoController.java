@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * 出生日期信息认定表(BirthdayInfo)表控制层
@@ -71,24 +72,69 @@ public class BirthdayInfoController {
 
     /**
      * 查询全部数据分页展示
-     * @param m
      * @param start
      * @param size
      * @return
      * @throws Exception
      */
-    @GetMapping("selectAllForPage")
-    public PageInfo<BirthdayInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+    @PostMapping("selectAllForPage")
+    @ResponseBody
+    public PageInfo<BirthdayInfo> selectAllForPage(@RequestBody BirthdayInfo birthdayInfo, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
+        PageHelper.startPage(start, size);
+        List<BirthdayInfo> birthdayInfoList = new Vector<BirthdayInfo>();
+        BirthdayInfo birthdayInfo1 = new BirthdayInfo();
+        BirthdayInfo birthdayInfo2 = new BirthdayInfo();
+        if (birthdayInfo.getEmployeeName() != null && birthdayInfo.getEmployeeId() == null) {
+            String[] employeeNameArray = birthdayInfo.getEmployeeName().split(" ");
+            for (int i = 0; i < employeeNameArray.length; i++) {
+                System.out.println("员工NAME" + employeeNameArray[i]);
+                birthdayInfo1 = this.birthdayInfoService.queryByEmployeeName(employeeNameArray[i]);
+                if (birthdayInfo1 != null) {
+                    birthdayInfoList.add(birthdayInfo1);
+                }
+            }
+            PageInfo<BirthdayInfo> page = new PageInfo<>(birthdayInfoList);
+            return page;
+        } else if (birthdayInfo.getEmployeeName() == null && birthdayInfo.getEmployeeId() != null) {
+            String[] employeeIdArray = birthdayInfo.getEmployeeId().split(" ");
+            for (int i = 0; i < employeeIdArray.length; i++) {
+                System.out.println("员工Id" + employeeIdArray[i]);
+                birthdayInfo1 = this.birthdayInfoService.queryByEmployeeId(employeeIdArray[i]);
+                if (birthdayInfo1 != null) {
+                    birthdayInfoList.add(birthdayInfo1);
+                }
+            }
+            PageInfo<BirthdayInfo> page = new PageInfo<>(birthdayInfoList);
+            return page;
+        } else if (birthdayInfo.getEmployeeName() != null && birthdayInfo.getEmployeeId() != null) {
+            String[] employeeNameArray = birthdayInfo.getEmployeeName().split(" ");
+            String[] employeeIdArray = birthdayInfo.getEmployeeId().split(" ");
+            if (employeeIdArray.length > 1 || employeeNameArray.length > 1) {
+                //为空。两个都有且超过1，太多了，返回为空值
+            } else if (employeeIdArray.length == 1 && employeeNameArray.length == 1) {
+                //两个都为一个值时。精准查询
+                birthdayInfo2.setEmployeeId(employeeIdArray[0]);
+                birthdayInfo2.setEmployeeName(employeeNameArray[0]);
+                birthdayInfoList = this.birthdayInfoService.queryAll(birthdayInfo2);
+            }
+            PageInfo<BirthdayInfo> page = new PageInfo<>(birthdayInfoList);
+            return page;
+        } else {
+            List<BirthdayInfo> cs = this.birthdayInfoService.queryAll(birthdayInfo);
+            PageInfo<BirthdayInfo> page = new PageInfo<>(cs);
+            return page;
+        }
+    }
+/*    public PageInfo<BirthdayInfo> selectAllForPage(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) throws Exception {
         PageHelper.startPage(start,size);
         List<BirthdayInfo> cs = this.birthdayInfoService.queryAllByPage();
         PageInfo<BirthdayInfo> page = new PageInfo<>(cs);
         return page;
-        /*m.addAttribute("page", page);
+        *//*m.addAttribute("page", page);
         //返回页面对象
         ModelAndView  modelAndView= new ModelAndView("pageDemo");
-        return modelAndView;*/
-    }
-
+        return modelAndView;*//*
+    }*/
     /**
      * 单条插入员工信息
      *

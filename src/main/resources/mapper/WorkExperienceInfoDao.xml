@@ -122,4 +122,19 @@
         delete from archivesmanagementsystem.work_experience_info where employee_id = #{employeeId} and employee_name=#{employeeName}
     </delete>
 
+    <!--查询单个-->
+    <select id="queryByEmployeeId" resultMap="BaseResultMap">
+        select
+        id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+        from archivesmanagementsystem.work_experience_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByEmployeeName" resultMap="BaseResultMap">
+        select
+           id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+        from archivesmanagementsystem.work_experience_info
+        where employee_name = #{employeeName}
+    </select>
 </mapper>

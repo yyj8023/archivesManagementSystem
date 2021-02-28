@@ -143,4 +143,20 @@
         delete from archivesmanagementsystem.starting_job_time_info where employee_id = #{employeeId} and employee_name=#{employeeName}
     </delete>
 
+    <!--查询单个-->
+    <select id="queryByEmployeeId" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
+        from archivesmanagementsystem.starting_job_time_info
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByEmployeeName" resultMap="BaseResultMap">
+        select
+           id, employee_id, employee_name, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_detail, starting_job_time_problem_category, starting_job_time_check_result, starting_job_time_check_remark, update_by, update_time
+        from archivesmanagementsystem.starting_job_time_info
+        where employee_name = #{employeeName}
+    </select>
+
 </mapper>

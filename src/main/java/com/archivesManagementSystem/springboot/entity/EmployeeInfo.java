@@ -20,7 +20,7 @@ public class EmployeeInfo implements Serializable {
     * 员工ID
     */
     @Excel(name = "员工号")
-    private Integer employeeId;
+    private String employeeId;
     /**
     * 员工姓名
     */
@@ -253,11 +253,11 @@ public class EmployeeInfo implements Serializable {
         this.id = id;
     }
 
-    public Integer getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(Integer employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 

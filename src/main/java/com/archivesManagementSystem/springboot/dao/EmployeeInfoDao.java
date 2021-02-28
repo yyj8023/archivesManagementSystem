@@ -29,8 +29,15 @@ public interface EmployeeInfoDao {
      * @param employeeId 主键
      * @return 实例对象
      */
-    EmployeeInfo queryByEmployeeId(Integer employeeId);
+    EmployeeInfo queryByEmployeeId(String employeeId);
 
+    /**
+     * 通过employeeId查询单条数据
+     *
+     * @param employeeName 主键
+     * @return 实例对象
+     */
+    EmployeeInfo queryByEmployeeName(String employeeName);
     /**
      * 查询指定行数据
      *
