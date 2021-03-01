@@ -90,6 +90,7 @@ public class OrdinaryOperateLogController {
      * @return
      * @throws Exception
      */
+
     @PostMapping("selectAllForPage")
     @ResponseBody
     public PageInfo selectAllForPage(@RequestBody  OrdinaryOperateLog ordinaryOperateLog) throws Exception {
