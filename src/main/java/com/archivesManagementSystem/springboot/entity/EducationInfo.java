@@ -69,10 +69,10 @@ public class EducationInfo implements Serializable {
     @Excel(name = "学历小结")
     private String educationRemark;
 
-    @Excel(name = "更新人")
+    //@Excel(name = "更新人")
     private String updateBy;
 
-    @Excel(name = "更新时间",exportFormat = "yyyy年MM月dd日 HH:mm:ss")
+    //@Excel(name = "更新时间",exportFormat = "yyyy/MM/dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
 

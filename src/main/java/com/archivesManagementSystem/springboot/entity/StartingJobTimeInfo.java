@@ -29,17 +29,17 @@ public class StartingJobTimeInfo implements Serializable {
     /**
     * 自填工作时间
     */
-    @Excel(name = "自填工作时间",exportFormat = "yyyy年MM月dd日")
+    @Excel(name = "自填工作时间",exportFormat = "yyyy/MM/dd")
     private Date startingJobTimeOwn;
     /**
     * 档案材料中有效工作时间
     */
-    @Excel(name = "档案材料中有效工作时间",exportFormat = "yyyy年MM月dd日")
+    @Excel(name = "档案材料中有效工作时间",exportFormat = "yyyy/MM/dd")
     private Date startingJobTimeArchvies;
     /**
     * 参加工作时间认定时间
     */
-    @Excel(name = "参加工作时间认定时间",exportFormat = "yyyy年MM月dd日")
+    @Excel(name = "参加工作时间认定时间",exportFormat = "yyyy/MM/dd")
     private Date startingJobTimeJudgment;
     /**
     * 参加工作问题描述
@@ -62,10 +62,10 @@ public class StartingJobTimeInfo implements Serializable {
     @Excel(name = "参加工作时间小结")
     private String startingJobTimeCheckRemark;
 
-    @Excel(name = "更新人")
+    //@Excel(name = "更新人")
     private String updateBy;
 
-    @Excel(name = "更新时间",exportFormat = "yyyy年MM月dd日 HH:mm:ss")
+    //@Excel(name = "更新时间",exportFormat = "yyyy/MM/dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
 

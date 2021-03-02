@@ -32,7 +32,7 @@ public class BirthdayInfo implements Serializable {
     /**
     * 身份证中的出生日期
     */
-    @Excel(name = "身份证中的出生日期",exportFormat = "yyyy年MM月dd日")
+    @Excel(name = "身份证中的出生日期",exportFormat = "yyyy/MM/dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthdayCard;
@@ -44,7 +44,7 @@ public class BirthdayInfo implements Serializable {
     /**
     * 认定出生日期
     */
-    @Excel(name = "认定出生日期",exportFormat = "yyyy年MM月dd日")
+    @Excel(name = "认定出生日期",exportFormat = "yyyy/MM/dd")
     private Date birthdayJudgment;
     /**
     * 出生日期问题描述
@@ -72,10 +72,10 @@ public class BirthdayInfo implements Serializable {
     @Excel(name = "出生日期小结")
     private String birthdayCheckRemark;
 
-    @Excel(name = "更新人")
+    //@Excel(name = "更新人")
     private String updateBy;
 
-    @Excel(name = "更新时间",exportFormat = "yyyy年MM月dd日 HH:mm:ss")
+    //@Excel(name = "更新时间",exportFormat = "yyyy/MM/dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
     int start;

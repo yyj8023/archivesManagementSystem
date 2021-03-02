@@ -31,7 +31,7 @@ public class JoinPartyTimeInfo implements Serializable {
     /**
     * 入党时间
     */
-    @Excel(name = "入党时间",exportFormat = "yyyy年MM月dd日")
+    @Excel(name = "入党时间",exportFormat = "yyyy/MM/dd")
     private Date joinPartyTime;
     /**
     * 入党介绍人
@@ -41,7 +41,7 @@ public class JoinPartyTimeInfo implements Serializable {
     /**
     * 入团时间
     */
-    @Excel(name = "入团时间",exportFormat = "yyyy年MM月dd日")
+    @Excel(name = "入团时间",exportFormat = "yyyy/MM/dd")
     private Date joinGroupTime;
     /**
     * 入党时间问题描述
@@ -64,10 +64,10 @@ public class JoinPartyTimeInfo implements Serializable {
     @Excel(name = "入党时间小结")
     private String joinPartyTimeRemark;
 
-    @Excel(name = "更新人")
+    //@Excel(name = "更新人")
     private String updateBy;
 
-    @Excel(name = "更新时间",exportFormat = "yyyy年MM月dd日 HH:mm:ss")
+    //@Excel(name = "更新时间",exportFormat = "yyyy/MM/dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
     int start;
