@@ -146,7 +146,7 @@ public class EducationCareerInfo implements Serializable {
     /**
     * 更新时间
     */
-    @Excel(name = "更新时间")
+    @Excel(name = "更新时间",exportFormat = "yyyy年MM月dd日 HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd hh:MM:ss",timezone="GMT+8")
     private Date updateTime;
 

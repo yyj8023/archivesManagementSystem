@@ -65,7 +65,7 @@ public class EmployeeInfo implements Serializable {
     /**
     * 身份证出生日期
     */
-    @Excel(name = "身份证日期")
+    @Excel(name = "身份证日期",exportFormat = "yyyy年MM月dd日")
     private Date birthdayCard;
     /**
     * 档案中的出生日期
@@ -74,7 +74,7 @@ public class EmployeeInfo implements Serializable {
     /**
     * 认定出生日期
     */
-    @Excel(name = "认定出生日期")
+    @Excel(name = "认定出生日期",exportFormat = "yyyy年MM月dd日")
     private Date birthdayJudgment;
     /**
     * 出生日期问题分类
@@ -109,7 +109,7 @@ public class EmployeeInfo implements Serializable {
     /**
     * 入党时间
     */
-    @Excel(name = "入党时间")
+    @Excel(name = "入党时间",exportFormat = "yyyy年MM月dd日")
     private Date joinPartyTime;
     /**
     * 入党介绍人
@@ -119,7 +119,7 @@ public class EmployeeInfo implements Serializable {
     /**
     * 入团时间
     */
-    @Excel(name = "入团时间")
+    @Excel(name = "入团时间",exportFormat = "yyyy年MM月dd日")
     private Date joinGroupTime;
     /**
     * 入党时间小结
@@ -139,12 +139,12 @@ public class EmployeeInfo implements Serializable {
     /**
     * 自填工作时间
     */
-    @Excel(name = "自填工作时间")
+    @Excel(name = "自填工作时间",exportFormat = "yyyy年MM月dd日")
     private Date startingJobTimeOwn;
     /**
     * 档案材料中有效工作时间
     */
-    @Excel(name = "档案材料中有效工作时间")
+    @Excel(name = "档案材料中有效工作时间",exportFormat = "yyyy年MM月dd日")
     private Date startingJobTimeArchvies;
     /**
     * 参加工作时间认定时间
