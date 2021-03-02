@@ -31,12 +31,12 @@ public class EducationInfo implements Serializable {
     /**
     * 最高学位
     */
-    @Excel(name = "最高学位")
+    //@Excel(name = "最高学位")
     private String educationDegree;
     /**
     * 最高学历
     */
-    @Excel(name = "最高学历")
+    //@Excel(name = "最高学历")
     private String educationBackgroud;
     /**
     * 学历问题分类

@@ -39,7 +39,7 @@ public class BirthdayInfo implements Serializable {
     /**
     * 档案中的出生日期
     */
-    @Excel(name = "档案中的出生日期")
+    //@Excel(name = "档案中的出生日期")
     private Date birthdayArchives;
     /**
     * 认定出生日期
