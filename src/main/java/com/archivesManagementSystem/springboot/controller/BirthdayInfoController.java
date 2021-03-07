@@ -202,7 +202,7 @@ public class BirthdayInfoController {
      */
     @PostMapping("update")
     @ResponseBody
-    public  Result update(@RequestBody BirthdayInfo birthdayInfo,HttpServletRequest request){
+    public Result update(@RequestBody BirthdayInfo birthdayInfo,HttpServletRequest request){
 
         HttpSession session = request.getSession();
         String userName = String.valueOf(session.getAttribute("userName"));
@@ -339,8 +339,8 @@ public class BirthdayInfoController {
      * @param response,request
      * @return void
      */
-    @GetMapping("exportExcel")
-    public void export(HttpServletResponse response, HttpServletRequest request, BirthdayInfo birthdayInfo) throws Exception {
+    @PostMapping("exportExcel")
+    public void export(HttpServletResponse response, @RequestBody BirthdayInfo birthdayInfo) throws Exception {
         System.out.println("开始导出");
         // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)
         List<BirthdayInfo> personList = this.birthdayInfoService.queryAll(birthdayInfo);

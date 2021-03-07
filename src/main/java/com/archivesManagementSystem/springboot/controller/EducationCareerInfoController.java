@@ -242,8 +242,8 @@ public class EducationCareerInfoController {
      * @param response,request
      * @return void
      */
-    @GetMapping("exportExcel")
-    public void export(HttpServletResponse response, HttpServletRequest request, EducationCareerInfo educationCareerInfo) throws Exception {
+    @PostMapping("exportExcel")
+    public void export(HttpServletResponse response,@RequestBody EducationCareerInfo educationCareerInfo) throws Exception {
         System.out.println("开始导出");
         // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)
         List<EducationCareerInfo> personList = this.educationCareerInfoService.queryAll(educationCareerInfo);

@@ -689,8 +689,8 @@ public class EmployeeInfoController {
      * @param response,request
      * @return void
      */
-    @GetMapping("exportExcel")
-    public void export(HttpServletResponse response, HttpServletRequest request, EmployeeInfo employeeInfo) throws Exception {
+    @PostMapping("exportExcel")
+    public void export(HttpServletResponse response, @RequestBody EmployeeInfo employeeInfo) throws Exception {
         System.out.println("开始导出");
         // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)
         List<EmployeeInfo> personList = this.employeeInfoService.queryAll(employeeInfo);

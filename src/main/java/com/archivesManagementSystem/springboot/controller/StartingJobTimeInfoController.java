@@ -321,8 +321,8 @@ public class StartingJobTimeInfoController {
      * @param response,request
      * @return void
      */
-    @GetMapping("exportExcel")
-    public void export(HttpServletResponse response, HttpServletRequest request, StartingJobTimeInfo startingJobTimeInfo) throws Exception {
+    @PostMapping("exportExcel")
+    public void export(HttpServletResponse response,@RequestBody StartingJobTimeInfo startingJobTimeInfo) throws Exception {
         System.out.println("开始导出");
         // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)
         List<StartingJobTimeInfo> personList = this.startingJobTimeInfoService.queryAll(startingJobTimeInfo);

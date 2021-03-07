@@ -334,8 +334,8 @@ public class WorkExperienceInfoController {
      * @param response,request
      * @return void
      */
-    @GetMapping("exportExcel")
-    public void export(HttpServletResponse response, HttpServletRequest request, WorkExperienceInfo workExperienceInfo) throws Exception {
+    @PostMapping("exportExcel")
+    public void export(HttpServletResponse response, @RequestBody WorkExperienceInfo workExperienceInfo) throws Exception {
         System.out.println("开始导出");
         // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)
         List<WorkExperienceInfo> personList = this.workExperienceInfoService.queryAll(workExperienceInfo);
