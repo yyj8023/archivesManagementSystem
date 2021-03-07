@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.archivesManagementSystem.springboot.dao.EducationDetailInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.archivesManagementSystem.springboot.entity.EducationDetailInfo">
+        <!--@Table education_detail_info-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="employeeId" column="employee_id" jdbcType="VARCHAR"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="highestEducation" column="highest_education" jdbcType="VARCHAR"/>
+        <result property="highestDegree" column="highest_degree" jdbcType="VARCHAR"/>
+        <result property="highestEducationSecond" column="highest_education_second" jdbcType="VARCHAR"/>
+        <result property="highestDegreeSecond" column="highest_degree_second" jdbcType="VARCHAR"/>
+        <result property="highestEducationThird" column="highest_education_third" jdbcType="VARCHAR"/>
+        <result property="highestDegreeThird" column="highest_degree_third" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, highest_education, highest_degree, highest_education_second, highest_degree_second, highest_education_third, highest_degree_third, update_by, update_time
+        from archivesmanagementsystem.education_detail_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, highest_education, highest_degree, highest_education_second, highest_degree_second, highest_education_third, highest_degree_third, update_by, update_time
+        from archivesmanagementsystem.education_detail_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, highest_education, highest_degree, highest_education_second, highest_degree_second, highest_education_third, highest_degree_third, update_by, update_time
+        from archivesmanagementsystem.education_detail_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="employeeId != null and employeeId != ''">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and employee_name = #{employeeName}
+            </if>
+            <if test="highestEducation != null and highestEducation != ''">
+                and highest_education = #{highestEducation}
+            </if>
+            <if test="highestDegree != null and highestDegree != ''">
+                and highest_degree = #{highestDegree}
+            </if>
+            <if test="highestEducationSecond != null and highestEducationSecond != ''">
+                and highest_education_second = #{highestEducationSecond}
+            </if>
+            <if test="highestDegreeSecond != null and highestDegreeSecond != ''">
+                and highest_degree_second = #{highestDegreeSecond}
+            </if>
+            <if test="highestEducationThird != null and highestEducationThird != ''">
+                and highest_education_third = #{highestEducationThird}
+            </if>
+            <if test="highestDegreeThird != null and highestDegreeThird != ''">
+                and highest_degree_third = #{highestDegreeThird}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByPage" resultMap="BaseResultMap">
+           id, employee_id, employee_name, highest_education, highest_degree, highest_education_second, highest_degree_second, highest_education_third, highest_degree_third, update_by, update_time
+        from archivesmanagementsystem.education_detail_info
+    </select>
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into archivesmanagementsystem.education_detail_info(employee_id, employee_name, highest_education, highest_degree, highest_education_second, highest_degree_second, highest_education_third, highest_degree_third, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{highestEducation}, #{highestDegree}, #{highestEducationSecond}, #{highestDegreeSecond}, #{highestEducationThird}, #{highestDegreeThird}, #{updateBy}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update archivesmanagementsystem.education_detail_info
+        <set>
+            <if test="employeeId != null and employeeId != ''">
+                employee_id = #{employeeId},
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                employee_name = #{employeeName},
+            </if>
+            <if test="highestEducation != null and highestEducation != ''">
+                highest_education = #{highestEducation},
+            </if>
+            <if test="highestDegree != null and highestDegree != ''">
+                highest_degree = #{highestDegree},
+            </if>
+            <if test="highestEducationSecond != null and highestEducationSecond != ''">
+                highest_education_second = #{highestEducationSecond},
+            </if>
+            <if test="highestDegreeSecond != null and highestDegreeSecond != ''">
+                highest_degree_second = #{highestDegreeSecond},
+            </if>
+            <if test="highestEducationThird != null and highestEducationThird != ''">
+                highest_education_third = #{highestEducationThird},
+            </if>
+            <if test="highestDegreeThird != null and highestDegreeThird != ''">
+                highest_degree_third = #{highestDegreeThird},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from archivesmanagementsystem.education_detail_info where id = #{id}
+    </delete>
+    <!--通过员工id姓名删除-->
+    <delete id="deleteByEmployee">
+        delete from archivesmanagementsystem.education_detail_info where employee_id = #{employeeId} and employee_name=#{employeeName}
+    </delete>
+    <!--查询单个-->
+    <select id="queryByEmployeeId" resultMap="BaseResultMap">
+        select
+          id, employee_id, employee_name, highest_education, highest_degree, highest_education_second, highest_degree_second, highest_education_third, highest_degree_third, update_by, update_time
+        from archivesmanagementsystem.education_detail_info
+        where employee_id = #{employeeId}
+    </select>
+</mapper>

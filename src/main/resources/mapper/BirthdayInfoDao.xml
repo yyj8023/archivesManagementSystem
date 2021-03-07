@@ -15,6 +15,7 @@
         <result property="birthdayProblemCategory" column="birthday_problem_category" jdbcType="VARCHAR"/>
         <result property="birthdayCheckRule" column="birthday_check_rule" jdbcType="VARCHAR"/>
         <result property="birthdayCheckRemark" column="birthday_check_remark" jdbcType="VARCHAR"/>
+        <result property="birthdayHaveProblem" column="birthday_have_problem" jdbcType="VARCHAR"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -22,7 +23,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,update_by, update_time
         from archivesmanagementsystem.birthday_info
         where id = #{id}
     </select>
@@ -30,7 +31,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,update_by, update_time
         from archivesmanagementsystem.birthday_info
         limit #{offset}, #{limit}
     </select>
@@ -40,7 +41,7 @@
         select
           id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment,
         birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule,
-        birthday_check_remark, update_by, update_time
+        birthday_check_remark,birthday_have_problem ,update_by, update_time
         from archivesmanagementsystem.birthday_info
         <where>
             <if test="id != null">
@@ -76,6 +77,9 @@
             <if test="birthdayCheckRemark != null and birthdayCheckRemark != ''">
                 and birthday_check_remark = #{birthdayCheckRemark}
             </if>
+            <if test="birthdayHaveProblem != null and birthdayHaveProblem != ''">
+                and birthday_check_remark = #{birthdayCheckRemark}
+            </if>
             <if test="updateBy != null and updateBy != ''">
                 and update_by = #{updateBy}
             </if>
@@ -88,14 +92,14 @@
     <!--分页查询全部-->
     <select id="queryAllByPage" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,update_by, update_time
         from archivesmanagementsystem.birthday_info
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into archivesmanagementsystem.birthday_info(employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time)
-        values (#{employeeId}, #{employeeName}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{birthdayProblemDetail}, #{birthdayCheckResult}, #{birthdayProblemCategory}, #{birthdayCheckRule}, #{birthdayCheckRemark}, #{updateBy}, #{updateTime})
+        insert into archivesmanagementsystem.birthday_info(employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{birthdayProblemDetail}, #{birthdayCheckResult}, #{birthdayProblemCategory}, #{birthdayCheckRule}, #{birthdayCheckRemark},#{birthdayHaveProblem}, #{updateBy}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
@@ -132,6 +136,9 @@
             <if test="birthdayCheckRemark != null and birthdayCheckRemark != ''">
                 birthday_check_remark = #{birthdayCheckRemark},
             </if>
+            <if test="birthdayHaveProblem != null and birthdayHaveProblem != ''">
+                birthday_have_problem = #{birthdayHaveProblem},
+            </if>
             <if test="updateBy != null and updateBy != ''">
                 update_by = #{updateBy},
             </if>
@@ -155,7 +162,7 @@
     <!--查询单个-->
     <select id="queryByEmployeeId" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,update_by, update_time
         from archivesmanagementsystem.birthday_info
         where employee_id = #{employeeId}
     </select>
@@ -163,7 +170,7 @@
     <!--查询单个-->
     <select id="queryByEmployeeName" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, update_by, update_time
+          id, employee_id, employee_name, birthday_card, birthday_archives, birthday_judgment, birthday_problem_detail, birthday_check_result, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,update_by, update_time
         from archivesmanagementsystem.birthday_info
         where employee_name = #{employeeName}
     </select>

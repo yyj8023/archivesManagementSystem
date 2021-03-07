@@ -49,6 +49,9 @@ public class WorkExperienceInfo implements Serializable {
     @Excel(name = "工作经历小结")
     private String workExperienceRemark;
 
+    @Excel(name="工作经历模块是否有问题")
+    private String workExperienceHaveProblem;
+
     //@Excel(name = "更新人")
     private String updateBy;
 
@@ -146,4 +149,11 @@ public class WorkExperienceInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getWorkExperienceHaveProblem() {
+        return workExperienceHaveProblem;
+    }
+
+    public void setWorkExperienceHaveProblem(String workExperienceHaveProblem) {
+        this.workExperienceHaveProblem = workExperienceHaveProblem;
+    }
 }

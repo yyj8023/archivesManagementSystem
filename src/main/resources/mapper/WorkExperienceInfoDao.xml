@@ -11,6 +11,7 @@
         <result property="workExperienceProblemCategory" column="work_experience_problem_category" jdbcType="VARCHAR"/>
         <result property="workExperienceCheckResult" column="work_experience_check_result" jdbcType="VARCHAR"/>
         <result property="workExperienceRemark" column="work_experience_remark" jdbcType="VARCHAR"/>
+        <result property="workExperienceHaveProblem" column="work_experience_have_problem" jdbcType="VARCHAR"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -18,7 +19,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+          id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark,work_experience_have_problem, update_by, update_time
         from archivesmanagementsystem.work_experience_info
         where id = #{id}
     </select>
@@ -26,7 +27,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+          id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark,work_experience_have_problem, update_by, update_time
         from archivesmanagementsystem.work_experience_info
         limit #{offset}, #{limit}
     </select>
@@ -34,7 +35,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+        id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark,work_experience_have_problem, update_by, update_time
         from archivesmanagementsystem.work_experience_info
         <where>
             <if test="id != null">
@@ -58,6 +59,9 @@
             <if test="workExperienceRemark != null and workExperienceRemark != ''">
                 and work_experience_remark = #{workExperienceRemark}
             </if>
+            <if test="workExperienceHaveProblem != null and workExperienceHaveProblem != ''">
+                and work_experience_have_problem = #{workExperienceHaveProblem}
+            </if>
             <if test="updateBy != null and updateBy != ''">
                 and update_by = #{updateBy}
             </if>
@@ -70,14 +74,14 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllByPage" resultMap="BaseResultMap">
         select
-        id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+           id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark,work_experience_have_problem, update_by, update_time
         from archivesmanagementsystem.work_experience_info
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into archivesmanagementsystem.work_experience_info(employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time)
-        values (#{employeeId}, #{employeeName}, #{workExperienceProblemDetail}, #{workExperienceProblemCategory}, #{workExperienceCheckResult}, #{workExperienceRemark}, #{updateBy}, #{updateTime})
+        insert into archivesmanagementsystem.work_experience_info(employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark,work_experience_have_problem, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{workExperienceProblemDetail}, #{workExperienceProblemCategory}, #{workExperienceCheckResult}, #{workExperienceRemark}, #{workExperienceHaveProblem},#{updateBy}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
@@ -102,6 +106,9 @@
             <if test="workExperienceRemark != null and workExperienceRemark != ''">
                 work_experience_remark = #{workExperienceRemark},
             </if>
+            <if test="workExperienceHaveProblem != null and workExperienceHaveProblem != ''">
+                work_experience_have_problem = #{workExperienceHaveProblem},
+            </if>
             <if test="updateBy != null and updateBy != ''">
                 update_by = #{updateBy},
             </if>
@@ -125,7 +132,7 @@
     <!--查询单个-->
     <select id="queryByEmployeeId" resultMap="BaseResultMap">
         select
-        id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+            id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark,work_experience_have_problem, update_by, update_time
         from archivesmanagementsystem.work_experience_info
         where employee_id = #{employeeId}
     </select>
@@ -133,7 +140,7 @@
     <!--查询单个-->
     <select id="queryByEmployeeName" resultMap="BaseResultMap">
         select
-           id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark, update_by, update_time
+            id, employee_id, employee_name, work_experience_problem_detail, work_experience_problem_category, work_experience_check_result, work_experience_remark,work_experience_have_problem, update_by, update_time
         from archivesmanagementsystem.work_experience_info
         where employee_name = #{employeeName}
     </select>

@@ -63,11 +63,15 @@ public class EducationInfo implements Serializable {
     */
     @Excel(name = "最高学位认定")
     private String educationDegreeeJudgment;
-    /**
-    * 学历小结
-    */
+
     @Excel(name = "学历小结")
     private String educationRemark;
+
+    /**
+     * 学历小结
+     */
+    @Excel(name="学历模块是否有问题")
+    private String educationHaveProblem;
 
     //@Excel(name = "更新人")
     private String updateBy;
@@ -198,4 +202,11 @@ public class EducationInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getEducationHaveProblem() {
+        return educationHaveProblem;
+    }
+
+    public void setEducationHaveProblem(String educationHaveProblem) {
+        this.educationHaveProblem = educationHaveProblem;
+    }
 }

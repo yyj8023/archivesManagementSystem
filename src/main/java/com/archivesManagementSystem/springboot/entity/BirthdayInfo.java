@@ -45,6 +45,8 @@ public class BirthdayInfo implements Serializable {
     * 认定出生日期
     */
     @Excel(name = "认定出生日期",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthdayJudgment;
     /**
     * 出生日期问题描述
@@ -71,6 +73,9 @@ public class BirthdayInfo implements Serializable {
     */
     @Excel(name = "出生日期小结")
     private String birthdayCheckRemark;
+
+    @Excel(name="是否有问题")
+    private String birthdayHaveProblem;
 
     //@Excel(name = "更新人")
     private String updateBy;
@@ -201,4 +206,11 @@ public class BirthdayInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getBirthdayHaveProblem() {
+        return birthdayHaveProblem;
+    }
+
+    public void setBirthdayHaveProblem(String birthdayHaveProblem) {
+        this.birthdayHaveProblem = birthdayHaveProblem;
+    }
 }

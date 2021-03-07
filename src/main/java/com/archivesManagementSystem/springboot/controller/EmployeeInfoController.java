@@ -52,7 +52,8 @@ public class EmployeeInfoController {
     private WorkExperienceInfoService workExperienceInfoService;
     @Resource
     private  OrdinaryOperateLogService ordinaryOperateLogService;
-
+    @Resource
+    private  EducationDetailInfoService educationDetailInfoService;
     /**
      * 通过主键查询单条数据
      *
@@ -100,6 +101,7 @@ public class EmployeeInfoController {
             birthdayInfo.setBirthdayProblemCategory(employeeInfo.getBirthdayProblemCategory());
             birthdayInfo.setBirthdayCheckRule(employeeInfo.getBirthdayCheckRule());
             birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
+            birthdayInfo.setBirthdayHaveProblem(employeeInfo.getBirthdayHaveProblem());
             birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
             birthdayInfo.setUpdateTime(new Date());
             count += this.birthdayInfoService.insert(birthdayInfo);
@@ -115,6 +117,7 @@ public class EmployeeInfoController {
             educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
             educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
             educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
+            educationInfo.setEducationHaveProblem(educationInfo.getEducationHaveProblem());
             educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
             educationInfo.setUpdateTime(new Date());
             count += this.educationInfoService.insert(educationInfo);
@@ -122,6 +125,7 @@ public class EmployeeInfoController {
             JoinPartyTimeInfo joinPartyTimeInfo = new JoinPartyTimeInfo();
             joinPartyTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
             joinPartyTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
+            joinPartyTimeInfo.setPoliticalStatus(employeeInfo.getPoliticalStatus());
             joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
             joinPartyTimeInfo.setJoinPartyIntroducer(employeeInfo.getJoinPartyIntroducer());
             joinPartyTimeInfo.setJoinGroupTime(employeeInfo.getJoinGroupTime());
@@ -129,6 +133,7 @@ public class EmployeeInfoController {
             joinPartyTimeInfo.setJoinPartyTimeCheckResult(employeeInfo.getJoinPartyTimeCheckResult());
             joinPartyTimeInfo.setJoinPartyTimeResearchSituation(employeeInfo.getJoinPartyTimeResearchSituation());
             joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
+            joinPartyTimeInfo.setJoinPartyTimeHaveProblem(employeeInfo.getJoinPartyTimeHaveProblem());
             joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
             joinPartyTimeInfo.setUpdateTime(new Date());
             count += this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
@@ -139,10 +144,14 @@ public class EmployeeInfoController {
             startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
             startingJobTimeInfo.setStartingJobTimeArchvies(employeeInfo.getStartingJobTimeArchvies());
             startingJobTimeInfo.setStartingJobTimeJudgment(employeeInfo.getStartingJobTimeJudgment());
+            startingJobTimeInfo.setStartingJobTime(employeeInfo.getStartingJobTime());
+            startingJobTimeInfo.setLaborDispatchTime(employeeInfo.getLaborDispatchTime());
+            startingJobTimeInfo.setStartingJobTimeThiscompany(employeeInfo.getStartingJobTimeThiscompany());
             startingJobTimeInfo.setStartingJobTimeProblemDetail(employeeInfo.getStartingJobTimeProblemDetail());
             startingJobTimeInfo.setStartingJobTimeProblemCategory(employeeInfo.getStartingJobTimeProblemCategory());
             startingJobTimeInfo.setStartingJobTimeCheckResult(employeeInfo.getStartingJobTimeCheckResult());
             startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
+            startingJobTimeInfo.setStartingJobTimeHaveProblem(employeeInfo.getStartingJobTimeHaveProblem());
             startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
             startingJobTimeInfo.setUpdateTime(new Date());
             count += this.startingJobTimeInfoService.insert(startingJobTimeInfo);
@@ -154,10 +163,24 @@ public class EmployeeInfoController {
             workExperienceInfo.setWorkExperienceProblemCategory(employeeInfo.getWorkExperienceProblemCategory());
             workExperienceInfo.setWorkExperienceCheckResult(employeeInfo.getWorkExperienceCheckResult());
             workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
+            workExperienceInfo.setWorkExperienceHaveProblem(employeeInfo.getWorkExperienceHaveProblem());
             workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
             workExperienceInfo.setUpdateTime(new Date());
             count += this.workExperienceInfoService.insert(workExperienceInfo);
-            if (count == 6) {
+            //学历详情表
+            EducationDetailInfo educationDetailInfo=new EducationDetailInfo();
+            educationDetailInfo.setEmployeeId(employeeInfo.getEmployeeId());
+            educationDetailInfo.setEmployeeName(employeeInfo.getEmployeeName());
+            educationDetailInfo.setHighestDegree(employeeInfo.getHighestDegree());
+            educationDetailInfo.setHighestEducation(employeeInfo.getHighestEducation());
+            educationDetailInfo.setHighestDegreeSecond(employeeInfo.getHighestDegreeSecond());
+            educationDetailInfo.setHighestEducationSecond(employeeInfo.getHighestEducationSecond());
+            educationDetailInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
+            educationDetailInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
+            educationDetailInfo.setUpdateBy(employeeInfo.getUpdateBy());
+            educationDetailInfo.setUpdateTime(new Date());
+            count +=this.educationDetailInfoService.insert(educationDetailInfo);
+            if (count == 7) {
                 res.setMsg("新增员工信息成功！");
             } else {
                 res.setMsg("新增失败!");
@@ -222,6 +245,14 @@ public class EmployeeInfoController {
                     res.setSuccess(false);
                     e.printStackTrace();
                 }
+                try {
+                    this.educationDetailInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
+                } catch (Exception e) {
+                    res.setMsg("删除学历详情表信息出现异常");
+                    res.setSuccess(false);
+                    e.printStackTrace();
+                }
+
                 if (!res.isSuccess()) {
                     res.setMsg("关联的认定表删除失败！员工信息表无法删除");
                 } else {
@@ -386,7 +417,9 @@ public class EmployeeInfoController {
     @ResponseBody
     public  Result update(@RequestBody EmployeeInfo employeeInfo,HttpServletRequest request){
         HttpSession session = request.getSession();
+        System.out.println("sessiond id"+session.getId());
         String userName = String.valueOf(session.getAttribute("userName"));
+        System.out.println("username is "+userName);
         OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
         EmployeeInfo target =this.employeeInfoService.queryById(employeeInfo.getId());
         employeeInfo.setUpdateBy(userName);
@@ -434,6 +467,7 @@ public class EmployeeInfoController {
         birthdayInfo.setBirthdayProblemCategory(employeeInfo.getBirthdayProblemCategory());
         birthdayInfo.setBirthdayCheckRule(employeeInfo.getBirthdayCheckRule());
         birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
+        birthdayInfo.setBirthdayHaveProblem(employeeInfo.getBirthdayHaveProblem());
         birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
         birthdayInfo.setUpdateTime(new Date());
         //学历信息认定表基本信息
@@ -448,12 +482,14 @@ public class EmployeeInfoController {
         educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
         educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
         educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
+        educationInfo.setEducationHaveProblem(employeeInfo.getEducationHaveProblem());
         educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
         educationInfo.setUpdateTime(new Date());
         //入党时间认定表基本信息
         JoinPartyTimeInfo joinPartyTimeInfo = new JoinPartyTimeInfo();
         joinPartyTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
         joinPartyTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
+        joinPartyTimeInfo.setPoliticalStatus(employeeInfo.getPoliticalStatus());
         joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
         joinPartyTimeInfo.setJoinPartyIntroducer(employeeInfo.getJoinPartyIntroducer());
         joinPartyTimeInfo.setJoinGroupTime(employeeInfo.getJoinGroupTime());
@@ -461,6 +497,7 @@ public class EmployeeInfoController {
         joinPartyTimeInfo.setJoinPartyTimeCheckResult(employeeInfo.getJoinPartyTimeCheckResult());
         joinPartyTimeInfo.setJoinPartyTimeResearchSituation(employeeInfo.getJoinPartyTimeResearchSituation());
         joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
+        joinPartyTimeInfo.setJoinPartyTimeHaveProblem(employeeInfo.getJoinPartyTimeHaveProblem());
         joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
         joinPartyTimeInfo.setUpdateTime(new Date());
         //工作开始时间认定表
@@ -470,10 +507,14 @@ public class EmployeeInfoController {
         startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
         startingJobTimeInfo.setStartingJobTimeArchvies(employeeInfo.getStartingJobTimeArchvies());
         startingJobTimeInfo.setStartingJobTimeJudgment(employeeInfo.getStartingJobTimeJudgment());
+        startingJobTimeInfo.setStartingJobTime(employeeInfo.getStartingJobTime());
+        startingJobTimeInfo.setLaborDispatchTime(employeeInfo.getLaborDispatchTime());
+        startingJobTimeInfo.setStartingJobTimeThiscompany(employeeInfo.getStartingJobTimeThiscompany());
         startingJobTimeInfo.setStartingJobTimeProblemDetail(employeeInfo.getStartingJobTimeProblemDetail());
         startingJobTimeInfo.setStartingJobTimeProblemCategory(employeeInfo.getStartingJobTimeProblemCategory());
         startingJobTimeInfo.setStartingJobTimeCheckResult(employeeInfo.getStartingJobTimeCheckResult());
         startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
+        startingJobTimeInfo.setStartingJobTimeHaveProblem(employeeInfo.getStartingJobTimeHaveProblem());
         startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
         startingJobTimeInfo.setUpdateTime(new Date());
         //工作经历认定表
@@ -485,17 +526,33 @@ public class EmployeeInfoController {
         workExperienceInfo.setWorkExperienceCheckResult(employeeInfo.getWorkExperienceCheckResult());
         workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
         workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
+        workExperienceInfo.setWorkExperienceHaveProblem(employeeInfo.getWorkExperienceHaveProblem());
         workExperienceInfo.setUpdateTime(new Date());
+        //学历详情表
+        EducationDetailInfo educationDetailInfo=new EducationDetailInfo();
+        educationDetailInfo.setEmployeeId(employeeInfo.getEmployeeId());
+        educationDetailInfo.setEmployeeName(employeeInfo.getEmployeeName());
+        educationDetailInfo.setHighestDegree(employeeInfo.getHighestDegree());
+        educationDetailInfo.setHighestEducation(employeeInfo.getHighestEducation());
+        educationDetailInfo.setHighestDegreeSecond(employeeInfo.getHighestDegreeSecond());
+        educationDetailInfo.setHighestEducationSecond(employeeInfo.getHighestEducationSecond());
+        educationDetailInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
+        educationDetailInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
+        educationDetailInfo.setUpdateBy(employeeInfo.getUpdateBy());
+        educationDetailInfo.setUpdateTime(new Date());
+
         birthdayInfo.setId(this.birthdayInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         educationInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         joinPartyTimeInfo.setId(this.joinPartyTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         startingJobTimeInfo.setId(this.startingJobTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
-        workExperienceInfo.setId(this.workExperienceInfoService.queryByEmployeeId(workExperienceInfo.getEmployeeId()).getId());
+        workExperienceInfo.setId(this.workExperienceInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
+        educationDetailInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         this.birthdayInfoService.update(birthdayInfo);
         this.educationInfoService.update(educationInfo);
         this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
         this.startingJobTimeInfoService.update(startingJobTimeInfo);
         this.workExperienceInfoService.update(workExperienceInfo);
+        this.educationDetailInfoService.update(educationDetailInfo);
         Result res=new GeneralResult(true);
         res.setMsg("更新成功！");
         res.setData(employeeInfo);
@@ -553,6 +610,7 @@ public class EmployeeInfoController {
                     birthdayInfo.setBirthdayProblemCategory(employeeInfo.getBirthdayProblemCategory());
                     birthdayInfo.setBirthdayCheckRule(employeeInfo.getBirthdayCheckRule());
                     birthdayInfo.setBirthdayCheckRemark(employeeInfo.getBirthdayCheckRemark());
+                    birthdayInfo.setBirthdayHaveProblem(employeeInfo.getBirthdayHaveProblem());
                     birthdayInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     birthdayInfo.setUpdateTime(new Date());
                     //学历信息认定表基本信息
@@ -567,12 +625,14 @@ public class EmployeeInfoController {
                     educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
                     educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
                     educationInfo.setEducationRemark(employeeInfo.getEducationRemark());
+                    educationInfo.setEducationHaveProblem(employeeInfo.getEducationHaveProblem());
                     educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     educationInfo.setUpdateTime(new Date());
                     //入党时间认定表基本信息
                     JoinPartyTimeInfo joinPartyTimeInfo = new JoinPartyTimeInfo();
                     joinPartyTimeInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     joinPartyTimeInfo.setEmployeeName(employeeInfo.getEmployeeName());
+                    joinPartyTimeInfo.setPoliticalStatus(employeeInfo.getPoliticalStatus());
                     joinPartyTimeInfo.setJoinPartyTime(employeeInfo.getJoinPartyTime());
                     joinPartyTimeInfo.setJoinPartyIntroducer(employeeInfo.getJoinPartyIntroducer());
                     joinPartyTimeInfo.setJoinGroupTime(employeeInfo.getJoinGroupTime());
@@ -580,6 +640,7 @@ public class EmployeeInfoController {
                     joinPartyTimeInfo.setJoinPartyTimeCheckResult(employeeInfo.getJoinPartyTimeCheckResult());
                     joinPartyTimeInfo.setJoinPartyTimeResearchSituation(employeeInfo.getJoinPartyTimeResearchSituation());
                     joinPartyTimeInfo.setJoinPartyTimeRemark(employeeInfo.getJoinPartyTimeRemark());
+                    joinPartyTimeInfo.setJoinPartyTimeHaveProblem(employeeInfo.getJoinPartyTimeHaveProblem());
                     joinPartyTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     joinPartyTimeInfo.setUpdateTime(new Date());
                     //工作开始时间认定表
@@ -589,10 +650,14 @@ public class EmployeeInfoController {
                     startingJobTimeInfo.setStartingJobTimeOwn(employeeInfo.getStartingJobTimeOwn());
                     startingJobTimeInfo.setStartingJobTimeArchvies(employeeInfo.getStartingJobTimeArchvies());
                     startingJobTimeInfo.setStartingJobTimeJudgment(employeeInfo.getStartingJobTimeJudgment());
+                    startingJobTimeInfo.setStartingJobTime(employeeInfo.getStartingJobTime());
+                    startingJobTimeInfo.setLaborDispatchTime(employeeInfo.getLaborDispatchTime());
+                    startingJobTimeInfo.setStartingJobTimeThiscompany(employeeInfo.getStartingJobTimeThiscompany());
                     startingJobTimeInfo.setStartingJobTimeProblemDetail(employeeInfo.getStartingJobTimeProblemDetail());
                     startingJobTimeInfo.setStartingJobTimeProblemCategory(employeeInfo.getStartingJobTimeProblemCategory());
                     startingJobTimeInfo.setStartingJobTimeCheckResult(employeeInfo.getStartingJobTimeCheckResult());
                     startingJobTimeInfo.setStartingJobTimeCheckRemark(employeeInfo.getStartingJobTimeCheckRemark());
+                    startingJobTimeInfo.setStartingJobTimeHaveProblem(employeeInfo.getStartingJobTimeHaveProblem());
                     startingJobTimeInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     startingJobTimeInfo.setUpdateTime(new Date());
                     //工作经历认定表
@@ -603,8 +668,21 @@ public class EmployeeInfoController {
                     workExperienceInfo.setWorkExperienceProblemCategory(employeeInfo.getWorkExperienceProblemCategory());
                     workExperienceInfo.setWorkExperienceCheckResult(employeeInfo.getWorkExperienceCheckResult());
                     workExperienceInfo.setWorkExperienceRemark(employeeInfo.getWorkExperienceRemark());
+                    workExperienceInfo.setWorkExperienceHaveProblem(employeeInfo.getWorkExperienceHaveProblem());
                     workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     workExperienceInfo.setUpdateTime(new Date());
+                    //学历详情表
+                    EducationDetailInfo educationDetailInfo=new EducationDetailInfo();
+                    educationDetailInfo.setEmployeeId(employeeInfo.getEmployeeId());
+                    educationDetailInfo.setEmployeeName(employeeInfo.getEmployeeName());
+                    educationDetailInfo.setHighestDegree(employeeInfo.getHighestDegree());
+                    educationDetailInfo.setHighestEducation(employeeInfo.getHighestEducation());
+                    educationDetailInfo.setHighestDegreeSecond(employeeInfo.getHighestDegreeSecond());
+                    educationDetailInfo.setHighestEducationSecond(employeeInfo.getHighestEducationSecond());
+                    educationDetailInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
+                    educationDetailInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
+                    educationDetailInfo.setUpdateBy(employeeInfo.getUpdateBy());
+                    educationDetailInfo.setUpdateTime(new Date());
                     //有重复员工编号的值直接覆盖掉
                     if(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId())!=null){
                         employeeInfo.setId(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
@@ -612,7 +690,8 @@ public class EmployeeInfoController {
                         educationInfo.setId(educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         joinPartyTimeInfo.setId(joinPartyTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         startingJobTimeInfo.setId(startingJobTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
-                        workExperienceInfo.setId(workExperienceInfoService.queryByEmployeeId(workExperienceInfo.getEmployeeId()).getId());
+                        workExperienceInfo.setId(workExperienceInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
+                        educationDetailInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         EmployeeInfo target =this.employeeInfoService.queryById(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         EmployeeInfo e= this.employeeInfoService.update(employeeInfo);
                         this.birthdayInfoService.update(birthdayInfo);
@@ -620,6 +699,7 @@ public class EmployeeInfoController {
                         this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
                         this.startingJobTimeInfoService.update(startingJobTimeInfo);
                         this.workExperienceInfoService.update(workExperienceInfo);
+                        this.educationDetailInfoService.update(educationDetailInfo);
                         //更新操作日志记录
                         ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
                         List<changePojo> list = t.contrastObj(target,e);
@@ -657,7 +737,8 @@ public class EmployeeInfoController {
                         count += this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
                         count += this.startingJobTimeInfoService.insert(startingJobTimeInfo);
                         count += this.workExperienceInfoService.insert(workExperienceInfo);
-                        if (count == 6) {
+                        count += this.educationDetailInfoService.insert(educationDetailInfo);
+                        if (count == 7) {
                             System.out.println("成功");
                         }
                     }

@@ -2,6 +2,7 @@ package com.archivesManagementSystem.springboot.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -30,17 +31,47 @@ public class StartingJobTimeInfo implements Serializable {
     * 自填工作时间
     */
     @Excel(name = "自填工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeOwn;
     /**
     * 档案材料中有效工作时间
     */
     @Excel(name = "档案材料中有效工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeArchvies;
     /**
     * 参加工作时间认定时间
     */
     @Excel(name = "参加工作时间认定时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeJudgment;
+
+    /**
+     * 参加工作时间
+     */
+    @Excel(name = "参加工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date startingJobTime;
+
+    /**
+     * 劳务派遣时间
+     */
+    @Excel(name = "劳务派遣时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date laborDispatchTime;
+    /**
+     * 劳务派遣时间
+     */
+    @Excel(name = "本单位工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date startingJobTimeThiscompany;
+
     /**
     * 参加工作问题描述
     */
@@ -61,6 +92,9 @@ public class StartingJobTimeInfo implements Serializable {
     */
     @Excel(name = "参加工作时间小结")
     private String startingJobTimeCheckRemark;
+
+    @Excel(name = "开始工作时间模块是否有问题")
+    private String startingJobTimeHaveProblem;
 
     //@Excel(name = "更新人")
     private String updateBy;
@@ -183,4 +217,35 @@ public class StartingJobTimeInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Date getStartingJobTime() {
+        return startingJobTime;
+    }
+
+    public void setStartingJobTime(Date startingJobTime) {
+        this.startingJobTime = startingJobTime;
+    }
+
+    public Date getLaborDispatchTime() {
+        return laborDispatchTime;
+    }
+
+    public void setLaborDispatchTime(Date laborDispatchTime) {
+        this.laborDispatchTime = laborDispatchTime;
+    }
+
+    public Date getStartingJobTimeThiscompany() {
+        return startingJobTimeThiscompany;
+    }
+
+    public void setStartingJobTimeThiscompany(Date startingJobTimeThiscompany) {
+        this.startingJobTimeThiscompany = startingJobTimeThiscompany;
+    }
+
+    public String getStartingJobTimeHaveProblem() {
+        return startingJobTimeHaveProblem;
+    }
+
+    public void setStartingJobTimeHaveProblem(String startingJobTimeHaveProblem) {
+        this.startingJobTimeHaveProblem = startingJobTimeHaveProblem;
+    }
 }

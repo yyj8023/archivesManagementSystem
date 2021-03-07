@@ -213,6 +213,7 @@ public class JoinPartyTimeInfoController {
     public  Result update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo,HttpServletRequest request){
         HttpSession session = request.getSession();
         String userName = String.valueOf(session.getAttribute("userName"));
+        System.out.println("username is "+userName);
         joinPartyTimeInfo.setUpdateTime(new Date());
         joinPartyTimeInfo.setUpdateBy(userName);
         joinPartyTimeInfo= this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
@@ -221,10 +222,11 @@ public class JoinPartyTimeInfoController {
         EmployeeInfo employeeInfo=new EmployeeInfo();
         EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(joinPartyTimeInfo.getEmployeeId());
         //也对大表做更新
-        employeeInfo.setUpdateBy(joinPartyTimeInfo.getUpdateBy());
+        employeeInfo.setUpdateBy(userName);
         employeeInfo.setUpdateTime(new Date());
         employeeInfo.setEmployeeId(joinPartyTimeInfo.getEmployeeId());
         employeeInfo.setEmployeeName(joinPartyTimeInfo.getEmployeeName());
+        employeeInfo.setPoliticalStatus(joinPartyTimeInfo.getPoliticalStatus());
         employeeInfo.setJoinPartyTimeProblemDetail(joinPartyTimeInfo.getJoinPartyTimeProblemDetail());
         employeeInfo.setJoinPartyTimeCheckResult(joinPartyTimeInfo.getJoinPartyTimeCheckResult());
         employeeInfo.setJoinPartyTimeResearchSituation(joinPartyTimeInfo.getJoinPartyTimeResearchSituation());
@@ -232,6 +234,7 @@ public class JoinPartyTimeInfoController {
         employeeInfo.setJoinPartyIntroducer(joinPartyTimeInfo.getJoinPartyIntroducer());
         employeeInfo.setJoinGroupTime(joinPartyTimeInfo.getJoinGroupTime());
         employeeInfo.setJoinPartyTimeRemark(joinPartyTimeInfo.getJoinPartyTimeRemark());
+        employeeInfo.setJoinPartyTimeHaveProblem(joinPartyTimeInfo.getJoinPartyTimeHaveProblem());
         employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(joinPartyTimeInfo.getEmployeeId()).getId());
         //更新大表对应模块
         this.employeeInfoService.update(employeeInfo);

@@ -212,9 +212,13 @@ public class StartingJobTimeInfoController {
         employeeInfo.setStartingJobTimeCheckResult(startingJobTimeInfo.getStartingJobTimeCheckResult());
         employeeInfo.setStartingJobTimeOwn(startingJobTimeInfo.getStartingJobTimeOwn());
         employeeInfo.setStartingJobTimeJudgment(startingJobTimeInfo.getStartingJobTimeJudgment());
+        employeeInfo.setStartingJobTime(startingJobTimeInfo.getStartingJobTime());
+        employeeInfo.setLaborDispatchTime(startingJobTimeInfo.getLaborDispatchTime());
+        employeeInfo.setStartingJobTimeThiscompany(startingJobTimeInfo.getStartingJobTimeThiscompany());
         employeeInfo.setStartingJobTimeArchvies(startingJobTimeInfo.getStartingJobTimeArchvies());
         employeeInfo.setStartingJobTimeProblemCategory(startingJobTimeInfo.getStartingJobTimeProblemCategory());
         employeeInfo.setStartingJobTimeCheckRemark(startingJobTimeInfo.getStartingJobTimeCheckRemark());
+        employeeInfo.setStartingJobTimeHaveProblem(startingJobTimeInfo.getStartingJobTimeHaveProblem());
         employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(startingJobTimeInfo.getEmployeeId()).getId());
         //更新大表对应模块
         this.employeeInfoService.update(employeeInfo);

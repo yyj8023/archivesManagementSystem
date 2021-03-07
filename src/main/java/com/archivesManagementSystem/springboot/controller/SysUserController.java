@@ -70,6 +70,8 @@ public class SysUserController {
             res.setData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getUserName());
             res.setIdData(this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getId());
             session.setAttribute("userName",this.sysUserService.queryByNameAndPass(sysUser.getUserName(),encodePassword).getUserName());
+           /* session.setAttribute("userName","111");*/
+            System.out.println("session id"+session.getId());
             res.setSuccess(true);
         }else{
             res.setMsg("登录失败");

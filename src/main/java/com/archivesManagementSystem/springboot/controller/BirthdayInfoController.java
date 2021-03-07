@@ -213,7 +213,7 @@ public class BirthdayInfoController {
         EmployeeInfo employeeInfo=new EmployeeInfo();
         EmployeeInfo target=this.employeeInfoService.queryByEmployeeId(birthdayInfo.getEmployeeId());
         //也对大表做更新
-        employeeInfo.setUpdateBy(birthdayInfoNew.getUpdateBy());
+        employeeInfo.setUpdateBy(userName);
         employeeInfo.setUpdateTime(new Date());
         employeeInfo.setBirthdayArchives(birthdayInfoNew.getBirthdayArchives());
         employeeInfo.setBirthdayCard(birthdayInfoNew.getBirthdayCard());
@@ -223,6 +223,7 @@ public class BirthdayInfoController {
         employeeInfo.setBirthdayCheckResult(birthdayInfoNew.getBirthdayCheckResult());
         employeeInfo.setBirthdayProblemCategory(birthdayInfoNew.getBirthdayProblemCategory());
         employeeInfo.setBirthdayProblemDetail(birthdayInfoNew.getBirthdayProblemDetail());
+        employeeInfo.setBirthdayHaveProblem(birthdayInfoNew.getBirthdayHaveProblem());
         employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(birthdayInfoNew.getEmployeeId()).getId());
         //更新大表对应模块
         this.employeeInfoService.update(employeeInfo);
@@ -259,7 +260,7 @@ public class BirthdayInfoController {
         Result res=new GeneralResult(true);
         res.setCode(CommonController.SUCCESS);
         res.setMsg("更新成功！");
-        res.setData(birthdayInfo);
+        res.setData(birthdayInfoNew);
         if(birthdayInfoNew==null){
             res.setSuccess(false);
             res.setCode(CommonController.ERROR);

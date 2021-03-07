@@ -227,6 +227,7 @@ public class WorkExperienceInfoController {
         employeeInfo.setWorkExperienceProblemCategory(workExperienceInfo.getWorkExperienceProblemCategory());
         employeeInfo.setWorkExperienceProblemDetail(workExperienceInfo.getWorkExperienceProblemDetail());
         employeeInfo.setWorkExperienceProblemDetail(workExperienceInfo.getWorkExperienceProblemDetail());
+        employeeInfo.setWorkExperienceHaveProblem(workExperienceInfo.getWorkExperienceHaveProblem());
         employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(workExperienceInfo.getEmployeeId()).getId());
         //更新大表对应模块
         this.employeeInfoService.update(employeeInfo);
@@ -237,7 +238,7 @@ public class WorkExperienceInfoController {
         for(changePojo changePojolist:list){
             ordinaryOperateLog.setEmployeeId(target.getEmployeeId());
             ordinaryOperateLog.setEmployeeName(target.getEmployeeName());
-            ordinaryOperateLog.setCheckTableName("入党时间模块");
+            ordinaryOperateLog.setCheckTableName("工作经历模块");
             ordinaryOperateLog.setOperateType("修改");
             ordinaryOperateLog.setCheckColumnName(changePojolist.getCheckColumnName());
             Object param1=changePojolist.getOldValue();

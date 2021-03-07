@@ -2,6 +2,7 @@ package com.archivesManagementSystem.springboot.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -66,6 +67,8 @@ public class EmployeeInfo implements Serializable {
     * 身份证出生日期
     */
     @Excel(name = "身份证日期",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthdayCard;
     /**
     * 档案中的出生日期
@@ -75,6 +78,8 @@ public class EmployeeInfo implements Serializable {
     * 认定出生日期
     */
     @Excel(name = "认定出生日期",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthdayJudgment;
     /**
     * 出生日期问题分类
@@ -91,15 +96,21 @@ public class EmployeeInfo implements Serializable {
     */
     @Excel(name = "小结",fixedIndex = 14)
     private String birthdayCheckRemark;
+
+    @Excel(name="是否有问题",fixedIndex=15)
+    private String birthdayHaveProblem;
+
+    @Excel(name="政治面貌")
+    private String politicalStatus;
     /**
     * 入党时间问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 15)
+    @Excel(name = "问题描述",fixedIndex = 17)
     private String joinPartyTimeProblemDetail;
     /**
     * 入党时间认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 16)
+    @Excel(name = "认定结果描述",fixedIndex = 18)
     private String joinPartyTimeCheckResult;
     /**
     * 入党时间调研情况
@@ -110,6 +121,8 @@ public class EmployeeInfo implements Serializable {
     * 入党时间
     */
     @Excel(name = "入党时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date joinPartyTime;
     /**
     * 入党介绍人
@@ -120,31 +133,44 @@ public class EmployeeInfo implements Serializable {
     * 入团时间
     */
     @Excel(name = "入团时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date joinGroupTime;
     /**
     * 入党时间小结
     */
-    @Excel(name = "小结",fixedIndex = 21)
+    @Excel(name = "小结",fixedIndex = 23)
     private String joinPartyTimeRemark;
+
+    /*
+    入党时间是否有问题
+     */
+    @Excel(name="是否有问题",fixedIndex=24)
+    private String joinPartyTimeHaveProblem;
+
     /**
     * 参加工作时间问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 22)
+    @Excel(name = "问题描述",fixedIndex = 25)
     private String startingJobTimeProblemDetail;
     /**
     * 参加工作时间认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 23)
+    @Excel(name = "认定结果描述",fixedIndex = 26)
     private String startingJobTimeCheckResult;
     /**
     * 自填工作时间
     */
     @Excel(name = "自填工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeOwn;
     /**
     * 档案材料中有效工作时间
     */
     @Excel(name = "档案材料中有效工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeArchvies;
     /**
     * 参加工作时间认定时间
@@ -153,22 +179,48 @@ public class EmployeeInfo implements Serializable {
     /**
     * 参加工作时间问题分类
     */
-    @Excel(name = "问题分类",fixedIndex = 26)
+    /**
+     * 参加工作时间
+     */
+    @Excel(name = "参加工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date startingJobTime;
+
+    /**
+     * 劳务派遣时间
+     */
+    @Excel(name = "劳务派遣时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date laborDispatchTime;
+    /**
+     * 劳务派遣时间
+     */
+    @Excel(name = "本单位工作时间",exportFormat = "yyyy/MM/dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date startingJobTimeThiscompany;
+
+    @Excel(name = "问题分类",fixedIndex = 32)
     private String startingJobTimeProblemCategory;
     /**
     * 参加工作时间小结
     */
-    @Excel(name = "小结",fixedIndex = 27)
+    @Excel(name = "小结",fixedIndex = 33)
     private String startingJobTimeCheckRemark;
+
+    @Excel(name = "是否有问题",fixedIndex = 34)
+    private String startingJobTimeHaveProblem;
     /**
     * 学历问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 28)
+    @Excel(name = "问题描述",fixedIndex = 35)
     private String educationProblemDetail;
     /**
     * 学历认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 29)
+    @Excel(name = "认定结果描述",fixedIndex = 36)
     private String educationCheckResult;
     /**
     * 最高学位
@@ -192,33 +244,71 @@ public class EmployeeInfo implements Serializable {
     * 学历问题分类
     */
 
-    @Excel(name = "问题分类",fixedIndex = 32)
+    @Excel(name = "问题分类",fixedIndex = 39)
     private String educationProblemCategory;
     /**
     * 学历小结
     */
-    @Excel(name = "小结",fixedIndex = 33)
+    @Excel(name = "小结",fixedIndex = 40)
     private String educationRemark;
+
+    @Excel(name="是否有问题",fixedIndex = 41)
+    private String educationHaveProblem;
+
+    /**
+     * 最高学历
+     */
+    @Excel(name = "最高学历",fixedIndex = 42)
+    private String highestEducation;
+    /**
+     * 最高学位
+     */
+    @Excel(name = "最高学位",fixedIndex = 43)
+    private String highestDegree;
+    /**
+     * 次高学历
+     */
+    @Excel(name = "次高学历",fixedIndex = 44)
+    private String highestEducationSecond;
+    /**
+     * 次高学位
+     */
+    @Excel(name = "次高学位",fixedIndex = 45)
+    private String highestDegreeSecond;
+    /**
+     * 第三高学历
+     */
+    @Excel(name = "第三高学历",fixedIndex = 46)
+    private String highestEducationThird;
+    /**
+     * 第三高学位
+     */
+    @Excel(name = "第三高学位",fixedIndex = 47)
+    private String highestDegreeThird;
     /**
     * 工作经历问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 37)
+    @Excel(name = "问题描述",fixedIndex = 48)
     private String workExperienceProblemDetail;
     /**
     * 工作经历认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 38)
+    @Excel(name = "认定结果描述",fixedIndex = 49)
     private String workExperienceCheckResult;
     /**
     * 工作经历问题分类
     */
-    @Excel(name = "问题分类",fixedIndex = 39)
+    @Excel(name = "问题分类",fixedIndex = 50)
     private String workExperienceProblemCategory;
     /**
     * 工作经历小结
     */
-    @Excel(name = "小结",fixedIndex = 40)
+    @Excel(name = "小结",fixedIndex = 51)
     private String workExperienceRemark;
+
+    @Excel(name="是否有问题",fixedIndex=52)
+    private String workExperienceHaveProblem;
+
     /**
     * 补充材料情况
     */
@@ -639,4 +729,125 @@ public class EmployeeInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
+
+
+    public String getBirthdayHaveProblem() {
+        return birthdayHaveProblem;
+    }
+
+    public void setBirthdayHaveProblem(String birthdayHaveProblem) {
+        this.birthdayHaveProblem = birthdayHaveProblem;
+    }
+
+    public String getPoliticalStatus() {
+        return politicalStatus;
+    }
+
+    public void setPoliticalStatus(String politicalStatus) {
+        this.politicalStatus = politicalStatus;
+    }
+
+    public String getJoinPartyTimeHaveProblem() {
+        return joinPartyTimeHaveProblem;
+    }
+
+    public void setJoinPartyTimeHaveProblem(String joinPartyTimeHaveProblem) {
+        this.joinPartyTimeHaveProblem = joinPartyTimeHaveProblem;
+    }
+
+    public Date getStartingJobTime() {
+        return startingJobTime;
+    }
+
+    public void setStartingJobTime(Date startingJobTime) {
+        this.startingJobTime = startingJobTime;
+    }
+
+    public Date getLaborDispatchTime() {
+        return laborDispatchTime;
+    }
+
+    public void setLaborDispatchTime(Date laborDispatchTime) {
+        this.laborDispatchTime = laborDispatchTime;
+    }
+
+    public Date getStartingJobTimeThiscompany() {
+        return startingJobTimeThiscompany;
+    }
+
+    public void setStartingJobTimeThiscompany(Date startingJobTimeThiscompany) {
+        this.startingJobTimeThiscompany = startingJobTimeThiscompany;
+    }
+
+    public String getStartingJobTimeHaveProblem() {
+        return startingJobTimeHaveProblem;
+    }
+
+    public void setStartingJobTimeHaveProblem(String startingJobTimeHaveProblem) {
+        this.startingJobTimeHaveProblem = startingJobTimeHaveProblem;
+    }
+
+    public String getEducationHaveProblem() {
+        return educationHaveProblem;
+    }
+
+    public void setEducationHaveProblem(String educationHaveProblem) {
+        this.educationHaveProblem = educationHaveProblem;
+    }
+
+    public String getWorkExperienceHaveProblem() {
+        return workExperienceHaveProblem;
+    }
+
+    public void setWorkExperienceHaveProblem(String workExperienceHaveProblem) {
+        this.workExperienceHaveProblem = workExperienceHaveProblem;
+    }
+
+    public String getHighestEducation() {
+        return highestEducation;
+    }
+
+    public void setHighestEducation(String highestEducation) {
+        this.highestEducation = highestEducation;
+    }
+
+    public String getHighestDegree() {
+        return highestDegree;
+    }
+
+    public void setHighestDegree(String highestDegree) {
+        this.highestDegree = highestDegree;
+    }
+
+    public String getHighestEducationSecond() {
+        return highestEducationSecond;
+    }
+
+    public void setHighestEducationSecond(String highestEducationSecond) {
+        this.highestEducationSecond = highestEducationSecond;
+    }
+
+    public String getHighestDegreeSecond() {
+        return highestDegreeSecond;
+    }
+
+    public void setHighestDegreeSecond(String highestDegreeSecond) {
+        this.highestDegreeSecond = highestDegreeSecond;
+    }
+
+    public String getHighestEducationThird() {
+        return highestEducationThird;
+    }
+
+    public void setHighestEducationThird(String highestEducationThird) {
+        this.highestEducationThird = highestEducationThird;
+    }
+
+    public String getHighestDegreeThird() {
+        return highestDegreeThird;
+    }
+
+    public void setHighestDegreeThird(String highestDegreeThird) {
+        this.highestDegreeThird = highestDegreeThird;
+    }
 }

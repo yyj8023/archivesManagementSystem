@@ -20,6 +20,8 @@
         <result property="birthdayProblemCategory" column="birthday_problem_category" jdbcType="VARCHAR"/>
         <result property="birthdayCheckRule" column="birthday_check_rule" jdbcType="VARCHAR"/>
         <result property="birthdayCheckRemark" column="birthday_check_remark" jdbcType="VARCHAR"/>
+        <result property="birthdayHaveProblem" column="birthday_have_problem" jdbcType="VARCHAR"/>
+        <result property="politicalStatus" column="political_status" jdbcType="VARCHAR"/>
         <result property="joinPartyTimeProblemDetail" column="join_party_time_problem_detail" jdbcType="VARCHAR"/>
         <result property="joinPartyTimeCheckResult" column="join_party_time_check_result" jdbcType="VARCHAR"/>
         <result property="joinPartyTimeResearchSituation" column="join_party_time_research_situation" jdbcType="VARCHAR"/>
@@ -27,13 +29,18 @@
         <result property="joinPartyIntroducer" column="join_party_introducer" jdbcType="VARCHAR"/>
         <result property="joinGroupTime" column="join_group_time" jdbcType="TIMESTAMP"/>
         <result property="joinPartyTimeRemark" column="join_party_time_remark" jdbcType="VARCHAR"/>
+        <result property="joinPartyTimeHaveProblem" column="join_party_time_have_problem" jdbcType="VARCHAR"/>
         <result property="startingJobTimeProblemDetail" column="starting_job_time_problem_detail" jdbcType="VARCHAR"/>
         <result property="startingJobTimeCheckResult" column="starting_job_time_check_result" jdbcType="VARCHAR"/>
         <result property="startingJobTimeOwn" column="starting_job_time_own" jdbcType="TIMESTAMP"/>
         <result property="startingJobTimeArchvies" column="starting_job_time_archvies" jdbcType="TIMESTAMP"/>
         <result property="startingJobTimeJudgment" column="starting_job_time_judgment" jdbcType="TIMESTAMP"/>
+        <result property="startingJobTime" column="starting_job_time" jdbcType="TIMESTAMP"/>
+        <result property="laborDispatchTime" column="labor_dispatch_time" jdbcType="TIMESTAMP"/>
+        <result property="startingJobTimeThiscompany" column="starting_job_time_thiscompany" jdbcType="TIMESTAMP"/>
         <result property="startingJobTimeProblemCategory" column="starting_job_time_problem_category" jdbcType="VARCHAR"/>
         <result property="startingJobTimeCheckRemark" column="starting_job_time_check_remark" jdbcType="VARCHAR"/>
+        <result property="startingJobTimeHaveProblem" column="starting_job_time_have_problem" jdbcType="VARCHAR"/>
         <result property="educationProblemDetail" column="education_problem_detail" jdbcType="VARCHAR"/>
         <result property="educationCheckResult" column="education_check_result" jdbcType="VARCHAR"/>
         <result property="educationDegree" column="education_degree" jdbcType="VARCHAR"/>
@@ -42,10 +49,18 @@
         <result property="educationDegreeJudgment" column="education_degree_judgment" jdbcType="VARCHAR"/>
         <result property="educationProblemCategory" column="education_problem_category" jdbcType="VARCHAR"/>
         <result property="educationRemark" column="education_remark" jdbcType="VARCHAR"/>
+        <result property="educationHaveProblem" column="education_have_problem" jdbcType="VARCHAR"/>
+        <result property="highestEducation" column="highest_education" jdbcType="VARCHAR"/>
+        <result property="highestDegree" column="highest_degree" jdbcType="VARCHAR"/>
+        <result property="highestEducationSecond" column="highest_education_second" jdbcType="VARCHAR"/>
+        <result property="highestDegreeSecond" column="highest_degree_second" jdbcType="VARCHAR"/>
+        <result property="highestEducationThird" column="highest_education_third" jdbcType="VARCHAR"/>
+        <result property="highestDegreeThird" column="highest_degree_third" jdbcType="VARCHAR"/>
         <result property="workExperienceProblemDetail" column="work_experience_problem_detail" jdbcType="VARCHAR"/>
         <result property="workExperienceCheckResult" column="work_experience_check_result" jdbcType="VARCHAR"/>
         <result property="workExperienceProblemCategory" column="work_experience_problem_category" jdbcType="VARCHAR"/>
         <result property="workExperienceRemark" column="work_experience_remark" jdbcType="VARCHAR"/>
+        <result property="workExperienceHaveProblem" column="work_experience_have_problem" jdbcType="VARCHAR"/>
         <result property="marterialSupplementRemark" column="marterial_supplement_remark" jdbcType="VARCHAR"/>
         <result property="electronicPaperCheckFlag" column="electronic_paper_check_flag" jdbcType="BOOLEAN"/>
         <result property="checkUser" column="check_user" jdbcType="VARCHAR"/>
@@ -56,31 +71,31 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, join_party_time_have_problem,starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time,labor_dispatch_time,starting_job_time_thiscompany,starting_job_time_problem_category, starting_job_time_check_remark, starting_job_time_have_problem,education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, work_experience_have_problem,marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
         from archivesmanagementsystem.employee_info
         where id = #{id}
     </select>
 
     <!--查询单个-->
     <select id="queryByEmployeeId" resultMap="BaseResultMap">
-        select
-          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+         select
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, join_party_time_have_problem,starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time,labor_dispatch_time,starting_job_time_thiscompany,starting_job_time_problem_category, starting_job_time_check_remark, starting_job_time_have_problem,education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, work_experience_have_problem,marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
         from archivesmanagementsystem.employee_info
         where employee_id = #{employeeId}
     </select>
 
     <!--查询单个-->
     <select id="queryByEmployeeName" resultMap="BaseResultMap">
-        select
-          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+         select
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, join_party_time_have_problem,starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time,labor_dispatch_time,starting_job_time_thiscompany,starting_job_time_problem_category, starting_job_time_check_remark, starting_job_time_have_problem,education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, work_experience_have_problem,marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
         from archivesmanagementsystem.employee_info
         where employee_name = #{employeeName}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
-        select
-          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+         select
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, join_party_time_have_problem,starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time,labor_dispatch_time,starting_job_time_thiscompany,starting_job_time_problem_category, starting_job_time_check_remark, starting_job_time_have_problem,education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, work_experience_have_problem,marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
         from archivesmanagementsystem.employee_info
         limit #{offset}, #{limit}
     </select>
@@ -88,7 +103,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-        id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+        id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, join_party_time_have_problem,starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time,labor_dispatch_time,starting_job_time_thiscompany,starting_job_time_problem_category, starting_job_time_check_remark, starting_job_time_have_problem,education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, work_experience_have_problem,marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
         from archivesmanagementsystem.employee_info
         <where>
             <if test="id != null">
@@ -139,6 +154,12 @@
             <if test="birthdayCheckRemark != null and birthdayCheckRemark != ''">
                 and birthday_check_remark = #{birthdayCheckRemark}
             </if>
+            <if test="birthdayHaveProblem != null and birthdayHaveProblem != ''">
+                and birthday_have_problem = #{birthdayHaveProblem}
+            </if>
+            <if test="politicalStatus != null and politicalStatus != ''">
+                and political_status = #{politicalStatus}
+            </if>
             <if test="joinPartyTimeProblemDetail != null and joinPartyTimeProblemDetail != ''">
                 and join_party_time_problem_detail = #{joinPartyTimeProblemDetail}
             </if>
@@ -160,6 +181,9 @@
             <if test="joinPartyTimeRemark != null and joinPartyTimeRemark != ''">
                 and join_party_time_remark = #{joinPartyTimeRemark}
             </if>
+            <if test="joinPartyHaveProblem != null and joinPartyHaveProblem != ''">
+                and join_party_have_problem = #{joinPartyHaveProblem}
+            </if>
             <if test="startingJobTimeProblemDetail != null and startingJobTimeProblemDetail != ''">
                 and starting_job_time_problem_detail = #{startingJobTimeProblemDetail}
             </if>
@@ -175,11 +199,23 @@
             <if test="startingJobTimeJudgment != null">
                 and starting_job_time_judgment = #{startingJobTimeJudgment}
             </if>
+            <if test="startingJobTime != null">
+                and starting_job_time= #{startingJobTime}
+            </if>
+            <if test="laborDispatchTime != null">
+                and labor_dispatch_time = #{laborDispatchTime}
+            </if>
+            <if test="startingJobTimeThiscompany != null">
+                and starting_job_time_thiscompany = #{startingJobTimeThiscompany}
+            </if>
             <if test="startingJobTimeProblemCategory != null and startingJobTimeProblemCategory != ''">
                 and starting_job_time_problem_category = #{startingJobTimeProblemCategory}
             </if>
             <if test="startingJobTimeCheckRemark != null and startingJobTimeCheckRemark != ''">
                 and starting_job_time_check_remark = #{startingJobTimeCheckRemark}
+            </if>
+            <if test="startingJobTimeHaveProblem != null and startingJobTimeHaveProblem != ''">
+                and starting_job_time_have_problem = #{startingJobTimeHaveProblem}
             </if>
             <if test="educationProblemDetail != null and educationProblemDetail != ''">
                 and education_problem_detail = #{educationProblemDetail}
@@ -205,6 +241,27 @@
             <if test="educationRemark != null and educationRemark != ''">
                 and education_remark = #{educationRemark}
             </if>
+            <if test="educationHaveProblem != null and  educationHaveProblem!= ''">
+                and education_have_problem = #{educationHaveProblem}
+            </if>
+            <if test="highestEducation != null and  highestEducation!= ''">
+                and highest_education = #{highestEducation}
+            </if>
+            <if test="educationHaveProblem != null and  educationHaveProblem!= ''">
+                and highest_degree = #{highestDegree}
+            </if>
+            <if test="highestEducationSecond != null and  highestEducationSecond!= ''">
+                and highest_education_second = #{highestEducationSecond}
+            </if>
+            <if test="highestDegreeSecond != null and  highestDegreeSecond!= ''">
+                and highest_degree_second = #{highestDegreeSecond}
+            </if>
+            <if test="highestEducationThird != null and  highestEducationThird!= ''">
+                and highest_education_third = #{highestEducationThird}
+            </if>
+            <if test="highestDegreeThird != null and  highestDegreeThird!= ''">
+                and highest_degree_third = #{highestDegreeThird}
+            </if>
             <if test="workExperienceProblemDetail != null and workExperienceProblemDetail != ''">
                 and work_experience_problem_detail = #{workExperienceProblemDetail}
             </if>
@@ -216,6 +273,9 @@
             </if>
             <if test="workExperienceRemark != null and workExperienceRemark != ''">
                 and work_experience_remark = #{workExperienceRemark}
+            </if>
+            <if test="workExperienceHaveProblem != null and workExperienceHaveProblem != ''">
+                and work_experience_have_problem = #{workExperienceHaveProblem}
             </if>
             <if test="marterialSupplementRemark != null and marterialSupplementRemark != ''">
                 and marterial_supplement_remark = #{marterialSupplementRemark}
@@ -237,15 +297,15 @@
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllByPage" resultMap="BaseResultMap">
-        select
-        id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+   select
+          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, join_party_time_have_problem,starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time,labor_dispatch_time,starting_job_time_thiscompany,starting_job_time_problem_category, starting_job_time_check_remark, starting_job_time_have_problem,education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, work_experience_have_problem,marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
         from archivesmanagementsystem.employee_info
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into archivesmanagementsystem.employee_info(employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time)
-        values (#{employeeId}, #{employeeName}, #{departmentName}, #{jobProperty}, #{departmentLine}, #{confirmationContentFlag}, #{confirmationSignatureFlag}, #{birthdayProblemDetail}, #{birthdayCheckResult}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{birthdayProblemCategory}, #{birthdayCheckRule}, #{birthdayCheckRemark}, #{joinPartyTimeProblemDetail}, #{joinPartyTimeCheckResult}, #{joinPartyTimeResearchSituation}, #{joinPartyTime}, #{joinPartyIntroducer}, #{joinGroupTime}, #{joinPartyTimeRemark}, #{startingJobTimeProblemDetail}, #{startingJobTimeCheckResult}, #{startingJobTimeOwn}, #{startingJobTimeArchvies}, #{startingJobTimeJudgment}, #{startingJobTimeProblemCategory}, #{startingJobTimeCheckRemark}, #{educationProblemDetail}, #{educationCheckResult}, #{educationDegree}, #{educationBackgroud}, #{educationBackgroudJudgment}, #{educationDegreeJudgment}, #{educationProblemCategory}, #{educationRemark}, #{workExperienceProblemDetail}, #{workExperienceCheckResult}, #{workExperienceProblemCategory}, #{workExperienceRemark}, #{marterialSupplementRemark}, #{electronicPaperCheckFlag}, #{checkUser}, #{updateBy}, #{updateTime})
+        insert into archivesmanagementsystem.employee_info(employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark,join_party_time_have_problem, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time, labor_dispatch_time, starting_job_time_thiscompany, starting_job_time_problem_category, starting_job_time_check_remark,starting_job_time_have_problem, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark,work_experience_have_problem, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{departmentName}, #{jobProperty}, #{departmentLine}, #{confirmationContentFlag}, #{confirmationSignatureFlag}, #{birthdayProblemDetail}, #{birthdayCheckResult}, #{birthdayCard}, #{birthdayArchives}, #{birthdayJudgment}, #{birthdayProblemCategory}, #{birthdayCheckRule}, #{birthdayCheckRemark}, #{birthdayHaveProblem},#{politicalStatus},#{joinPartyTimeProblemDetail}, #{joinPartyTimeCheckResult}, #{joinPartyTimeResearchSituation}, #{joinPartyTime}, #{joinPartyIntroducer}, #{joinGroupTime}, #{joinPartyTimeRemark},#{joinPartyTimeHaveProblem}, #{startingJobTimeProblemDetail}, #{startingJobTimeCheckResult}, #{startingJobTimeOwn}, #{startingJobTimeArchvies}, #{startingJobTimeJudgment}, #{startingJobTime},#{laborDispatchTime},#{startingJobTimeThiscompany},#{startingJobTimeProblemCategory}, #{startingJobTimeCheckRemark},#{startingJobTimeHaveProblem}, #{educationProblemDetail}, #{educationCheckResult}, #{educationDegree}, #{educationBackgroud}, #{educationBackgroudJudgment}, #{educationDegreeJudgment}, #{educationProblemCategory}, #{educationRemark},#{educationHaveProblem},#{highestEducation},#{highestDegree},#{highestEducationSecond},#{highestDegreeSecond},#{highestEducationThird},#{highestDegreeThird},#{workExperienceProblemDetail}, #{workExperienceCheckResult}, #{workExperienceProblemCategory}, #{workExperienceRemark},#{workExperienceHaveProblem}, #{marterialSupplementRemark}, #{electronicPaperCheckFlag}, #{checkUser}, #{updateBy}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
@@ -297,6 +357,12 @@
             <if test="birthdayCheckRemark != null and birthdayCheckRemark != ''">
                 birthday_check_remark = #{birthdayCheckRemark},
             </if>
+            <if test="birthdayHaveProblem != null and birthdayHaveProblem != ''">
+                and birthday_have_problem = #{birthdayHaveProblem}
+            </if>
+            <if test="politicalStatus != null and politicalStatus != ''">
+                and political_status = #{politicalStatus}
+            </if>
             <if test="joinPartyTimeProblemDetail != null and joinPartyTimeProblemDetail != ''">
                 join_party_time_problem_detail = #{joinPartyTimeProblemDetail},
             </if>
@@ -318,6 +384,9 @@
             <if test="joinPartyTimeRemark != null and joinPartyTimeRemark != ''">
                 join_party_time_remark = #{joinPartyTimeRemark},
             </if>
+            <if test="joinPartyTimeHaveProblem != null and joinPartyTimeHaveProblem != ''">
+                and join_party_time_have_problem = #{joinPartyTimeHaveProblem}
+            </if>
             <if test="startingJobTimeProblemDetail != null and startingJobTimeProblemDetail != ''">
                 starting_job_time_problem_detail = #{startingJobTimeProblemDetail},
             </if>
@@ -333,11 +402,23 @@
             <if test="startingJobTimeJudgment != null">
                 starting_job_time_judgment = #{startingJobTimeJudgment},
             </if>
+            <if test="startingJobTime != null">
+                and starting_job_time= #{startingJobTime}
+            </if>
+            <if test="laborDispatchTime != null">
+                and labor_dispatch_time = #{laborDispatchTime}
+            </if>
+            <if test="startingJobTimeThiscompany != null">
+                and starting_job_time_thiscompany = #{startingJobTimeThiscompany}
+            </if>
             <if test="startingJobTimeProblemCategory != null and startingJobTimeProblemCategory != ''">
                 starting_job_time_problem_category = #{startingJobTimeProblemCategory},
             </if>
             <if test="startingJobTimeCheckRemark != null and startingJobTimeCheckRemark != ''">
                 starting_job_time_check_remark = #{startingJobTimeCheckRemark},
+            </if>
+            <if test="startingJobTimeHaveProblem != null and startingJobTimeHaveProblem != ''">
+                and starting_job_time_have_problem = #{startingJobTimeHaveProblem}
             </if>
             <if test="educationProblemDetail != null and educationProblemDetail != ''">
                 education_problem_detail = #{educationProblemDetail},
@@ -363,6 +444,27 @@
             <if test="educationRemark != null and educationRemark != ''">
                 education_remark = #{educationRemark},
             </if>
+            <if test="educationHaveProblem != null and  educationHaveProblem!= ''">
+                and education_have_problem = #{educationHaveProblem}
+            </if>
+            <if test="highestEducation != null and  highestEducation!= ''">
+                and highest_education = #{highestEducation}
+            </if>
+            <if test="educationHaveProblem != null and  educationHaveProblem!= ''">
+                and highest_degree = #{highestDegree}
+            </if>
+            <if test="highestEducationSecond != null and  highestEducationSecond!= ''">
+                and highest_education_second = #{highestEducationSecond}
+            </if>
+            <if test="highestDegreeSecond != null and  highestDegreeSecond!= ''">
+                and highest_degree_second = #{highestDegreeSecond}
+            </if>
+            <if test="highestEducationThird != null and  highestEducationThird!= ''">
+                and highest_education_third = #{highestEducationThird}
+            </if>
+            <if test="highestDegreeThird != null and  highestDegreeThird!= ''">
+                and highest_degree_third = #{highestDegreeThird}
+            </if>
             <if test="workExperienceProblemDetail != null and workExperienceProblemDetail != ''">
                 work_experience_problem_detail = #{workExperienceProblemDetail},
             </if>
@@ -374,6 +476,9 @@
             </if>
             <if test="workExperienceRemark != null and workExperienceRemark != ''">
                 work_experience_remark = #{workExperienceRemark},
+            </if>
+            <if test="workExperienceHaveProblem != null and workExperienceHaveProblem != ''">
+                and work_experience_have_problem = #{workExperienceHaveProblem}
             </if>
             <if test="marterialSupplementRemark != null and marterialSupplementRemark != ''">
                 marterial_supplement_remark = #{marterialSupplementRemark},
@@ -402,7 +507,7 @@
     <!--查询ids数据-->
     <select id="queryByIds" parameterType="java.util.List" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time_problem_category, starting_job_time_check_remark, education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
+        id, employee_id, employee_name, department_name, job_property, department_line, confirmation_content_flag, confirmation_signature_flag, birthday_problem_detail, birthday_check_result, birthday_card, birthday_archives, birthday_judgment, birthday_problem_category, birthday_check_rule, birthday_check_remark, birthday_have_problem,political_status,join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time, join_party_introducer, join_group_time, join_party_time_remark, join_party_time_have_problem,starting_job_time_problem_detail, starting_job_time_check_result, starting_job_time_own, starting_job_time_archvies, starting_job_time_judgment, starting_job_time,labor_dispatch_time,starting_job_time_thiscompany,starting_job_time_problem_category, starting_job_time_check_remark, starting_job_time_have_problem,education_problem_detail, education_check_result, education_degree, education_backgroud, education_backgroud_judgment, education_degree_judgment, education_problem_category, education_remark, education_have_problem,highest_education,highest_degree,highest_education_second,highest_degree_second,highest_education_third,highest_degree_third,work_experience_problem_detail, work_experience_check_result, work_experience_problem_category, work_experience_remark, work_experience_have_problem,marterial_supplement_remark, electronic_paper_check_flag, check_user, update_by, update_time
         from archivesmanagementsystem.employee_info
         where id in
         <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">

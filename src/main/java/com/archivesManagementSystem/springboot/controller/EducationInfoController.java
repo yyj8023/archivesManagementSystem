@@ -223,6 +223,7 @@ public class EducationInfoController {
         employeeInfo.setEducationDegree(educationInfo.getEducationDegree());
         employeeInfo.setEducationBackgroud(educationInfo.getEducationBackgroud());
         employeeInfo.setId(this.employeeInfoService.queryByEmployeeId(educationInfo.getEmployeeId()).getId());
+        employeeInfo.setEducationHaveProblem(educationInfo.getEducationHaveProblem());
         employeeInfo.setUpdateTime(new Date());
         educationInfo.setUpdateBy(userName);
         //更新大表对应模块

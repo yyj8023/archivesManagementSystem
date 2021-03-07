@@ -7,6 +7,7 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="employeeId" column="employee_id" jdbcType="INTEGER"/>
         <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="politicalStatus" column="political_status" jdbcType="VARCHAR"/>
         <result property="joinPartyTime" column="join_party_time" jdbcType="TIMESTAMP"/>
         <result property="joinPartyIntroducer" column="join_party_introducer" jdbcType="VARCHAR"/>
         <result property="joinGroupTime" column="join_group_time" jdbcType="TIMESTAMP"/>
@@ -14,6 +15,7 @@
         <result property="joinPartyTimeCheckResult" column="join_party_time_check_result" jdbcType="VARCHAR"/>
         <result property="joinPartyTimeResearchSituation" column="join_party_time_research_situation" jdbcType="VARCHAR"/>
         <result property="joinPartyTimeRemark" column="join_party_time_remark" jdbcType="VARCHAR"/>
+        <result property="joinPartyTimeHaveProblem" column="join_party_time_have_problem" jdbcType="VARCHAR"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -21,7 +23,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+          id, employee_id, political_status,employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark,join_party_time_have_problem, update_by, update_time
         from archivesmanagementsystem.join_party_time_info
         where id = #{id}
     </select>
@@ -29,7 +31,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+          id, employee_id, political_status,employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark,join_party_time_have_problem, update_by, update_time
         from archivesmanagementsystem.join_party_time_info
         limit #{offset}, #{limit}
     </select>
@@ -37,7 +39,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+        id, employee_id, political_status,employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark,join_party_time_have_problem, update_by, update_time
         from archivesmanagementsystem.join_party_time_info
         <where>
             <if test="id != null">
@@ -48,6 +50,9 @@
             </if>
             <if test="employeeName != null and employeeName != ''">
                 and employee_name = #{employeeName}
+            </if>
+            <if test="political_status != null and political_status != ''">
+                political_status = #{politicalStatus},
             </if>
             <if test="joinPartyTime != null">
                 and join_party_time = #{joinPartyTime}
@@ -70,6 +75,9 @@
             <if test="joinPartyTimeRemark != null and joinPartyTimeRemark != ''">
                 and join_party_time_remark = #{joinPartyTimeRemark}
             </if>
+            <if test="joinPartyTimeHaveProblem != null and joinPartyTimeHaveProblem != ''">
+                join_party_time_have_problem = #{joinPartyTimeHaveProblem},
+            </if>
             <if test="updateBy != null and updateBy != ''">
                 and update_by = #{updateBy}
             </if>
@@ -82,14 +90,14 @@
     <!--分页查询全部-->
     <select id="queryAllByPage" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+          id, employee_id, political_status,employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark,join_party_time_have_problem, update_by, update_time
         from archivesmanagementsystem.join_party_time_info
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into archivesmanagementsystem.join_party_time_info(employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time)
-        values (#{employeeId}, #{employeeName}, #{joinPartyTime}, #{joinPartyIntroducer}, #{joinGroupTime}, #{joinPartyTimeProblemDetail}, #{joinPartyTimeCheckResult}, #{joinPartyTimeResearchSituation}, #{joinPartyTimeRemark}, #{updateBy}, #{updateTime})
+        insert into archivesmanagementsystem.join_party_time_info(employee_id, employee_name, political_status,join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark,join_party_time_have_problem, update_by, update_time)
+        values (#{employeeId}, #{employeeName}, #{politicalStatus},#{joinPartyTime}, #{joinPartyIntroducer}, #{joinGroupTime}, #{joinPartyTimeProblemDetail}, #{joinPartyTimeCheckResult}, #{joinPartyTimeResearchSituation}, #{joinPartyTimeRemark},#{joinPartyTimeHaveProblem}, #{updateBy}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
@@ -101,6 +109,9 @@
             </if>
             <if test="employeeName != null and employeeName != ''">
                 employee_name = #{employeeName},
+            </if>
+            <if test="political_status != null and political_status != ''">
+                political_status = #{politicalStatus},
             </if>
             <if test="joinPartyTime != null">
                 join_party_time = #{joinPartyTime},
@@ -122,6 +133,9 @@
             </if>
             <if test="joinPartyTimeRemark != null and joinPartyTimeRemark != ''">
                 join_party_time_remark = #{joinPartyTimeRemark},
+            </if>
+            <if test="joinPartyTimeHaveProblem != null and joinPartyTimeHaveProblem != ''">
+                join_party_time_have_problem = #{joinPartyTimeHaveProblem},
             </if>
             <if test="updateBy != null and updateBy != ''">
                 update_by = #{updateBy},
@@ -146,7 +160,7 @@
     <!--查询单个-->
     <select id="queryByEmployeeId" resultMap="BaseResultMap">
         select
-           id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+          id, employee_id, political_status,employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark,join_party_time_have_problem, update_by, update_time
         from archivesmanagementsystem.join_party_time_info
         where employee_id = #{employeeId}
     </select>
@@ -154,7 +168,7 @@
     <!--查询单个-->
     <select id="queryByEmployeeName" resultMap="BaseResultMap">
         select
-          id, employee_id, employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark, update_by, update_time
+          id, employee_id, political_status,employee_name, join_party_time, join_party_introducer, join_group_time, join_party_time_problem_detail, join_party_time_check_result, join_party_time_research_situation, join_party_time_remark,join_party_time_have_problem, update_by, update_time
         from archivesmanagementsystem.join_party_time_info
         where employee_name = #{employeeName}
     </select>
