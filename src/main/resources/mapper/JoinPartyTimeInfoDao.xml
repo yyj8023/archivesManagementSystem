@@ -51,7 +51,7 @@
             <if test="employeeName != null and employeeName != ''">
                 and employee_name = #{employeeName}
             </if>
-            <if test="political_status != null and political_status != ''">
+            <if test="politicalStatus != null and politicalStatus != ''">
                 political_status = #{politicalStatus},
             </if>
             <if test="joinPartyTime != null">
@@ -110,7 +110,7 @@
             <if test="employeeName != null and employeeName != ''">
                 employee_name = #{employeeName},
             </if>
-            <if test="political_status != null and political_status != ''">
+            <if test="politicalStatus != null and politicalStatus != ''">
                 political_status = #{politicalStatus},
             </if>
             <if test="joinPartyTime != null">

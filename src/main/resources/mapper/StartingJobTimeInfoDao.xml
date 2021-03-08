@@ -129,13 +129,13 @@
                 starting_job_time_judgment = #{startingJobTimeJudgment},
             </if>
             <if test="startingJobTime!= null">
-                and starting_job_time = #{startingJobTime}
+                 starting_job_time = #{startingJobTime},
             </if>
             <if test="laborDispatchTime != null">
-                and labor_dispatch_time = #{laborDispatchTime}
+                labor_dispatch_time = #{laborDispatchTime},
             </if>
             <if test="startingJobTimeThiscompany != null">
-                and starting_job_time_thiscompany = #{startingJobTimeThiscompany}
+                starting_job_time_thiscompany = #{startingJobTimeThiscompany},
             </if>
             <if test="startingJobTimeProblemDetail != null and startingJobTimeProblemDetail != ''">
                 starting_job_time_problem_detail = #{startingJobTimeProblemDetail},

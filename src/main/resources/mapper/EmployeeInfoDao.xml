@@ -181,8 +181,8 @@
             <if test="joinPartyTimeRemark != null and joinPartyTimeRemark != ''">
                 and join_party_time_remark = #{joinPartyTimeRemark}
             </if>
-            <if test="joinPartyHaveProblem != null and joinPartyHaveProblem != ''">
-                and join_party_have_problem = #{joinPartyHaveProblem}
+            <if test="joinPartyTimeHaveProblem != null and joinPartyTimeHaveProblem != ''">
+                and join_party_time_have_problem = #{joinPartyTimeHaveProblem}
             </if>
             <if test="startingJobTimeProblemDetail != null and startingJobTimeProblemDetail != ''">
                 and starting_job_time_problem_detail = #{startingJobTimeProblemDetail}
@@ -358,10 +358,10 @@
                 birthday_check_remark = #{birthdayCheckRemark},
             </if>
             <if test="birthdayHaveProblem != null and birthdayHaveProblem != ''">
-                and birthday_have_problem = #{birthdayHaveProblem}
+                 birthday_have_problem = #{birthdayHaveProblem},
             </if>
             <if test="politicalStatus != null and politicalStatus != ''">
-                and political_status = #{politicalStatus}
+                 political_status = #{politicalStatus},
             </if>
             <if test="joinPartyTimeProblemDetail != null and joinPartyTimeProblemDetail != ''">
                 join_party_time_problem_detail = #{joinPartyTimeProblemDetail},
@@ -385,7 +385,7 @@
                 join_party_time_remark = #{joinPartyTimeRemark},
             </if>
             <if test="joinPartyTimeHaveProblem != null and joinPartyTimeHaveProblem != ''">
-                and join_party_time_have_problem = #{joinPartyTimeHaveProblem}
+                join_party_time_have_problem = #{joinPartyTimeHaveProblem},
             </if>
             <if test="startingJobTimeProblemDetail != null and startingJobTimeProblemDetail != ''">
                 starting_job_time_problem_detail = #{startingJobTimeProblemDetail},
@@ -403,13 +403,13 @@
                 starting_job_time_judgment = #{startingJobTimeJudgment},
             </if>
             <if test="startingJobTime != null">
-                and starting_job_time= #{startingJobTime}
+                 starting_job_time= #{startingJobTime},
             </if>
             <if test="laborDispatchTime != null">
-                and labor_dispatch_time = #{laborDispatchTime}
+                labor_dispatch_time = #{laborDispatchTime},
             </if>
             <if test="startingJobTimeThiscompany != null">
-                and starting_job_time_thiscompany = #{startingJobTimeThiscompany}
+                 starting_job_time_thiscompany = #{startingJobTimeThiscompany},
             </if>
             <if test="startingJobTimeProblemCategory != null and startingJobTimeProblemCategory != ''">
                 starting_job_time_problem_category = #{startingJobTimeProblemCategory},
@@ -418,7 +418,7 @@
                 starting_job_time_check_remark = #{startingJobTimeCheckRemark},
             </if>
             <if test="startingJobTimeHaveProblem != null and startingJobTimeHaveProblem != ''">
-                and starting_job_time_have_problem = #{startingJobTimeHaveProblem}
+                starting_job_time_have_problem = #{startingJobTimeHaveProblem},
             </if>
             <if test="educationProblemDetail != null and educationProblemDetail != ''">
                 education_problem_detail = #{educationProblemDetail},
@@ -445,25 +445,25 @@
                 education_remark = #{educationRemark},
             </if>
             <if test="educationHaveProblem != null and  educationHaveProblem!= ''">
-                and education_have_problem = #{educationHaveProblem}
+                 education_have_problem = #{educationHaveProblem},
             </if>
             <if test="highestEducation != null and  highestEducation!= ''">
-                and highest_education = #{highestEducation}
+                 highest_education = #{highestEducation},
             </if>
             <if test="educationHaveProblem != null and  educationHaveProblem!= ''">
-                and highest_degree = #{highestDegree}
+                highest_degree = #{highestDegree},
             </if>
             <if test="highestEducationSecond != null and  highestEducationSecond!= ''">
-                and highest_education_second = #{highestEducationSecond}
+                 highest_education_second = #{highestEducationSecond},
             </if>
             <if test="highestDegreeSecond != null and  highestDegreeSecond!= ''">
-                and highest_degree_second = #{highestDegreeSecond}
+                highest_degree_second = #{highestDegreeSecond},
             </if>
             <if test="highestEducationThird != null and  highestEducationThird!= ''">
-                and highest_education_third = #{highestEducationThird}
+                highest_education_third = #{highestEducationThird},
             </if>
             <if test="highestDegreeThird != null and  highestDegreeThird!= ''">
-                and highest_degree_third = #{highestDegreeThird}
+                 highest_degree_third = #{highestDegreeThird},
             </if>
             <if test="workExperienceProblemDetail != null and workExperienceProblemDetail != ''">
                 work_experience_problem_detail = #{workExperienceProblemDetail},
@@ -478,7 +478,7 @@
                 work_experience_remark = #{workExperienceRemark},
             </if>
             <if test="workExperienceHaveProblem != null and workExperienceHaveProblem != ''">
-                and work_experience_have_problem = #{workExperienceHaveProblem}
+                 work_experience_have_problem = #{workExperienceHaveProblem},
             </if>
             <if test="marterialSupplementRemark != null and marterialSupplementRemark != ''">
                 marterial_supplement_remark = #{marterialSupplementRemark},

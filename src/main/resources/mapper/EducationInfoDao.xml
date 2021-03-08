@@ -134,7 +134,7 @@
                 education_remark = #{educationRemark},
             </if>
             <if test="educationHaveProblem != null and educationHaveProblem != ''">
-                and education_have_problem = #{educationHaveProblem}
+                education_have_problem = #{educationHaveProblem},
             </if>
             <if test="updateBy != null and updateBy != ''">
                 update_by = #{updateBy},
