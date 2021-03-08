@@ -5,7 +5,9 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
+import com.archivesManagementSystem.springboot.common.CommonController;
 import com.archivesManagementSystem.springboot.entity.SysUser;
+import com.archivesManagementSystem.springboot.qo.SysUserUpdateQO;
 import com.archivesManagementSystem.springboot.qo.UserLoginQO;
 import com.archivesManagementSystem.springboot.service.SysUserService;
 import com.archivesManagementSystem.springboot.util.*;
@@ -158,18 +160,57 @@ public class SysUserController {
 
     /**
      * 通过主键更新单条数据
-     * @param sysUser
+     * @param sysUserUpdateQO
      * @return
      */
     @PostMapping("update")
     @ResponseBody
-    public SysUser update(@RequestBody SysUser sysUser){
+    public Result update(@RequestBody SysUserUpdateQO sysUserUpdateQO){
+        Result res=new GeneralResult(true);
         //MD5加密
-        if (sysUser.getUserPassword() != null && !("").equals(sysUser.getUserPassword())){
-            String encodePassword = MD5Utils.MD5(sysUser.getUserPassword());
-            sysUser.setUserPassword(encodePassword);
+        if (sysUserUpdateQO.getOldUserPassword() == null || ("").equals(sysUserUpdateQO.getOldUserPassword()) ||
+                sysUserUpdateQO.getNewUserPassword() == null || ("").equals(sysUserUpdateQO.getNewUserPassword()) ){
+            res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
+            res.setMsg("密码不能为空！");
+            return res;
         }
-        return this.sysUserService.update(sysUser);
+        sysUserUpdateQO.setOldUserPassword(MD5Utils.MD5(sysUserUpdateQO.getOldUserPassword()));
+        sysUserUpdateQO.setNewUserPassword(MD5Utils.MD5(sysUserUpdateQO.getNewUserPassword()));
+        //获取原来id的信息。
+        SysUser sysUserTemp = this.sysUserService.queryById(sysUserUpdateQO.getId());
+        if(! (sysUserTemp.getUserPassword()).equals(sysUserUpdateQO.getOldUserPassword()) ){
+            res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
+            res.setMsg("原密码有误！请重新输入");
+            return res;
+        }
+        if(sysUserTemp.getUserPassword() == sysUserUpdateQO.getNewUserPassword() || (sysUserUpdateQO.getNewUserPassword()).equals(sysUserTemp.getUserPassword()) ){
+            res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
+            res.setMsg("新密码不能与旧密码一致！");
+            return res;
+        }
+        SysUser sysUserUpdate = new SysUser();
+        sysUserUpdate.setId(sysUserUpdateQO.getId());
+        sysUserUpdate.setUserName(sysUserUpdateQO.getUserName());
+        sysUserUpdate.setUserPassword(sysUserUpdateQO.getNewUserPassword());
+        SysUser sysUserNew = this.sysUserService.update(sysUserUpdate);
+        if(sysUserNew==null){
+            res.setSuccess(false);
+            res.setCode(CommonController.ERROR);
+            res.setMsg("更改密码失败！");
+            return res;
+        }
+        UserLoginQO userLoginQO = new UserLoginQO();
+        userLoginQO.setId(sysUserNew.getId());
+        userLoginQO.setUserName(sysUserNew.getUserName());
+        userLoginQO.setUserRole(sysUserNew.getUserRole());
+        userLoginQO.setUserFlag(sysUserNew.getUserFlag());
+        res.setCode(CommonController.SUCCESS);
+        res.setMsg("更改密码成功！");
+        res.setData(userLoginQO);
+        return res;
     }
 
     @PostMapping("importExcel")

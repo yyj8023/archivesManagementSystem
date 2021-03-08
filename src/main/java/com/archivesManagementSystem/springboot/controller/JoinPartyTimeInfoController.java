@@ -341,8 +341,8 @@ public class JoinPartyTimeInfoController {
      * @param response,request
      * @return void
      */
-    @GetMapping("exportExcel")
-    public void export(HttpServletResponse response, HttpServletRequest request, JoinPartyTimeInfo joinPartyTimeInfo) throws Exception {
+    @PostMapping("exportExcel")
+    public void export(HttpServletResponse response, @RequestBody JoinPartyTimeInfo joinPartyTimeInfo) throws Exception {
         System.out.println("开始导出");
         // 模拟从数据库获取需要导出的数据 (偷懒，嘻嘻！)
         List<JoinPartyTimeInfo> personList = this.joinPartyTimeInfoService.queryAll(joinPartyTimeInfo);
