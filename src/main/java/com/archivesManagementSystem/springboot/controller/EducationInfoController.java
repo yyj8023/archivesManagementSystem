@@ -219,6 +219,14 @@ public class EducationInfoController {
         employeeInfo.setEducationCheckResult(educationInfo.getEducationCheckResult());
         employeeInfo.setEducationBackgroudJudgment(educationInfo.getEducationBackgroudJudgment());
         employeeInfo.setEducationDegreeJudgment(educationInfo.getEducationDegreeeJudgment());
+
+        employeeInfo.setHighestDegree(educationInfo.getHighestDegree());
+        employeeInfo.setHighestEducation(educationInfo.getHighestEducationSecond());
+        employeeInfo.setHighestDegreeSecond(educationInfo.getHighestEducationSecond());
+        employeeInfo.setHighestEducationSecond(educationInfo.getHighestDegreeSecond());
+        employeeInfo.setHighestDegreeThird(educationInfo.getHighestEducationThird());
+        employeeInfo.setHighestEducationThird(educationInfo.getHighestDegreeThird());
+
         employeeInfo.setEducationRemark(educationInfo.getEducationRemark());
         employeeInfo.setEducationDegree(educationInfo.getEducationDegree());
         employeeInfo.setEducationBackgroud(educationInfo.getEducationBackgroud());

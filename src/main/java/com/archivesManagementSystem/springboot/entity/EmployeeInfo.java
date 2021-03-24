@@ -240,51 +240,53 @@ public class EmployeeInfo implements Serializable {
     */
     @Excel(name = "认定后最高学位")
     private String educationDegreeJudgment;
-    /**
-    * 学历问题分类
-    */
-
-    @Excel(name = "问题分类",fixedIndex = 39)
-    private String educationProblemCategory;
-    /**
-    * 学历小结
-    */
-    @Excel(name = "小结",fixedIndex = 40)
-    private String educationRemark;
-
-    @Excel(name="是否有问题",fixedIndex = 41)
-    private String educationHaveProblem;
 
     /**
      * 最高学历
      */
-    @Excel(name = "最高学历",fixedIndex = 42)
+    @Excel(name = "最高学历",fixedIndex = 39)
     private String highestEducation;
     /**
      * 最高学位
      */
-    @Excel(name = "最高学位",fixedIndex = 43)
+    @Excel(name = "最高学位",fixedIndex = 40)
     private String highestDegree;
     /**
      * 次高学历
      */
-    @Excel(name = "次高学历",fixedIndex = 44)
+    @Excel(name = "次高学历",fixedIndex = 41)
     private String highestEducationSecond;
     /**
      * 次高学位
      */
-    @Excel(name = "次高学位",fixedIndex = 45)
+    @Excel(name = "次高学位",fixedIndex = 42)
     private String highestDegreeSecond;
     /**
      * 第三高学历
      */
-    @Excel(name = "第三高学历",fixedIndex = 46)
+    @Excel(name = "第三高学历",fixedIndex = 43)
     private String highestEducationThird;
     /**
      * 第三高学位
      */
-    @Excel(name = "第三高学位",fixedIndex = 47)
+    @Excel(name = "第三高学位",fixedIndex = 44)
     private String highestDegreeThird;
+    /**
+     * 学历问题分类
+     */
+
+    @Excel(name = "问题分类",fixedIndex = 45)
+    private String educationProblemCategory;
+    /**
+     * 学历小结
+     */
+    @Excel(name = "小结",fixedIndex = 46)
+    private String educationRemark;
+
+    @Excel(name="是否有问题",fixedIndex = 47)
+    private String educationHaveProblem;
+
+
     /**
     * 工作经历问题描述
     */

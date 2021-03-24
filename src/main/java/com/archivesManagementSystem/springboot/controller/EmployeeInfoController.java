@@ -52,8 +52,6 @@ public class EmployeeInfoController {
     private WorkExperienceInfoService workExperienceInfoService;
     @Resource
     private  OrdinaryOperateLogService ordinaryOperateLogService;
-    @Resource
-    private  EducationDetailInfoService educationDetailInfoService;
     /**
      * 通过主键查询单条数据
      *
@@ -120,6 +118,14 @@ public class EmployeeInfoController {
             educationInfo.setEducationHaveProblem(educationInfo.getEducationHaveProblem());
             educationInfo.setUpdateBy(employeeInfo.getUpdateBy());
             educationInfo.setUpdateTime(new Date());
+
+            educationInfo.setHighestDegree(employeeInfo.getHighestDegree());
+            educationInfo.setHighestEducation(employeeInfo.getHighestEducation());
+            educationInfo.setHighestDegreeSecond(employeeInfo.getHighestDegreeSecond());
+            educationInfo.setHighestEducationSecond(employeeInfo.getHighestEducationSecond());
+            educationInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
+            educationInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
+
             count += this.educationInfoService.insert(educationInfo);
             //入党时间认定表基本信息
             JoinPartyTimeInfo joinPartyTimeInfo = new JoinPartyTimeInfo();
@@ -167,20 +173,13 @@ public class EmployeeInfoController {
             workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
             workExperienceInfo.setUpdateTime(new Date());
             count += this.workExperienceInfoService.insert(workExperienceInfo);
-            //学历详情表
+         /*   //学历详情表
             EducationDetailInfo educationDetailInfo=new EducationDetailInfo();
             educationDetailInfo.setEmployeeId(employeeInfo.getEmployeeId());
-            educationDetailInfo.setEmployeeName(employeeInfo.getEmployeeName());
-            educationDetailInfo.setHighestDegree(employeeInfo.getHighestDegree());
-            educationDetailInfo.setHighestEducation(employeeInfo.getHighestEducation());
-            educationDetailInfo.setHighestDegreeSecond(employeeInfo.getHighestDegreeSecond());
-            educationDetailInfo.setHighestEducationSecond(employeeInfo.getHighestEducationSecond());
-            educationDetailInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
-            educationDetailInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
-            educationDetailInfo.setUpdateBy(employeeInfo.getUpdateBy());
-            educationDetailInfo.setUpdateTime(new Date());
-            count +=this.educationDetailInfoService.insert(educationDetailInfo);
-            if (count == 7) {
+            educationDetailInfo.setEmployeeName(employeeInfo.getEmployeeName());*/
+
+/*            count +=this.educationDetailInfoService.insert(educationDetailInfo);*/
+            if (count == 6) {
                 res.setMsg("新增员工信息成功！");
             } else {
                 res.setMsg("新增失败!");
@@ -245,13 +244,13 @@ public class EmployeeInfoController {
                     res.setSuccess(false);
                     e.printStackTrace();
                 }
-                try {
+/*                try {
                     this.educationDetailInfoService.deleteByEmployee(employeeInfo.getEmployeeId(), employeeInfo.getEmployeeName());
                 } catch (Exception e) {
                     res.setMsg("删除学历详情表信息出现异常");
                     res.setSuccess(false);
                     e.printStackTrace();
-                }
+                }*/
 
                 if (!res.isSuccess()) {
                     res.setMsg("关联的认定表删除失败！员工信息表无法删除");
@@ -478,6 +477,12 @@ public class EmployeeInfoController {
         educationInfo.setEducationBackgroud(employeeInfo.getEducationBackgroud());
         educationInfo.setEducationBackgroudJudgment(employeeInfo.getEducationBackgroudJudgment());
         educationInfo.setEducationDegreeeJudgment(employeeInfo.getEducationDegreeJudgment());
+        educationInfo.setHighestDegree(employeeInfo.getHighestDegree());
+        educationInfo.setHighestEducation(employeeInfo.getHighestEducation());
+        educationInfo.setHighestDegreeSecond(employeeInfo.getHighestDegreeSecond());
+        educationInfo.setHighestEducationSecond(employeeInfo.getHighestEducationSecond());
+        educationInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
+        educationInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
         educationInfo.setEducationProblemCategory(employeeInfo.getEducationProblemCategory());
         educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
         educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
@@ -528,7 +533,7 @@ public class EmployeeInfoController {
         workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
         workExperienceInfo.setWorkExperienceHaveProblem(employeeInfo.getWorkExperienceHaveProblem());
         workExperienceInfo.setUpdateTime(new Date());
-        //学历详情表
+/*        //学历详情表
         EducationDetailInfo educationDetailInfo=new EducationDetailInfo();
         educationDetailInfo.setEmployeeId(employeeInfo.getEmployeeId());
         educationDetailInfo.setEmployeeName(employeeInfo.getEmployeeName());
@@ -539,20 +544,20 @@ public class EmployeeInfoController {
         educationDetailInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
         educationDetailInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
         educationDetailInfo.setUpdateBy(employeeInfo.getUpdateBy());
-        educationDetailInfo.setUpdateTime(new Date());
+        educationDetailInfo.setUpdateTime(new Date());*/
 
         birthdayInfo.setId(this.birthdayInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         educationInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         joinPartyTimeInfo.setId(this.joinPartyTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         startingJobTimeInfo.setId(this.startingJobTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
         workExperienceInfo.setId(this.workExperienceInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
-        educationDetailInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
+   /*     educationDetailInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());*/
         this.birthdayInfoService.update(birthdayInfo);
         this.educationInfoService.update(educationInfo);
         this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
         this.startingJobTimeInfoService.update(startingJobTimeInfo);
         this.workExperienceInfoService.update(workExperienceInfo);
-        this.educationDetailInfoService.update(educationDetailInfo);
+/*        this.educationDetailInfoService.update(educationDetailInfo);*/
         Result res=new GeneralResult(true);
         res.setMsg("更新成功！");
         res.setData(employeeInfo);
@@ -621,6 +626,14 @@ public class EmployeeInfoController {
                     educationInfo.setEducationBackgroud(employeeInfo.getEducationBackgroud());
                     educationInfo.setEducationBackgroudJudgment(employeeInfo.getEducationBackgroudJudgment());
                     educationInfo.setEducationDegreeeJudgment(employeeInfo.getEducationDegreeJudgment());
+
+                    educationInfo.setHighestDegree(employeeInfo.getHighestDegree());
+                    educationInfo.setHighestEducation(employeeInfo.getHighestEducation());
+                    educationInfo.setHighestDegreeSecond(employeeInfo.getHighestDegreeSecond());
+                    educationInfo.setHighestEducationSecond(employeeInfo.getHighestEducationSecond());
+                    educationInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
+                    educationInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
+
                     educationInfo.setEducationProblemCategory(employeeInfo.getEducationProblemCategory());
                     educationInfo.setEducationProblemDetail(employeeInfo.getEducationProblemDetail());
                     educationInfo.setEducationCheckResult(employeeInfo.getEducationCheckResult());
@@ -671,7 +684,7 @@ public class EmployeeInfoController {
                     workExperienceInfo.setWorkExperienceHaveProblem(employeeInfo.getWorkExperienceHaveProblem());
                     workExperienceInfo.setUpdateBy(employeeInfo.getUpdateBy());
                     workExperienceInfo.setUpdateTime(new Date());
-                    //学历详情表
+/*                    //学历详情表
                     EducationDetailInfo educationDetailInfo=new EducationDetailInfo();
                     educationDetailInfo.setEmployeeId(employeeInfo.getEmployeeId());
                     educationDetailInfo.setEmployeeName(employeeInfo.getEmployeeName());
@@ -682,7 +695,7 @@ public class EmployeeInfoController {
                     educationDetailInfo.setHighestEducationThird(employeeInfo.getHighestEducationThird());
                     educationDetailInfo.setHighestDegreeThird(employeeInfo.getHighestDegreeThird());
                     educationDetailInfo.setUpdateBy(employeeInfo.getUpdateBy());
-                    educationDetailInfo.setUpdateTime(new Date());
+                    educationDetailInfo.setUpdateTime(new Date());*/
                     //有重复员工编号的值直接覆盖掉
                     if(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId())!=null){
                         employeeInfo.setId(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
@@ -691,7 +704,7 @@ public class EmployeeInfoController {
                         joinPartyTimeInfo.setId(joinPartyTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         startingJobTimeInfo.setId(startingJobTimeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         workExperienceInfo.setId(workExperienceInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
-                        educationDetailInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
+              /*          educationDetailInfo.setId(this.educationInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());*/
                         EmployeeInfo target =this.employeeInfoService.queryById(employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId()).getId());
                         EmployeeInfo e= this.employeeInfoService.update(employeeInfo);
                         this.birthdayInfoService.update(birthdayInfo);
@@ -699,7 +712,7 @@ public class EmployeeInfoController {
                         this.joinPartyTimeInfoService.update(joinPartyTimeInfo);
                         this.startingJobTimeInfoService.update(startingJobTimeInfo);
                         this.workExperienceInfoService.update(workExperienceInfo);
-                        this.educationDetailInfoService.update(educationDetailInfo);
+           /*             this.educationDetailInfoService.update(educationDetailInfo);*/
                         //更新操作日志记录
                         ChangeRecordUtil<EmployeeInfo> t= new ChangeRecordUtil<EmployeeInfo>();
                         List<changePojo> list = t.contrastObj(target,e);
@@ -737,8 +750,8 @@ public class EmployeeInfoController {
                         count += this.joinPartyTimeInfoService.insert(joinPartyTimeInfo);
                         count += this.startingJobTimeInfoService.insert(startingJobTimeInfo);
                         count += this.workExperienceInfoService.insert(workExperienceInfo);
-                        count += this.educationDetailInfoService.insert(educationDetailInfo);
-                        if (count == 7) {
+       /*                 count += this.educationDetailInfoService.insert(educationDetailInfo);*/
+                        if (count == 6) {
                             System.out.println("成功");
                         }
                     }

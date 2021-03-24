@@ -63,6 +63,36 @@ public class EducationInfo implements Serializable {
     */
     @Excel(name = "最高学位认定")
     private String educationDegreeeJudgment;
+    /**
+     * 最高学历
+     */
+    @Excel(name = "最高学历")
+    private String highestEducation;
+    /**
+     * 最高学位
+     */
+    @Excel(name = "最高学位")
+    private String highestDegree;
+    /**
+     * 次高学历
+     */
+    @Excel(name = "次高学历")
+    private String highestEducationSecond;
+    /**
+     * 次高学位
+     */
+    @Excel(name = "次高学位")
+    private String highestDegreeSecond;
+    /**
+     * 第三高学历
+     */
+    @Excel(name = "第三高学历")
+    private String highestEducationThird;
+    /**
+     * 第三高学位
+     */
+    @Excel(name = "第三高学位")
+    private String highestDegreeThird;
 
     @Excel(name = "学历小结")
     private String educationRemark;
@@ -176,6 +206,54 @@ public class EducationInfo implements Serializable {
 
     public void setEducationDegreeeJudgment(String educationDegreeeJudgment) {
         this.educationDegreeeJudgment = educationDegreeeJudgment;
+    }
+
+    public String getHighestEducation() {
+        return highestEducation;
+    }
+
+    public void setHighestEducation(String highestEducation) {
+        this.highestEducation = highestEducation;
+    }
+
+    public String getHighestDegree() {
+        return highestDegree;
+    }
+
+    public void setHighestDegree(String highestDegree) {
+        this.highestDegree = highestDegree;
+    }
+
+    public String getHighestEducationSecond() {
+        return highestEducationSecond;
+    }
+
+    public void setHighestEducationSecond(String highestEducationSecond) {
+        this.highestEducationSecond = highestEducationSecond;
+    }
+
+    public String getHighestDegreeSecond() {
+        return highestDegreeSecond;
+    }
+
+    public void setHighestDegreeSecond(String highestDegreeSecond) {
+        this.highestDegreeSecond = highestDegreeSecond;
+    }
+
+    public String getHighestEducationThird() {
+        return highestEducationThird;
+    }
+
+    public void setHighestEducationThird(String highestEducationThird) {
+        this.highestEducationThird = highestEducationThird;
+    }
+
+    public String getHighestDegreeThird() {
+        return highestDegreeThird;
+    }
+
+    public void setHighestDegreeThird(String highestDegreeThird) {
+        this.highestDegreeThird = highestDegreeThird;
     }
 
     public String getEducationRemark() {
