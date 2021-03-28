@@ -203,9 +203,7 @@ public class BirthdayInfoController {
     @PostMapping("update")
     @ResponseBody
     public Result update(@RequestBody BirthdayInfo birthdayInfo,HttpServletRequest request){
-
-        HttpSession session = request.getSession();
-        String userName = String.valueOf(session.getAttribute("userName"));
+        String userName=request.getHeader("token");
         birthdayInfo.setUpdateTime(new Date());
         birthdayInfo.setUpdateBy(userName);
         BirthdayInfo birthdayInfoNew= this.birthdayInfoService.update(birthdayInfo);
@@ -253,7 +251,6 @@ public class BirthdayInfoController {
             ordinaryOperateLog.setOldValue(String.valueOf(param1));
             ordinaryOperateLog.setNewValue(String.valueOf(param2));
             ordinaryOperateLog.setOperateTime(new Date());
-
             ordinaryOperateLog.setOperator(userName);
             this.ordinaryOperateLogService.insert(ordinaryOperateLog);
         }

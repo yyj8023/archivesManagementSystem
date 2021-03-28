@@ -80,7 +80,9 @@ public class EmployeeInfoController {
      */
     @PostMapping("insert")
     @ResponseBody
-    public Result insert(@RequestBody EmployeeInfo employeeInfo) {
+    public Result insert(@RequestBody EmployeeInfo employeeInfo,HttpServletRequest request) {
+        String userName=request.getHeader("token");
+        employeeInfo.setUpdateBy(userName);
         Result res = new GeneralResult(true);
         EmployeeInfo employeeInfo1 = this.employeeInfoService.queryByEmployeeId(employeeInfo.getEmployeeId());
         if (employeeInfo1 == null) {
@@ -331,7 +333,7 @@ public class EmployeeInfoController {
      */
 
     @GetMapping("selectAll")
-    public List<EmployeeInfo> selectAll(EmployeeInfo employeeInfo) {
+    public List<EmployeeInfo> selectAll(EmployeeInfo employeeInfo,HttpServletRequest request) {
         return this.employeeInfoService.queryAll(employeeInfo);
     }
 
@@ -415,10 +417,8 @@ public class EmployeeInfoController {
     @PostMapping("update")
     @ResponseBody
     public  Result update(@RequestBody EmployeeInfo employeeInfo,HttpServletRequest request){
-        HttpSession session = request.getSession();
-        System.out.println("sessiond id"+session.getId());
-        String userName = String.valueOf(session.getAttribute("userName"));
-        System.out.println("username is "+userName);
+
+        String userName=request.getHeader("token");
         OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
         EmployeeInfo target =this.employeeInfoService.queryById(employeeInfo.getId());
         employeeInfo.setUpdateBy(userName);
@@ -571,7 +571,7 @@ public class EmployeeInfoController {
     @PostMapping("importExcel")
     @ResponseBody
     public Result importExcel(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
-        HttpSession session = request.getSession();
+      /*  HttpSession session = request.getSession();*/
         OrdinaryOperateLog ordinaryOperateLog=new OrdinaryOperateLog();
         Result res=new GeneralResult(true);
         ImportParams importParams = new ImportParams();
@@ -599,7 +599,7 @@ public class EmployeeInfoController {
                 }
                 for (EmployeeInfo employeeInfo: employeeInfoList) {
                     int count=0;
-                    String userName = String.valueOf(session.getAttribute("userName"));
+                    String userName=request.getHeader("token");
                     employeeInfo.setUpdateBy(userName);
                     employeeInfo.setUpdateTime(new Date());
                     //TODO 将导入的数据做保存数据库操作,先将所有数据id设置为null
@@ -738,8 +738,7 @@ public class EmployeeInfoController {
                             ordinaryOperateLog.setOldValue(String.valueOf(param1));
                             ordinaryOperateLog.setNewValue(String.valueOf(param2));
                             ordinaryOperateLog.setOperateTime(new Date());
-
-                            String userName1 = String.valueOf(session.getAttribute("userName"));
+                            String userName1 = request.getHeader("token");
                              ordinaryOperateLog.setOperator(userName1);
                             this.ordinaryOperateLogService.insert(ordinaryOperateLog);
                         }

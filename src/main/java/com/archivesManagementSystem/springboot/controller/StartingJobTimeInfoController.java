@@ -194,8 +194,7 @@ public class StartingJobTimeInfoController {
     @PostMapping("update")
     @ResponseBody
     public  Result update(@RequestBody StartingJobTimeInfo startingJobTimeInfo,HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String userName = String.valueOf(session.getAttribute("userName"));
+        String userName=request.getHeader("token");
         startingJobTimeInfo.setUpdateTime(new Date());
         startingJobTimeInfo.setUpdateBy(userName);
 

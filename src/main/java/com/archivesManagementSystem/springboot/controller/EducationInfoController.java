@@ -203,8 +203,7 @@ public class EducationInfoController {
     @PostMapping("update")
     @ResponseBody
     public  Result update(@RequestBody EducationInfo educationInfo,HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String userName = String.valueOf(session.getAttribute("userName"));
+        String userName=request.getHeader("token");
         Result res=new GeneralResult(true);
         educationInfo.setUpdateBy(userName);
         educationInfo.setUpdateTime(new Date());

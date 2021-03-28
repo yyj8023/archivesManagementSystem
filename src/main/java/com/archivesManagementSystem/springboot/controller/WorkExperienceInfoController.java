@@ -210,8 +210,7 @@ public class WorkExperienceInfoController {
     @PostMapping("update")
     @ResponseBody
     public  Result update(@RequestBody WorkExperienceInfo workExperienceInfo,HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String userName = String.valueOf(session.getAttribute("userName"));
+        String userName=request.getHeader("token");
         workExperienceInfo.setUpdateTime(new Date());
         workExperienceInfo.setUpdateBy(userName);
         workExperienceInfo= this.workExperienceInfoService.update(workExperienceInfo);

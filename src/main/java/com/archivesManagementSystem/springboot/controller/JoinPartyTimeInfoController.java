@@ -211,8 +211,7 @@ public class JoinPartyTimeInfoController {
     @PostMapping("update")
     @ResponseBody
     public  Result update(@RequestBody JoinPartyTimeInfo joinPartyTimeInfo,HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String userName = String.valueOf(session.getAttribute("userName"));
+        String userName=request.getHeader("token");
         System.out.println("username is "+userName);
         joinPartyTimeInfo.setUpdateTime(new Date());
         joinPartyTimeInfo.setUpdateBy(userName);
