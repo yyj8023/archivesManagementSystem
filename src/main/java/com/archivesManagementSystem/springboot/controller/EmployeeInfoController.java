@@ -793,7 +793,7 @@ public class EmployeeInfoController {
             employeeInfo1.setId(i++);
         }
         // 导出操作
-        ExcelUtils.exportExcel(personList, "员工信息导出功能(员工表)", "导出sheet1", EmployeeInfo.class, "员工基本信息表.xls", response);
+        ExcelUtils.exportExcel(personList,null,"员工基本信息表", EmployeeInfo.class, "员工基本信息表.xls", response);
     }
 
     @RequestMapping("download")

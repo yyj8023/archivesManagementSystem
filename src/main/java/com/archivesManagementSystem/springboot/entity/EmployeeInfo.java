@@ -20,53 +20,53 @@ public class EmployeeInfo implements Serializable {
     /**
     * 员工ID
     */
-    @Excel(name = "员工号")
+    @Excel(name = "员工号",fixedIndex = 0,orderNum = "0")
     private String employeeId;
     /**
     * 员工姓名
     */
-    @Excel(name = "姓名")
+    @Excel(name = "姓名",fixedIndex = 1,orderNum = "1")
     private String employeeName;
     /**
     * 所在部门
     */
-    @Excel(name = "所在部门")
+    @Excel(name = "所在部门",fixedIndex = 2,orderNum = "2")
     private String departmentName;
     /**
      * 所属线条
      */
-    @Excel(name = "所属线条")
+    @Excel(name = "所属线条",fixedIndex = 3,orderNum = "3")
     private String departmentLine;
     /**
     * 岗位性质
     */
-    @Excel(name = "岗位性质")
+    @Excel(name = "岗位性质",fixedIndex = 4,orderNum = "4")
     private String jobProperty;
 
     /**
     * 认定表是否有内容
     */
-    @Excel(name = "认定表是否有内容")
+    @Excel(name = "认定表是否有内容",fixedIndex = 5,orderNum = "5")
     private String confirmationContentFlag;
     /**
     * 认定表是否已签字
     */
-    @Excel(name = "认定表是否已签字")
+    @Excel(name = "认定表是否已签字",fixedIndex = 6,orderNum = "6")
     private String confirmationSignatureFlag;
     /**
     * 出生日期问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 8)
+    @Excel(name = "问题描述",groupName = "出生日期",fixedIndex = 7,orderNum = "7")
     private String birthdayProblemDetail;
     /**
     * 出生日期认定结果描述
     */
-    @Excel(name = "出生认定结果描述",fixedIndex = 9)
+    @Excel(name = "出生认定结果描述",groupName = "出生日期",fixedIndex = 8,orderNum = "8")
     private String birthdayCheckResult;
     /**
     * 身份证出生日期
     */
-    @Excel(name = "身份证日期",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "身份证日期",groupName = "出生日期",exportFormat = "yyyy/MM/dd",fixedIndex = 9,orderNum = "9")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthdayCard;
@@ -77,98 +77,98 @@ public class EmployeeInfo implements Serializable {
     /**
     * 认定出生日期
     */
-    @Excel(name = "认定出生日期",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "认定出生日期",groupName = "出生日期",exportFormat = "yyyy/MM/dd",fixedIndex = 10,orderNum = "10")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthdayJudgment;
     /**
     * 出生日期问题分类
     */
-    @Excel(name = "问题分类",fixedIndex = 12)
+    @Excel(name = "问题分类",groupName = "出生日期",fixedIndex = 11,orderNum = "11")
     private String birthdayProblemCategory;
     /**
     * 出生日期认定规则
     */
-    @Excel(name = "认定规则")
+    @Excel(name = "认定规则",groupName = "出生日期",fixedIndex = 12,orderNum = "12")
     private String birthdayCheckRule;
     /**
     * 出生日期小结
     */
-    @Excel(name = "小结",fixedIndex = 14)
+    @Excel(name = "小结",groupName = "出生日期",fixedIndex = 13,orderNum = "13")
     private String birthdayCheckRemark;
 
-    @Excel(name="是否有问题",fixedIndex=15)
+    @Excel(name="是否有问题",groupName = "出生日期",fixedIndex = 14,orderNum = "14")
     private String birthdayHaveProblem;
 
-    @Excel(name="政治面貌")
+    @Excel(name="政治面貌",groupName = "入党时间",fixedIndex=15,orderNum = "15")
     private String politicalStatus;
     /**
     * 入党时间问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 17)
+    @Excel(name = "问题描述",groupName = "入党时间",fixedIndex = 16,orderNum = "16")
     private String joinPartyTimeProblemDetail;
     /**
     * 入党时间认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 18)
+    @Excel(name = "认定结果描述",groupName = "入党时间",fixedIndex = 17,orderNum = "17")
     private String joinPartyTimeCheckResult;
     /**
     * 入党时间调研情况
     */
-    @Excel(name = "调研情况")
+    @Excel(name = "调研情况",groupName = "入党时间",fixedIndex = 18,orderNum = "18")
     private String joinPartyTimeResearchSituation;
     /**
     * 入党时间
     */
-    @Excel(name = "入党时间",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "入党时间",groupName = "入党时间",fixedIndex = 19,exportFormat = "yyyy/MM/dd",orderNum = "19")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date joinPartyTime;
     /**
     * 入党介绍人
     */
-    @Excel(name = "入党介绍人")
+    @Excel(name = "入党介绍人",groupName = "入党时间",fixedIndex = 20,orderNum = "20")
     private String joinPartyIntroducer;
     /**
     * 入团时间
     */
-    @Excel(name = "入团时间",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "入团时间",groupName = "入党时间",exportFormat = "yyyy/MM/dd",fixedIndex = 21,orderNum = "21")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date joinGroupTime;
     /**
     * 入党时间小结
     */
-    @Excel(name = "小结",fixedIndex = 23)
+    @Excel(name = "小结",groupName = "入党时间",fixedIndex = 22,orderNum = "22")
     private String joinPartyTimeRemark;
 
     /*
     入党时间是否有问题
      */
-    @Excel(name="是否有问题",fixedIndex=24)
+    @Excel(name="是否有问题",groupName = "入党时间",fixedIndex=23,orderNum = "23")
     private String joinPartyTimeHaveProblem;
 
     /**
     * 参加工作时间问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 25)
+    @Excel(name = "问题描述",groupName = "参加工作时间",fixedIndex = 24,orderNum = "24")
     private String startingJobTimeProblemDetail;
     /**
     * 参加工作时间认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 26)
+    @Excel(name = "认定结果描述",groupName = "参加工作时间",fixedIndex = 25,orderNum = "25")
     private String startingJobTimeCheckResult;
     /**
     * 自填工作时间
     */
-    @Excel(name = "自填工作时间",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "自填工作时间",groupName = "参加工作时间",exportFormat = "yyyy/MM/dd",fixedIndex = 26,orderNum = "26")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeOwn;
     /**
     * 档案材料中有效工作时间
     */
-    @Excel(name = "档案材料中有效工作时间",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "档案材料中有效工作时间",groupName = "参加工作时间",exportFormat = "yyyy/MM/dd",fixedIndex = 27,orderNum = "27")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeArchvies;
@@ -182,7 +182,7 @@ public class EmployeeInfo implements Serializable {
     /**
      * 参加工作时间
      */
-    @Excel(name = "参加工作时间",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "参加工作时间",groupName = "参加工作时间",exportFormat = "yyyy/MM/dd",fixedIndex = 28,orderNum = "28")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTime;
@@ -190,141 +190,143 @@ public class EmployeeInfo implements Serializable {
     /**
      * 劳务派遣时间
      */
-    @Excel(name = "劳务派遣时间",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "劳务派遣时间",groupName = "参加工作时间",exportFormat = "yyyy/MM/dd",fixedIndex = 29,orderNum = "29")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date laborDispatchTime;
     /**
      * 劳务派遣时间
      */
-    @Excel(name = "本单位工作时间",exportFormat = "yyyy/MM/dd")
+    @Excel(name = "本单位工作时间",groupName = "参加工作时间",exportFormat = "yyyy/MM/dd",fixedIndex = 30,orderNum = "30")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startingJobTimeThiscompany;
 
-    @Excel(name = "问题分类",fixedIndex = 32)
+    @Excel(name = "问题分类",groupName = "参加工作时间",fixedIndex = 31,orderNum = "31")
     private String startingJobTimeProblemCategory;
     /**
     * 参加工作时间小结
     */
-    @Excel(name = "小结",fixedIndex = 33)
+    @Excel(name = "小结",groupName = "参加工作时间",fixedIndex = 32,orderNum = "32")
     private String startingJobTimeCheckRemark;
 
-    @Excel(name = "是否有问题",fixedIndex = 34)
+    @Excel(name = "是否有问题",groupName = "参加工作时间",fixedIndex = 33,orderNum = "33")
     private String startingJobTimeHaveProblem;
     /**
     * 学历问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 35)
+    @Excel(name = "问题描述",groupName = "学历",fixedIndex = 34,orderNum = "34")
     private String educationProblemDetail;
     /**
     * 学历认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 36)
+    @Excel(name = "认定结果描述",groupName = "学历",fixedIndex = 35,orderNum = "35")
     private String educationCheckResult;
     /**
     * 最高学位
     */
+    //@Excel(name = "最高学位",groupName = "学历",fixedIndex = 36)
     private String educationDegree;
     /**
     * 最高学历
     */
+    //@Excel(name = "最高学历",groupName = "学历",fixedIndex = 36)
     private String educationBackgroud;
     /**
     * 认定后最高学历
     */
-    @Excel(name = "认定后最高学历")
+    @Excel(name = "认定后最高学历",groupName = "学历",fixedIndex = 36,orderNum = "36")
     private String educationBackgroudJudgment;
     /**
     * 认定后最高学位
     */
-    @Excel(name = "认定后最高学位")
+    @Excel(name = "认定后最高学位",groupName = "学历",fixedIndex = 37,orderNum = "37")
     private String educationDegreeJudgment;
 
     /**
      * 最高学历
      */
-    @Excel(name = "最高学历",fixedIndex = 39)
+    @Excel(name = "最高学历",groupName = "学历",fixedIndex = 38,orderNum = "38")
     private String highestEducation;
     /**
      * 最高学位
      */
-    @Excel(name = "最高学位",fixedIndex = 40)
+    @Excel(name = "最高学位",groupName = "学历",fixedIndex = 39,orderNum = "39")
     private String highestDegree;
     /**
      * 次高学历
      */
-    @Excel(name = "次高学历",fixedIndex = 41)
+    @Excel(name = "次高学历",groupName = "学历",fixedIndex = 40,orderNum = "40")
     private String highestEducationSecond;
     /**
      * 次高学位
      */
-    @Excel(name = "次高学位",fixedIndex = 42)
+    @Excel(name = "次高学位",groupName = "学历",fixedIndex = 41,orderNum = "41")
     private String highestDegreeSecond;
     /**
      * 第三高学历
      */
-    @Excel(name = "第三高学历",fixedIndex = 43)
+    @Excel(name = "第三高学历",groupName = "学历",fixedIndex = 42,orderNum = "42")
     private String highestEducationThird;
     /**
      * 第三高学位
      */
-    @Excel(name = "第三高学位",fixedIndex = 44)
+    @Excel(name = "第三高学位",groupName = "学历",fixedIndex = 43,orderNum = "43")
     private String highestDegreeThird;
     /**
      * 学历问题分类
      */
 
-    @Excel(name = "问题分类",fixedIndex = 45)
+    @Excel(name = "问题分类",groupName = "学历",fixedIndex = 44,orderNum = "44")
     private String educationProblemCategory;
     /**
      * 学历小结
      */
-    @Excel(name = "小结",fixedIndex = 46)
+    @Excel(name = "小结",groupName = "学历",fixedIndex = 45,orderNum = "45")
     private String educationRemark;
 
-    @Excel(name="是否有问题",fixedIndex = 47)
+    @Excel(name="是否有问题",groupName = "学历",fixedIndex = 46,orderNum = "46")
     private String educationHaveProblem;
 
 
     /**
     * 工作经历问题描述
     */
-    @Excel(name = "问题描述",fixedIndex = 48)
+    @Excel(name = "问题描述",groupName = "工作经历",fixedIndex = 47,orderNum = "47")
     private String workExperienceProblemDetail;
     /**
     * 工作经历认定结果描述
     */
-    @Excel(name = "认定结果描述",fixedIndex = 49)
+    @Excel(name = "认定结果描述",groupName = "工作经历",fixedIndex = 48,orderNum = "48")
     private String workExperienceCheckResult;
     /**
     * 工作经历问题分类
     */
-    @Excel(name = "问题分类",fixedIndex = 50)
+    @Excel(name = "问题分类",groupName = "工作经历",fixedIndex = 49,orderNum = "49")
     private String workExperienceProblemCategory;
     /**
     * 工作经历小结
     */
-    @Excel(name = "小结",fixedIndex = 51)
+    @Excel(name = "小结",groupName = "工作经历",fixedIndex = 50,orderNum = "50")
     private String workExperienceRemark;
 
-    @Excel(name="是否有问题",fixedIndex=52)
+    @Excel(name="是否有问题",groupName = "工作经历",fixedIndex=51,orderNum = "51")
     private String workExperienceHaveProblem;
 
     /**
     * 补充材料情况
     */
-    @Excel(name = "补充材料情况")
+    @Excel(name = "补充材料情况",fixedIndex = 52,orderNum = "52")
     private String marterialSupplementRemark;
     /**
     * 是否已核对纸质电子版一致性
     */
-    @Excel(name = "是否已核对纸质电子版一致性")
+    @Excel(name = "是否已核对纸质电子版一致性",fixedIndex = 53,orderNum = "53")
     private String electronicPaperCheckFlag;
     /**
     * 核对人
     */
-    @Excel(name = "核对人")
+    @Excel(name = "核对人",fixedIndex = 54,orderNum = "54")
     private String checkUser;
     /**
     * 最后的更新人
